@@ -1,6 +1,6 @@
 To launch this project from the terminal:
 
-    First make sure you are in the Senior Design Project folder
+First make sure you are in the Senior Design Project folder
     Then type:
     npm run dev
 
