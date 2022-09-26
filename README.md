@@ -1,7 +1,6 @@
 To launch this project from the terminal:
 
-First make sure you are in the Senior Design Project folder
-    Then type:
+First make sure you are in the Senior Design Project folder, then type:
     
     npm run dev
 
@@ -16,4 +15,4 @@ The web browser is only useful for making a website, so we don't need it to open
 
 To prevent the browser from opening, make a file called '.env' in the cdom folder and put this line in it:
 
-BROWSER=none
+    BROWSER=none
