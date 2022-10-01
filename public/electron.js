@@ -1,5 +1,3 @@
-const path = require('path');
-
 const { app, BrowserWindow, Menu } = require('electron');
 const isDev = require('electron-is-dev');
 
@@ -40,15 +38,19 @@ function createNewWindow(urlTag, name) {
     title: name,
     show: false,
     autoHideMenuBar: true,
-		webPreferences: {
-			nodeIntegration: true,
-      contextIsolation: false
-		}
+	webPreferences: {
+		nodeIntegration: true,
+      	contextIsolation: false
+	}
 	});
 	newWindow.loadURL(url + '/' + urlTag);
-  newWindow.once('ready-to-show', () => {
-    newWindow.show()
-  })
+	newWindow.once('ready-to-show', () => {
+		newWindow.show()
+		// Open the DevTools.
+		if (isDev) {
+			newWindow.webContents.openDevTools({ mode: 'detach' });
+		}
+	})
 }
 
 // ============================ MENU TEMPLATES ============================ //
