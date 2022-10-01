@@ -1,30 +1,91 @@
 const path = require('path');
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const isDev = require('electron-is-dev');
+
+const url = 'http://localhost:3000';
+
+let win;
 
 function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
+    title: "Synesthize",
     webPreferences: {
       nodeIntegration: true,
     },
   });
+  win.loadURL(url);
 
-  // and load the index.html of the app.
-  // win.loadFile("index.html");
-  win.loadURL(
-    isDev
-      ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`
-  );
   // Open the DevTools.
   if (isDev) {
     win.webContents.openDevTools({ mode: 'detach' });
   }
+
+  // Build and insert <mainMenu> from <mainMenuTemplate>
+	const menu = Menu.buildFromTemplate(mainMenuTemplate);
+	Menu.setApplicationMenu(menu);
 }
+
+// Opens up a new window
+function createNewWindow(urlTag, name) {
+	// Set <addSchemeWindow> to a smaller-sized window
+	const newWindow = new BrowserWindow({
+		width: 600,
+		height: 400,
+    parent: win,
+    modal: true,
+    title: name,
+    show: false,
+    autoHideMenuBar: true,
+		webPreferences: {
+			nodeIntegration: true,
+      contextIsolation: false
+		}
+	});
+	newWindow.loadURL(url + '/' + urlTag);
+  newWindow.once('ready-to-show', () => {
+    newWindow.show()
+  })
+}
+
+// ============================ MENU TEMPLATES ============================ //
+// Create a menu template for <mainWindow>
+const mainMenuTemplate = [
+	{
+		label: 'File',
+		submenu: [
+			{
+				label: 'Add Color Scheme',
+				accelerator: 'CmdOrCtrl+N',
+				click() {
+					createNewWindow("addSchema", "Add Color Scheme")
+				}
+			},
+			{
+				label: 'Edit Color Scheme',
+				click() {
+					createNewWindow("editSchema",  "Edit Color Scheme")
+				}
+			},
+			{
+				label: 'Delete Color Scheme',
+				click() {
+					createNewWindow("deleteSchema", "Delete Color Scheme")
+				}
+			},
+			{
+				label: 'Quit',
+				accelerator: 'CmdOrCtrl+Q',
+				click() {
+					app.quit();
+				}
+			}
+		]
+	}
+];
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
