@@ -29,19 +29,19 @@ function createWindow() {
 
 // Opens up a new window
 function createNewWindow(urlTag, name) {
-	// Set <addSchemeWindow> to a smaller-sized window
+	// Set <newWindow> to a smaller-sized window
 	const newWindow = new BrowserWindow({
 		width: 600,
 		height: 400,
-    parent: win,
-    modal: true,
-    title: name,
-    show: false,
-    autoHideMenuBar: true,
-	webPreferences: {
-		nodeIntegration: true,
+    	parent: win,
+    	modal: true,
+    	title: name,
+    	show: false,
+    	autoHideMenuBar: true,
+		webPreferences: {
+			nodeIntegration: true,
       	contextIsolation: false
-	}
+		}
 	});
 	newWindow.loadURL(url + '/' + urlTag);
 	newWindow.once('ready-to-show', () => {
