@@ -13,6 +13,7 @@ function createWindow() {
     title: "Synesthize",
     webPreferences: {
       nodeIntegration: true,
+		contextIsolation: false,
     },
   });
   win.loadURL(url);

@@ -1,4 +1,5 @@
 import {useState} from 'react';
+
 import A3 from "../musical_notes/Piano_A3.mp3"
 import B3 from "../musical_notes/Piano_B3.mp3"
 import C4 from "../musical_notes/Piano_C4.mp3"
@@ -6,6 +7,9 @@ import D4 from "../musical_notes/Piano_D4.mp3"
 import E4 from "../musical_notes/Piano_E4.mp3"
 import F4 from "../musical_notes/Piano_F4.mp3"
 import G4 from "../musical_notes/Piano_G4.mp3"
+
+const fs = window.require('fs');
+const path = window.require('path');
 
 export default function AddSchema() {
 
@@ -39,11 +43,9 @@ export default function AddSchema() {
 
 	  // Saves form info into JS object and closes window
 	  let schemeObj = {name: name, notes: noteArray};
-	  let jsonPayload = JSON.stringify(schemeObj);
-	  // TODO: Save <schemeObj> somewhere within application
-	  console.log(schemeObj);
-	  console.log(jsonPayload);
-	  // window.close();
+	  let filePath = path.join('src', 'schemes', schemeObj.name + '.json');
+	  fs.writeFileSync(filePath, JSON.stringify(schemeObj));
+	  window.close();
   }
 
   return (
