@@ -43,12 +43,17 @@ export default function AddSchema() {
   const handleSubmit = (e) => {
 	  e.preventDefault();
 	  let noteArray = [];
+	  noteArray.push(Ab);
 	  noteArray.push(A);
+	  noteArray.push(Bb);
 	  noteArray.push(B);
 	  noteArray.push(C);
+	  noteArray.push(Db);
 	  noteArray.push(D);
+	  noteArray.push(Eb);
 	  noteArray.push(E);
 	  noteArray.push(F);
+	  noteArray.push(Gb);
 	  noteArray.push(G);
 
 	  // Saves form info into JS object and closes window
