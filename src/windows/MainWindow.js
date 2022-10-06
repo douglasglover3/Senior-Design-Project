@@ -1,3 +1,6 @@
+const fs = window.require('fs');
+const path = window.require('path');
+
 export default function MainWindow() {
   return (
     <div>
@@ -5,4 +8,3 @@ export default function MainWindow() {
     </div>
   );
 }
-

@@ -1,11 +1,16 @@
 import {useState} from 'react';
 
+import Ab3 from "../musical_notes/Piano_Ab3.mp3"
 import A3 from "../musical_notes/Piano_A3.mp3"
+import Bb3 from "../musical_notes/Piano_Bb3.mp3"
 import B3 from "../musical_notes/Piano_B3.mp3"
 import C4 from "../musical_notes/Piano_C4.mp3"
+import Db4 from "../musical_notes/Piano_Db4.mp3"
 import D4 from "../musical_notes/Piano_D4.mp3"
+import Eb4 from "../musical_notes/Piano_Eb4.mp3"
 import E4 from "../musical_notes/Piano_E4.mp3"
 import F4 from "../musical_notes/Piano_F4.mp3"
+import Gb4 from "../musical_notes/Piano_Gb4.mp3"
 import G4 from "../musical_notes/Piano_G4.mp3"
 
 const fs = window.require('fs');
@@ -21,25 +26,30 @@ export default function AddSchema() {
 
   // Holds variable information from form
   const [name, setName] = useState('');
+  const [Ab, setAb] = useState('#000000');
   const [A, setA] = useState('#000000');
+  const [Bb, setBb] = useState('#000000');
   const [B, setB] = useState('#000000');
   const [C, setC] = useState('#000000');
+  const [Db, setDb] = useState('#000000');
   const [D, setD] = useState('#000000');
+  const [Eb, setEb] = useState('#000000');
   const [E, setE] = useState('#000000');
   const [F, setF] = useState('#000000');
+  const [Gb, setGb] = useState('#000000');
   const [G, setG] = useState('#000000');
 
   // Handles submit request
   const handleSubmit = (e) => {
 	  e.preventDefault();
 	  let noteArray = [];
-	  noteArray.push({A});
-	  noteArray.push({B});
-	  noteArray.push({C});
-	  noteArray.push({D});
-	  noteArray.push({E});
-	  noteArray.push({F});
-	  noteArray.push({G});
+	  noteArray.push(A);
+	  noteArray.push(B);
+	  noteArray.push(C);
+	  noteArray.push(D);
+	  noteArray.push(E);
+	  noteArray.push(F);
+	  noteArray.push(G);
 
 	  // Saves form info into JS object and closes window
 	  let schemeObj = {name: name, notes: noteArray};
@@ -58,12 +68,24 @@ export default function AddSchema() {
 			 required autoFocus
 			 value = {name} onChange = {(e) => setName(e.target.value)}/>
         </div>
+		  <div>
+			 <label>Ab: </label>
+			 <input type="color" id="Ab"
+		    value = {Ab} onChange = {(e) => setAb(e.target.value)}/>
+			 <button type="button" onClick={() => playNote("Ab3")}>Try Me!</button>
+		  </div>
         <div>
           <label>A: </label>
           <input type="color" id="A"
 			 value = {A} onChange = {(e) => setA(e.target.value)}/>
           <button type="button" onClick={() => playNote("A3")}>Try Me!</button>
         </div>
+		  <div>
+			 <label>Bb: </label>
+			 <input type="color" id="Bb"
+		    value = {Bb} onChange = {(e) => setBb(e.target.value)}/>
+			 <button type="button" onClick={() => playNote("Bb3")}>Try Me!</button>
+		  </div>
         <div>
           <label>B: </label>
           <input type="color" id="B"
@@ -76,12 +98,24 @@ export default function AddSchema() {
 			 value = {C} onChange = {(e) => setC(e.target.value)}/>
           <button type="button" onClick={() => playNote("C4")}>Try Me!</button>
         </div>
+		  <div>
+			 <label>Db: </label>
+			 <input type="color" id="Db"
+		    value = {Db} onChange = {(e) => setDb(e.target.value)}/>
+			 <button type="button" onClick={() => playNote("Db4")}>Try Me!</button>
+		  </div>
         <div>
           <label>D: </label>
           <input type="color" id="D"
 			 value = {D} onChange = {(e) => setD(e.target.value)}/>
           <button type="button" onClick={() => playNote("D4")}>Try Me!</button>
         </div>
+		  <div>
+			 <label>Eb: </label>
+			 <input type="color" id="Eb"
+		    value = {Eb} onChange = {(e) => setEb(e.target.value)}/>
+			 <button type="button" onClick={() => playNote("Eb4")}>Try Me!</button>
+		  </div>
         <div>
           <label>E: </label>
           <input type="color" id="E"
@@ -94,6 +128,12 @@ export default function AddSchema() {
 			 value = {F} onChange = {(e) => setF(e.target.value)}/>
           <button type="button" onClick={() => playNote("F4")}>Try Me!</button>
         </div>
+		  <div>
+			 <label>Gb: </label>
+			 <input type="color" id="Gb"
+		  	 value = {Gb} onChange = {(e) => setGb(e.target.value)}/>
+			 <button type="button" onClick={() => playNote("Gb4")}>Try Me!</button>
+		  </div>
         <div>
           <label>G: </label>
           <input type="color" id="G"
