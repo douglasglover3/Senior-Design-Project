@@ -86,7 +86,13 @@ const mainMenuTemplate = [
 					app.quit();
 				}
 			}
-		]
+		],
+	},
+	{
+		label: 'Debug',
+		click() {
+			createNewWindow("debug", "Debug")
+		}
 	}
 ];
 
