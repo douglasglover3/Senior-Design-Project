@@ -9,23 +9,15 @@ const path = window.require('path');
 const options =
   [
     { value: '#000000', label: "Black" },
-    { value: '#ffffff', label: "White" },
+    { value: '#808080', label: "Grey" },
     { value: '#ff0000', label: "Red" },
     { value: '#00ff00', label: "Green" },
     { value: '#0000ff', label: "Blue" },
     { value: '#55cc77', label: "Teal" },
+    { value: '#800080', label: "Purple" }
   ]
-// set initial style elements
-let divStyle = {
-  backgroundColor: options[0].value,
-  width: '30px',
-  height: '30px',
-  position: 'absolute',
-  right: '25px',
-  top: '25px',
-  borderRadius: '15px'
-}
-// handle onChange event of the dropdown
+
+// used to display the color splotch when selected in the dropdown, can be removed later
 const handleChange = e => {
   let color = new ColorDisplay(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value);
   color.display();
@@ -38,6 +30,7 @@ export default function MainWindow() {
     <div>
       <p>Main Window</p>
       <br></br>
+      {/* dropdown for testing the color display, can be removed later */}
       <div id="color_select">
         <Select
           className="basic-single"

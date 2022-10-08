@@ -16,15 +16,14 @@ class ColorDisplay extends React.Component {
             " ;opacity: 1" +
             " ;transition: opacity 2s ease-in;"
             ;
-        console.log(this.style)
-
-
     }
 
+    // fade color splotch out CURRENTLY NOT WORKING
     fade() {
         let div = document.getElementById(this.name)
         div.style.opacity = '0'
     }
+    // display colot splotch TRANISITION NOT WORKING
     display() {
 
         let new_div = document.createElement("div")
