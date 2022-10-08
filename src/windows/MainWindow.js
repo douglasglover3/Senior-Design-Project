@@ -1,4 +1,6 @@
+import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
+import ColorDisplay from "../Classes/ColorDisplay.js"
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -25,20 +27,16 @@ let divStyle = {
 }
 // handle onChange event of the dropdown
 const handleChange = e => {
-  let box = document.getElementById('color_box')
-  box.style.backgroundColor = e.value
-  console.log(box.style)
+  let color = new ColorDisplay(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value);
+  color.display();
 }
+
+
 export default function MainWindow() {
+
   return (
     <div>
       <p>Main Window</p>
-      <br></br>
-      <div id="color_box"
-        style={divStyle}
-      >
-        <br></br>
-      </div>
       <br></br>
       <div id="color_select">
         <Select
