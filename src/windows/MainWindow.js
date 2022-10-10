@@ -1,9 +1,30 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
 import ColorDisplay from "../Classes/ColorDisplay.js"
+import {useState} from 'react';
 
 const fs = window.require('fs');
 const path = window.require('path');
+
+// Reads all color-schemes in 'folderPath/'
+function readSchemesFromFolder(folderPath) {
+	let schemes = [];
+
+	let files = fs.readdirSync(folderPath);
+	files.forEach((file) => {
+		if (file.slice(-5) === '.json') {
+			let filePath = path.join(folderPath, file);
+			let data = fs.readFileSync(filePath,
+				{encoding: 'utf8',
+				flag: 'r'});
+
+			// Format each JSON file into a 2-array of <name> and <notes>
+			schemes.push(JSON.parse(data));
+		}
+	});
+
+	return schemes;
+}
 
 // set of colors for testing purposes, can be removed later
 const options =
@@ -25,10 +46,33 @@ const handleChange = e => {
 
 
 export default function MainWindow() {
+	let schemes = [];
+	let ind = 0;
+
+	// Get all Default Schemes
+	const pathToDefaultSchemesFolder = path.join('src', 'schemes', 'default');
+	schemes = schemes.concat(readSchemesFromFolder(pathToDefaultSchemesFolder));
+
+	// Get all User-made schemes
+	const pathToUserSchemesFolder = path.join('src', 'schemes');
+	schemes = schemes.concat(readSchemesFromFolder(pathToUserSchemesFolder));
+
+	let [currScheme, setScheme] = useState(() => {
+		if (schemes.length > 0)
+			return schemes[0];
+		else
+			return '';
+	});
+
+	console.log(currScheme);
 
   return (
     <div>
       <p>Main Window</p>
+		<select onChange={(e) => setScheme(schemes[e.target.value])}>
+			{schemes.map((scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
+		</select>
+
       <br></br>
       {/* dropdown for testing the color display, can be removed later */}
       <div id="color_select">
