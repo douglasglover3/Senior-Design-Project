@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {FormEvent, useState} from 'react';
 
 import Ab3 from "../musical_notes/Piano_Ab3.mp3"
 import A3 from "../musical_notes/Piano_A3.mp3"
@@ -18,7 +18,7 @@ const path = window.require('path');
 
 export default function AddSchema() {
 
-  function playNote(note) {
+  function playNote(note: string) {
     const file = require("../musical_notes/Piano_" + note + ".mp3")
     const audio = new Audio(file)
     audio.play()
@@ -40,7 +40,7 @@ export default function AddSchema() {
   const [G, setG] = useState('#000000');
 
   // Handles submit request
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
 	  e.preventDefault();
 	  let noteArray = [];
 	  noteArray.push(Ab);

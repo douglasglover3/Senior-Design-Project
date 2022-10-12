@@ -3,7 +3,6 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import MainWindow from "./windows/MainWindow"
 import AddSchema from "./windows/AddSchema"
 import EditSchema from "./windows/EditSchema"
-import DeleteSchema from "./windows/DeleteSchema"
 import DebugWindow from "./windows/DebugWindow"
 
 export default function App() {
@@ -15,7 +14,6 @@ export default function App() {
             <Route path="/debug" element={<DebugWindow/>}/>
             <Route path="/addSchema" element={<AddSchema/>}/>
             <Route path="/editSchema" element={<EditSchema/>}/>
-            <Route path="/deleteSchema" element={<DeleteSchema/>}/>
         </Routes>
       </Router>
     </div>
