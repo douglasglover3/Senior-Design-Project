@@ -1,17 +1,22 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
-import ColorDisplay from "../Classes/ColorDisplay.tsx"
-import {useState} from 'react';
+import ColorDisplay from "../Classes/ColorDisplay"
+import {ChangeEvent, FormEvent, useState} from 'react';
 
 const fs = window.require('fs');
 const path = window.require('path');
 
+type Scheme = {
+  name: string,
+  notes: Array<string>
+}
+
 // Reads all color-schemes in 'folderPath/'
-function readSchemesFromFolder(folderPath) {
-	let schemes = [];
+function readSchemesFromFolder(folderPath: string) {
+	let schemes: Array<Scheme> = [];
 
 	let files = fs.readdirSync(folderPath);
-	files.forEach((file) => {
+	files.forEach((file: string) => {
 		if (file.slice(-5) === '.json') {
 			let filePath = path.join(folderPath, file);
 			let data = fs.readFileSync(filePath,
@@ -39,14 +44,17 @@ const options =
   ]
 
 // used to display the color splotch when selected in the dropdown, can be removed later
-const handleChange = e => {
-  let color = new ColorDisplay(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value);
+const handleChange = (e: any) => {
+  // let color = new ColorDisplay(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value);
+  console.log(e);
+  console.log('e.value is: ' + e.value);
+  let color = new ColorDisplay(Math.random() * (450) + 50, Math.random() * (400) + 150, Math.random() * (100) + 10, e.value);
   color.display();
 }
 
 
 export default function MainWindow() {
-	let schemes = [];
+	let schemes: Array<Scheme> = [];
 	let ind = 0;
 
 	// Get all Default Schemes
@@ -69,8 +77,8 @@ export default function MainWindow() {
   return (
     <div>
       <p>Main Window</p>
-		<select onChange={(e) => setScheme(schemes[e.target.value])}>
-			{schemes.map((scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
+		<select onChange={(e: ChangeEvent) => setScheme(schemes[parseInt((e.target as HTMLSelectElement).value)])}>
+			{schemes.map((scheme: Scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
 		</select>
 
       <br></br>
