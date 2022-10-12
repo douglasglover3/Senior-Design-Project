@@ -1,6 +1,6 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
-import ColorDisplay from "../Classes/ColorDisplay.tsx"
+import display_color from "../Classes/ColorDisplay.tsx"
 import {useState} from 'react';
 
 const fs = window.require('fs');
@@ -40,8 +40,9 @@ const options =
 
 // used to display the color splotch when selected in the dropdown, can be removed later
 const handleChange = e => {
-  let color = new ColorDisplay(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value);
-  color.display();
+  let root = document.getElementById('root')
+  root.append(display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value))
+  console.log(display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value))
 }
 
 

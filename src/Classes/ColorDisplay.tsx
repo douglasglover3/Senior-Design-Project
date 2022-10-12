@@ -1,11 +1,9 @@
 import React from "react";
-class ColorDisplay extends React.Component {
-    name: string;
-    style: string;
-    constructor(x: number, y: number, size: number, color: string) {
-        super("");
-        this.name = x.toString() + y.toString() + color;
-        this.style  =
+import { DefaultSerializer } from "v8";
+
+export default function display_color(x: number, y: number, size: number, color: string)
+{
+    let div_style  =
             "background-color: " + color +
             " ;width: " + size + "px" +
             " ;height: " + size + "px" +
@@ -18,27 +16,11 @@ class ColorDisplay extends React.Component {
             " ;opacity: 1" +
             " ;transition: opacity 2s ease-in;"
             ;
-    }
+    let new_div = document.createElement('div')
+    new_div.setAttribute("style", div_style)
 
-    // fade color splotch out | CURRENTLY NOT WORKING
-    fade() {
-        let div: HTMLElement | null = document.getElementById(this.name)
-        if (div != null)
-            div.style.opacity = '0'
-    }
-    // display color splotch | TRANISITION NOT WORKING
-    display() {
 
-        let new_div : HTMLElement | null  = document.createElement("div")
-        let root : HTMLElement | null = document.getElementById("root")
-        if((new_div != null) && (root != null))
-        {            
-            new_div.id = this.name
-            new_div.setAttribute("style", this.style.toString())
-            root.append(new_div)
-        }
-    }
+    return(
+        new_div
+    )
 }
-
-export default (ColorDisplay);
-
