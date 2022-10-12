@@ -1,6 +1,6 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
-import ColorDisplay from "../Classes/ColorDisplay.js"
+import ColorDisplay from "../Classes/ColorDisplay.tsx"
 import {useState} from 'react';
 
 const fs = window.require('fs');
