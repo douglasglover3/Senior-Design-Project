@@ -1,26 +1,42 @@
-import React from "react";
-import { DefaultSerializer } from "v8";
+import {FormEvent, useState} from 'react';
+import { Transition } from 'react-transition-group';
 
-export default function display_color(x: number, y: number, size: number, color: string)
-{
-    let div_style  =
-            "background-color: " + color +
-            " ;width: " + size + "px" +
-            " ;height: " + size + "px" +
-            " ;position: absolute" +
-            " ;left: " + x + "px" +
-            " ;top: " + y + "px" +
-            " ;border-radius: " + size / 2 + "px" +
-            " ;opacity: 1" +
-            " ;box-shadow: 0px 0px 15px 5px " + color +
-            " ;opacity: 1" +
-            " ;transition: opacity 2s ease-in;"
-            ;
-    let new_div = document.createElement('div')
-    new_div.setAttribute("style", div_style)
+const duration = 300;
 
+const transitionStyles : any = {
+  entering: { opacity: 0 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 1 },
+  exited: { opacity: 0 },
+};
 
-    return(
-        new_div
-    )
+export default function Display_color(x:number, y:number, size:number, color:string) {
+  const defaultStyle = {
+    transition: `opacity ${duration}ms ease-in-out`,
+    opacity: 0,
+    backgroundColor: color,
+    height:size,
+    width:size,
+    borderRadius:size/2,
+    top:y,
+    left:y,
+    position:'absolute'
+  };
+  const [inProp, setInProp] = useState(true);
+  return (
+    <div>
+      <button onClick={() => setInProp(!inProp)}>Click to Show</button>
+      <Transition in={inProp} timeout={300}>
+        {(state) => (
+          <div
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state]
+            }}
+          >
+          </div>
+        )}
+      </Transition>
+    </div>
+  );
 }

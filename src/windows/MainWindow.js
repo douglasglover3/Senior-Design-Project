@@ -1,6 +1,6 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
-import display_color from "../Classes/ColorDisplay.tsx"
+import Display_color from "../Classes/ColorDisplay.tsx"
 import {useState} from 'react';
 
 const fs = window.require('fs');
@@ -27,7 +27,7 @@ function readSchemesFromFolder(folderPath) {
 }
 
 // set of colors for testing purposes, can be removed later
-const options =
+const color_options =
   [
     { value: '#000000', label: "Black" },
     { value: '#808080', label: "Grey" },
@@ -41,8 +41,7 @@ const options =
 // used to display the color splotch when selected in the dropdown, can be removed later
 const handleChange = e => {
   let root = document.getElementById('root')
-  root.append(display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value))
-  console.log(display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value))
+  console.log(Display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value))
 }
 
 
@@ -74,23 +73,8 @@ export default function MainWindow() {
 			{schemes.map((scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
 		</select>
 
-      <br></br>
-      {/* dropdown for testing the color display, can be removed later */}
-      <div id="color_select">
-        <Select
-          className="basic-single"
-          classNamePrefix="select"
-          defaultValue={options[0]}
-          isDisabled={false}
-          isLoading={false}
-          isClearable={false}
-          isRtl={false}
-          isSearchable={false}
-          name="color"
-          options={options}
-          onChange={handleChange}
-        />
-      </div>
+      <br />
+      {Display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, '#55cc77')}
     </div>
   );
 }
