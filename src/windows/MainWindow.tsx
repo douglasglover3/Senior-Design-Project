@@ -56,12 +56,8 @@ export default function MainWindow() {
 	const pathToUserSchemesFolder = path.join('src', 'schemes');
 	schemes = schemes.concat(readSchemesFromFolder(pathToUserSchemesFolder));
 
-	let [currScheme, setScheme] = useState(() => {
-		if (schemes.length > 0)
-			return schemes[0];
-		else
-			return '';
-	});
+  const _12Tones = {Ab:0, A:1, Bb:2, B:3, C:4, Db:5, D:6, Eb:7, E:8, F:9, Gb:10, G:11};
+	let [currScheme, setScheme] = useState(schemes[0]);
 
 	console.log(currScheme);
 
@@ -69,11 +65,24 @@ export default function MainWindow() {
   return (
     <div>
       <p>Main Window</p>
-		<select onChange={(e: ChangeEvent) => setScheme(schemes[parseInt((e.target as HTMLSelectElement).value)])}>
-			{schemes.map((scheme: Scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
-		</select>
+		  <select onChange={(e: ChangeEvent) => setScheme(schemes[parseInt((e.target as HTMLSelectElement).value)])}>
+			  {schemes.map((scheme: Scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
+		  </select>
 
-      <br></br>
+      {/* Displays the main colors used for the selected color-scheme */}
+      <div style={{display:'flex', flexDirection:'row'}}>
+        <div id='A-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.A]}} />
+        <div id='B-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.B]}} />
+        <div id='C-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.C]}} />
+        <div id='D-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.D]}} />
+        <div id='E-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.E]}} />
+        <div id='F-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.F]}} />
+        <div id='G-color' style={{width:20, height:20, background:currScheme.notes[_12Tones.G]}} />
+      </div>
+
+      <br />
+      <br />
+
       {/* dropdown for testing the color display, can be removed later */}
       <div id="color_select">
         <Select
