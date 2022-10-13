@@ -1,44 +1,32 @@
-import React from "react";
-class ColorDisplay extends React.Component {
-    name: string;
-    style: string;
-    constructor(x: number, y: number, size: number, color: string) {
-        super("");
-        this.name = x.toString() + y.toString() + color;
-        this.style  =
-            "background-color: " + color +
-            " ;width: " + size + "px" +
-            " ;height: " + size + "px" +
-            " ;position: absolute" +
-            " ;left: " + x + "px" +
-            " ;top: " + y + "px" +
-            " ;border-radius: " + size / 2 + "px" +
-            " ;opacity: 1" +
-            " ;box-shadow: 0px 0px 15px 5px " + color +
-            " ;opacity: 1" +
-            " ;transition: opacity 2s ease-in;"
-            ;
-    }
 
-    // fade color splotch out | CURRENTLY NOT WORKING
-    fade() {
-        let div: HTMLElement | null = document.getElementById(this.name)
-        if (div != null)
-            div.style.opacity = '0'
-    }
-    // display color splotch | TRANISITION NOT WORKING
-    display() {
-
-        let new_div : HTMLElement | null  = document.createElement("div")
-        let root : HTMLElement | null = document.getElementById("root")
-        if((new_div != null) && (root != null))
-        {            
-            new_div.id = this.name
-            new_div.setAttribute("style", this.style.toString())
-            root.append(new_div)
-        }
-    }
+export function initCanvas() {
+  var c : any = document.getElementById('my_canvas');
+  var ctx : any = c.getContext('2d');
+  ctx.canvas.width = window.innerWidth;
+  ctx.canvas.height = window.innerHeight - 75;
 }
 
-export default (ColorDisplay);
+export class circle{
+  ctx: any;
+  color: any;
+  x: number;
+  y: number;
+  size: number;
+  constructor(color: any){
+    var c : any = document.getElementById('my_canvas');
+    this.ctx = c.getContext('2d');
+    this.color = color;
+    this.x = Math.random() * this.ctx.canvas.width;
+    this.y = Math.random() * this.ctx.canvas.height;
+    this.size = Math.random() * (100 - 10) + 10;
+    this.render()
+  }
 
+  render() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.beginPath()
+    this.ctx.arc(this.x,this.y,this.size,0,2*Math.PI);
+    this.ctx.closePath()
+    this.ctx.fill();
+  }
+}

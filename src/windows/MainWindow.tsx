@@ -1,6 +1,6 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
-import ColorDisplay from "../Classes/ColorDisplay"
+import {initCanvas, circle} from "../Classes/ColorDisplay"
 import {ChangeEvent, FormEvent, useState} from 'react';
 
 const fs = window.require('fs');
@@ -42,20 +42,11 @@ const options =
     { value: '#55cc77', label: "Teal" },
     { value: '#800080', label: "Purple" }
   ]
-
-// used to display the color splotch when selected in the dropdown, can be removed later
-const handleChange = (e: any) => {
-  // let color = new ColorDisplay(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value);
-  console.log(e);
-  console.log('e.value is: ' + e.value);
-  let color = new ColorDisplay(Math.random() * (450) + 50, Math.random() * (400) + 150, Math.random() * (100) + 10, e.value);
-  color.display();
-}
-
-
 export default function MainWindow() {
 	let schemes: Array<Scheme> = [];
 	let ind = 0;
+
+  initCanvas();
 
 	// Get all Default Schemes
 	const pathToDefaultSchemesFolder = path.join('src', 'schemes', 'default');
@@ -74,6 +65,7 @@ export default function MainWindow() {
 
 	console.log(currScheme);
 
+
   return (
     <div>
       <p>Main Window</p>
@@ -85,17 +77,9 @@ export default function MainWindow() {
       {/* dropdown for testing the color display, can be removed later */}
       <div id="color_select">
         <Select
-          className="basic-single"
-          classNamePrefix="select"
           defaultValue={options[0]}
-          isDisabled={false}
-          isLoading={false}
-          isClearable={false}
-          isRtl={false}
-          isSearchable={false}
-          name="color"
           options={options}
-          onChange={handleChange}
+          onChange={function(e:any) {new circle(e.value)}}
         />
       </div>
     </div>
