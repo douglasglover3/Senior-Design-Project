@@ -1,42 +1,32 @@
-import {FormEvent, useState} from 'react';
-import { Transition } from 'react-transition-group';
 
-const duration = 300;
+export function initCanvas() {
+  var c : any = document.getElementById('my_canvas');
+  var ctx : any = c.getContext('2d');
+  ctx.canvas.width = window.innerWidth;
+  ctx.canvas.height = window.innerHeight - 75;
+}
 
-const transitionStyles : any = {
-  entering: { opacity: 0 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 1 },
-  exited: { opacity: 0 },
-};
+export class circle{
+  ctx: any;
+  color: any;
+  x: number;
+  y: number;
+  size: number;
+  constructor(color: any){
+    var c : any = document.getElementById('my_canvas');
+    this.ctx = c.getContext('2d');
+    this.color = color;
+    this.x = Math.random() * this.ctx.canvas.width;
+    this.y = Math.random() * this.ctx.canvas.height;
+    this.size = Math.random() * (100 - 10) + 10;
+    this.render()
+  }
 
-export default function Display_color(x:number, y:number, size:number, color:string) {
-  const defaultStyle = {
-    transition: `opacity ${duration}ms ease-in-out`,
-    opacity: 0,
-    backgroundColor: color,
-    height:size,
-    width:size,
-    borderRadius:size/2,
-    top:y,
-    left:y,
-    position:'absolute'
-  };
-  const [inProp, setInProp] = useState(true);
-  return (
-    <div>
-      <button onClick={() => setInProp(!inProp)}>Click to Show</button>
-      <Transition in={inProp} timeout={300}>
-        {(state) => (
-          <div
-            style={{
-              ...defaultStyle,
-              ...transitionStyles[state]
-            }}
-          >
-          </div>
-        )}
-      </Transition>
-    </div>
-  );
+  render() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.beginPath()
+    this.ctx.arc(this.x,this.y,this.size,0,2*Math.PI);
+    this.ctx.closePath()
+    this.ctx.fill();
+  }
 }

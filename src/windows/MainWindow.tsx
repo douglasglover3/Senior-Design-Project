@@ -1,17 +1,22 @@
 import { wait } from "@testing-library/user-event/dist/utils/index.js";
 import Select from "react-select";
-import Display_color from "../Classes/ColorDisplay.tsx"
-import {useState} from 'react';
+import {initCanvas, circle} from "../Classes/ColorDisplay"
+import {ChangeEvent, FormEvent, useState} from 'react';
 
 const fs = window.require('fs');
 const path = window.require('path');
 
+type Scheme = {
+  name: string,
+  notes: Array<string>
+}
+
 // Reads all color-schemes in 'folderPath/'
-function readSchemesFromFolder(folderPath) {
-	let schemes = [];
+function readSchemesFromFolder(folderPath: string) {
+	let schemes: Array<Scheme> = [];
 
 	let files = fs.readdirSync(folderPath);
-	files.forEach((file) => {
+	files.forEach((file: string) => {
 		if (file.slice(-5) === '.json') {
 			let filePath = path.join(folderPath, file);
 			let data = fs.readFileSync(filePath,
@@ -27,7 +32,7 @@ function readSchemesFromFolder(folderPath) {
 }
 
 // set of colors for testing purposes, can be removed later
-const color_options =
+const options =
   [
     { value: '#000000', label: "Black" },
     { value: '#808080', label: "Grey" },
@@ -37,17 +42,11 @@ const color_options =
     { value: '#55cc77', label: "Teal" },
     { value: '#800080', label: "Purple" }
   ]
-
-// used to display the color splotch when selected in the dropdown, can be removed later
-const handleChange = e => {
-  let root = document.getElementById('root')
-  console.log(Display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, e.value))
-}
-
-
 export default function MainWindow() {
-	let schemes = [];
+	let schemes: Array<Scheme> = [];
 	let ind = 0;
+
+  initCanvas();
 
 	// Get all Default Schemes
 	const pathToDefaultSchemesFolder = path.join('src', 'schemes', 'default');
@@ -66,15 +65,23 @@ export default function MainWindow() {
 
 	console.log(currScheme);
 
+
   return (
     <div>
       <p>Main Window</p>
-		<select onChange={(e) => setScheme(schemes[e.target.value])}>
-			{schemes.map((scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
+		<select onChange={(e: ChangeEvent) => setScheme(schemes[parseInt((e.target as HTMLSelectElement).value)])}>
+			{schemes.map((scheme: Scheme) => <option key={ind} value={ind++}>{scheme.name}</option>)}
 		</select>
 
-      <br />
-      {Display_color(Math.random() * (50, 450) + 50, Math.random() * (150, 400) + 150, Math.random() * (10, 100) + 10, '#55cc77')}
+      <br></br>
+      {/* dropdown for testing the color display, can be removed later */}
+      <div id="color_select">
+        <Select
+          defaultValue={options[0]}
+          options={options}
+          onChange={function(e:any) {new circle(e.value)}}
+        />
+      </div>
     </div>
   );
 }
