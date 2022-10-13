@@ -1,16 +1,20 @@
 const FFT = require('fft.js');
 
 //time constant is time between input data in ms
-const timeConstant = 1;
+const timeConstant: number = 1;
 // data must be in array with length of power of two 
-const inputSize = 16384;
-
+const inputSize: number = 16384;
 //Output frequency range goes from 0 to inputSize * timeConstant / 2
 
-let inputData = createInputData(inputSize) 
+interface XYdata {
+    x: number[];
+    y: number[];
+}
+
+let inputData: XYdata = createInputData(inputSize) 
 let outputData = applyFourier(inputData)
 
-function createInputData(timeSpan) {
+function createInputData(timeSpan: number) {
     let xArray = []
     let yArray = []
     for (let i = 0; i < timeSpan; i++)
@@ -18,10 +22,10 @@ function createInputData(timeSpan) {
         xArray.push(i)
 
         //frequency of 300 per second
-        const frequency = 300
+        const frequency = 5000
 
         //creates a sin wave of above frequency
-        yArray.push(Math.sin(i * 6.28 * frequency / (timeSpan * timeConstant)))
+        yArray.push(Math.sin(i * Math.PI * 2 * frequency / (timeSpan * timeConstant)))
 
         //creates a complex wave of frequences 322, 1754, and 5728
         //yArray.push((Math.sin(i * 6.28 * 322 / (timeSpan * timeConstant)) + Math.sin(i * 6.28 * 1754 / (timeSpan * timeConstant)) + Math.sin(i * 6.28 * 5728 / (timeSpan * timeConstant))) / 3)
@@ -32,25 +36,26 @@ function createInputData(timeSpan) {
     })
 }
 
-function applyFourier(data)
+
+function applyFourier(data: XYdata)
 {
     const f = new FFT(data.x.length);
 
     let out = f.createComplexArray(data.y);
     
     f.realTransform(out, data.y);
-    let xArray = new Array
+    let xArray: number[] = new Array
     xArray = xArray.concat(data.x)
-    xArray.forEach(getFrequency)
+    xArray.forEach(adjustFrequency)
     return({
         x: xArray,
         y: out
     })
 }
 
-function getFrequency(item, index, arr) {
+function adjustFrequency(value: number, index: number, arr: number[]) {
     //Value is slightly off as index rises in large input data arrays
-    arr[index] = item * timeConstant / 2; 
+    arr[index] = value * timeConstant / 2; 
 }
 
 

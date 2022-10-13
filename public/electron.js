@@ -3,11 +3,11 @@ const isDev = require('electron-is-dev');
 
 const url = 'http://localhost:3000';
 
-let win;
+let mainWindow;
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     title: "Synesthize",
@@ -16,11 +16,11 @@ function createWindow() {
 		contextIsolation: false,
     },
   });
-  win.loadURL(url);
+  mainWindow.loadURL(url);
 
   // Open the DevTools.
   if (isDev) {
-    win.webContents.openDevTools({ mode: 'detach' });
+    createDevToolsWindow(mainWindow)
   }
 
   // Build and insert <mainMenu> from <mainMenuTemplate>
@@ -32,9 +32,9 @@ function createWindow() {
 function createNewWindow(urlTag, name) {
 	// Set <newWindow> to a smaller-sized window
 	const newWindow = new BrowserWindow({
-		width: 600,
+		width: 500,
 		height: 400,
-    	parent: win,
+    	parent: mainWindow,
     	modal: true,
     	title: name,
     	show: false,
@@ -49,9 +49,21 @@ function createNewWindow(urlTag, name) {
 		newWindow.show()
 		// Open the DevTools.
 		if (isDev) {
-			newWindow.webContents.openDevTools({ mode: 'detach' });
+			createDevToolsWindow(newWindow)
 		}
 	})
+}
+
+function createDevToolsWindow(parentWindow) {
+	let devtools = new BrowserWindow({parent:parentWindow});
+	parentWindow.webContents.setDevToolsWebContents(devtools.webContents);
+	parentWindow.webContents.openDevTools({ mode: 'detach' });
+	//opens dev tools on the side
+	parentWindow.webContents.once('did-finish-load', function () {
+		var windowBounds = parentWindow.getBounds();
+		devtools.setPosition(windowBounds.x + windowBounds.width, windowBounds.y);
+		devtools.setSize(400, windowBounds.height);
+	});
 }
 
 // ============================ MENU TEMPLATES ============================ //
