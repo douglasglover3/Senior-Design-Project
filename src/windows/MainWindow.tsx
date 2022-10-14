@@ -4,6 +4,11 @@ import { color_canvas } from "../Classes/ColorDisplay"
 import { ChangeEvent, FormEvent, useState } from 'react';
 import SchemeDropdown from "../components/SchemeDropdown";
 
+type Scheme = {
+	name: string,
+	notes: string[]
+}
+
 // set of colors for testing purposes, can be removed later
 const options =
 	[
@@ -30,11 +35,13 @@ function draw_colors() {
 }
 
 export default function MainWindow() {
+	let [scheme, setSchemeInMain] = useState({name: "", notes: [""]});
+
 	return (
 		<div>
 			<p>Main Window</p>
 
-			<SchemeDropdown />
+			<SchemeDropdown setSchemeInMain={ setSchemeInMain } />
 
 			<br />
 			<div id="color_select">
