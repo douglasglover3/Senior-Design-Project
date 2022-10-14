@@ -30,24 +30,33 @@ for (let i = 0; i < max_colors; i++) {
 // function to draw the shapes of all canvas elements, can be removed later
 function draw_colors() {
 	for (let i = 0; i < max_colors; i++) {
-		color_layers[i].draw(options[i].value)
+		color_layers[i].create_new(options[i].value)
+		color_layers[i].fade_in()
+	}
+}
+function clear_colors() {
+	for (let i = 0; i < max_colors; i++) {
+		color_layers[i].fade_out()
 	}
 }
 
 export default function MainWindow() {
-	let [scheme, setSchemeInMain] = useState({name: "", notes: [""]});
+	let [scheme, setSchemeInMain] = useState({ name: "", notes: [""] });
 
 	return (
 		<div>
 			<p>Main Window</p>
 
-			<SchemeDropdown setSchemeInMain={ setSchemeInMain } />
+			<SchemeDropdown setSchemeInMain={setSchemeInMain} />
 
 			<br />
 			<div id="color_select">
 				<button
 					onClick={function () { draw_colors() }}
 				>Draw Colors</button>
+				<button
+					onClick={function () { clear_colors() }}
+				>Clear Colors</button>
 			</div>
 		</div>
 	);
