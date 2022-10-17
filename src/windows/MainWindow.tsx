@@ -28,8 +28,7 @@ for (let i = 0; i < max_colors; i++) {
 // function to draw the shapes of all canvas elements, can be removed later
 function draw_colors(scheme) {
 	for (let i = 0; i < max_colors; i++) {
-		color_layers[i].create_new(scheme.notes[i])
-		color_layers[i].fade_in()
+		color_layers[i].draw_new(scheme.notes[i])
 	}
 }
 function clear_colors() {
