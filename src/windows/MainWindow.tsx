@@ -1,7 +1,5 @@
-import { wait } from "@testing-library/user-event/dist/utils/index.js";
-import Select from "react-select";
 import { color_canvas } from "../Classes/ColorDisplay"
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useState } from 'react';
 import SchemeDropdown from "../components/SchemeDropdown";
 
 type Scheme = {
@@ -20,7 +18,7 @@ const options =
 		{ value: '#55cc77', label: "Teal" },
 		{ value: '#800080', label: "Purple" }
 	]
-// create an array of canvas elements to draw one (1 shape per canvas)
+// create an array of canvas elements to draw one (1 shape per canvas layer)
 const max_colors = 7
 let color_layers = new Array()
 for (let i = 0; i < max_colors; i++) {

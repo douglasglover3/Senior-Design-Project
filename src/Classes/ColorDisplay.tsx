@@ -1,4 +1,3 @@
-const delta = 0.02; // change in alpha per animation step
 const animation_speed = 50; // time between animation calls in ms
 
 export class color_canvas {
@@ -11,6 +10,7 @@ export class color_canvas {
   size: number;
   alpha: number;
   fade_sem: number;
+  fade_delta: number;
 
   constructor(name: string) {
     const style =
@@ -35,6 +35,7 @@ export class color_canvas {
     this.size = Math.random() * (100 - 10) + 10;
     this.alpha = 0;
     this.fade_sem = 0; // fade semaphore (0 : idle | 1 : fade in | 2 fade out)
+    this.fade_delta = Math.random() * 0.1 // rate of change for the fade
 
     const ele = document.getElementById('canvas_space')
     if (ele != null) {
@@ -76,7 +77,7 @@ export class color_canvas {
 
   fade_in() {
     this.fade_sem = 1;
-    this.alpha = this.alpha + delta;
+    this.alpha = this.alpha + this.fade_delta;
     if (this.alpha > 1) {
       this.alpha = 1
       this.fade_sem = 0
@@ -87,7 +88,7 @@ export class color_canvas {
 
   fade_out() {
     this.fade_sem = 2;
-    this.alpha = this.alpha - delta;
+    this.alpha = this.alpha - this.fade_delta;
     if (this.alpha < 0) {
       this.alpha = 0
       this.fade_sem = 0
