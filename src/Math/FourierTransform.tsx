@@ -9,20 +9,12 @@ interface XYdata {
     y: number[];
 }
 
-//Testing values
-let randomValue: number = Math.round(Math.random() * 500) + 500
-let inputData: XYdata = createInputData(randomValue) 
-let outputData = applyFourier(inputData)
-
-function createInputData(arraySize: number) {
+function createInputData(arraySize: number, frequency: number) {
     let xArray = []
     let yArray = []
     for (let i = 0; i < arraySize; i++)
     {
         xArray.push(i)
-
-        //frequency of 300 per second
-        const frequency = 300
 
         //creates a sin wave of above frequency
         yArray.push(Math.sin(i * Math.PI * 2 * frequency / (arraySize * timeConstant)))
@@ -83,4 +75,4 @@ function adjustXRange(arr: number[], originalSize) {
 }
 
 
-export {inputData, outputData}
+export {createInputData, applyFourier, XYdata}
