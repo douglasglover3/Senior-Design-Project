@@ -35,7 +35,7 @@ export class color_canvas {
     this.size = Math.random() * (100 - 10) + 10;
     this.alpha = 0;
     this.fade_sem = 0; // fade semaphore (0 : idle | 1 : fade in | 2 fade out)
-    this.fade_delta = Math.random() * 0.1 // rate of change for the fade
+    this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
 
     const ele = document.getElementById('canvas_space')
     if (ele != null) {
@@ -49,6 +49,7 @@ export class color_canvas {
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
+    this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
   }
 
   draw() {

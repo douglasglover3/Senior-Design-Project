@@ -19,16 +19,16 @@ const options =
 		{ value: '#800080', label: "Purple" }
 	]
 // create an array of canvas elements to draw one (1 shape per canvas layer)
-const max_colors = 7
+const max_colors = 12
 let color_layers = new Array()
 for (let i = 0; i < max_colors; i++) {
 	color_layers[i] = new color_canvas('c' + i)
 }
 
 // function to draw the shapes of all canvas elements, can be removed later
-function draw_colors() {
+function draw_colors(scheme) {
 	for (let i = 0; i < max_colors; i++) {
-		color_layers[i].create_new(options[i].value)
+		color_layers[i].create_new(scheme.notes[i])
 		color_layers[i].fade_in()
 	}
 }
@@ -50,7 +50,7 @@ export default function MainWindow() {
 			<br />
 			<div id="color_select">
 				<button
-					onClick={function () { draw_colors() }}
+					onClick={function () { draw_colors(scheme) }}
 				>Draw Colors</button>
 				<button
 					onClick={function () { clear_colors() }}
