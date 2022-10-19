@@ -20,6 +20,7 @@ const options =
 	]
 // create an array of canvas elements to draw one (1 shape per canvas layer)
 const max_colors = 12
+document.getElementById('canvas_space').replaceChildren()
 let color_layers = new Array()
 for (let i = 0; i < max_colors; i++) {
 	color_layers[i] = new color_canvas('c' + i)

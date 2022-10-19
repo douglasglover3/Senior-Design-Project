@@ -1,5 +1,46 @@
 const animation_speed = 50; // time between animation calls in ms
 
+function to_hsl(color: string) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+
+  var r = parseInt(result[1], 16);
+  var g = parseInt(result[2], 16);
+  var b = parseInt(result[3], 16);
+
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  var max = Math.max(r, g, b);
+  var min = Math.min(r, g, b);
+
+  var h = (max + min) / 2;
+  var s = (max + min) / 2;
+  var l = (max + min) / 2;
+
+  if (max == min) {
+    h = s = 0; // achromatic
+  }
+  else {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+
+  s = (s * 100);
+  s = Math.round(s);
+  l = (l * 100);
+  l = Math.round(l);
+  h = Math.round(360 * h);
+
+  return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+}
+
 export class color_canvas {
   c: any;
   ctx: CanvasRenderingContext2D | null;
@@ -29,7 +70,7 @@ export class color_canvas {
     this.c.height = window.innerHeight - 95;
     this.c.style.webkitFilter = "blur(3px)";
 
-    this.color = "#000000";
+    this.color = to_hsl("#000000");
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
@@ -45,7 +86,7 @@ export class color_canvas {
   }
 
   draw_new(color: string) {
-    this.color = color;
+    this.color = to_hsl(color);
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
@@ -55,7 +96,7 @@ export class color_canvas {
   }
 
   draw() {
-    
+
     if (this.ctx != null) {
       this.clear()
       this.ctx.fillStyle = this.color;
