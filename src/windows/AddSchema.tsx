@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { schemeList } from '../Classes/SchemeList';
+import { SchemeList } from '../Classes/SchemeList';
 
 import Ab3 from "../musical_notes/Piano_Ab3.mp3"
 import A3 from "../musical_notes/Piano_A3.mp3"
@@ -44,9 +44,10 @@ export default function AddSchema() {
   const [Gb, setGb] = useState('#000000');
   const [G, setG] = useState('#000000');
 
-  // Handles submit request
   const handleSubmit = (e: FormEvent) => {
 	  e.preventDefault();
+    
+    let schemeList = SchemeList.getSchemes();
 
     // Error-handling to prevent special characters
     if (!name.match(/^[0-9a-zA-Z]+$/)) {
