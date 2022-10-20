@@ -54,21 +54,40 @@ export class SchemeList {
 		return schemes;
 	}
 
-	public static deleteScheme(schemeName: string): string {
-		// Don't allow user to remove default schemes
+	public static isInDefaultSchemes(schemeName: string): boolean {
 		for (let i = 0; i < defaultSchemes.length; i++) {
 			if (defaultSchemes[i].name == schemeName)
-				return "Sorry! Can't delete default schemes"
+				return true;
+		}
+
+		return false;
+	}
+
+	public static isInUserSchemes(schemeName: string): boolean {
+		for (let i = 0; i < userSchemes.length; i++) {
+			if (userSchemes[i].name == schemeName)
+				return true;
+		}
+
+		return false;
+	}
+
+	public static deleteScheme(schemeName: string): void {
+		// Don't allow user to remove default schemes
+		if (this.isInDefaultSchemes(schemeName)) {
+			console.log('Error: Cannot delete default schemes');
+			return;
 		}
 
 		for (let i = 0; i < userSchemes.length; i++) {
 			if (userSchemes[i].name == schemeName) {
 				schemes.splice(i, 1);
 				fs.unlinkSync(path.join(pathToUserSchemesFolder, schemeName + '.json'));
-				return schemeName + " was successfully deleted"
+				console.log(schemeName + " was successfully deleted");
+				return;
 			}
 		}
 
-		return "A scheme by that name was not found";
+		console.log("Error: A scheme by that name was not found");
 	}
 }

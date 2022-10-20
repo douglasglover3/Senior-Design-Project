@@ -15,6 +15,7 @@ export default function SchemeDropdown(props) {
 	const _12Tones = { Ab: 0, A: 1, Bb: 2, B: 3, C: 4, Db: 5, D: 6, Eb: 7, E: 8, F: 9, Gb: 10, G: 11 };
 
 	let [selectedScheme, setSelectedScheme] = useState(schemes[0]);
+	let [deleteMessage, setDeleteMessage] = useState('');
 
     // Set <currScheme> for both <SchemeDropdown /> and <MainWindow />
     const handleSchemeChange = (e): void => {
@@ -26,11 +27,17 @@ export default function SchemeDropdown(props) {
 	}, [selectedScheme]);
 
 	const handleDelete = (e): void => {
-		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
-		if (confirmDelete)
-			SchemeList.deleteScheme(selectedScheme.name);
-		else
+		// Don't let user delete default schemes
+		if (SchemeList.isInDefaultSchemes(selectedScheme.name)) {
+			setDeleteMessage('Sorry! Can\'t delete default schemes');
 			return;
+		}
+
+		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
+		if (confirmDelete) {
+			SchemeList.deleteScheme(selectedScheme.name);
+			setDeleteMessage('Scheme was successfully deleted');
+		}
 	}
 
     return(
@@ -51,6 +58,7 @@ export default function SchemeDropdown(props) {
 			</div>
 
 			<button type="button" onClick={ handleDelete }>Delete Scheme</button>
+			<span>{deleteMessage}</span>
         </div>
     );
 }
