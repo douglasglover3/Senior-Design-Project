@@ -27,17 +27,10 @@ for (let i = 0; i < max_colors; i++) {
 }
 
 // function to draw the shapes of all canvas elements, can be removed later
-function draw_colors(scheme) {
-	/*
+function draw_colors(scheme, octive) {
 	for (let i = 0; i < max_colors; i++) {
-		color_layers[i].draw_new(scheme.notes[i])
+		color_layers[i].draw_new(scheme.notes[i], octive)
 	}
-	*/
-	color_layers[0].draw_new(scheme.notes[2], -2)
-	color_layers[1].draw_new(scheme.notes[2], -1)
-	color_layers[2].draw_new(scheme.notes[2], 0)
-	color_layers[3].draw_new(scheme.notes[2], 1)
-	color_layers[4].draw_new(scheme.notes[2], 2)
 
 }
 function clear_colors() {
@@ -58,7 +51,7 @@ export default function MainWindow() {
 			<br />
 			<div id="color_select">
 				<button
-					onClick={function () { draw_colors(scheme) }}
+					onClick={function () { draw_colors(scheme, 0) }} // will need to pass proper octive here in place of the '0'
 				>Draw Colors</button>
 				<button
 					onClick={function () { clear_colors() }}

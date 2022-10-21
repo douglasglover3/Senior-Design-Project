@@ -87,12 +87,9 @@ export class color_canvas {
 
   draw_new(color: string, ocitve: number) {
     this.color = to_hsl(color, ocitve);
-    //this.x = Math.random() * this.c.width;
-    //this.y = Math.random() * this.c.height;
-    //this.size = Math.random() * (100 - 10) + 10;  
-    this.x = 100 * (ocitve + 2) + 50
-    this.y = 100
-    this.size = 50
+    this.x = Math.random() * this.c.width;
+    this.y = Math.random() * this.c.height;
+    this.size = Math.random() * (100 - 10) + 10;
     this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
 
     this.fade_in()
