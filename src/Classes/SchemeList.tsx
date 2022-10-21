@@ -1,3 +1,5 @@
+import { stringify } from "querystring";
+
 const fs = window.require('fs');
 const path = window.require('path');
 
@@ -28,20 +30,64 @@ function readSchemesFromFolder(folderPath: string) {
 	return schemes;
 }
 
-let schemeList: Scheme[] = [];
+let defaultSchemes: Scheme[] = [];
+let userSchemes: Scheme[] = [];
+let schemes: Scheme[] = [];
 let ind = 0;
 
-// Get all Default Schemes
-const pathToDefaultSchemesFolder = path.join('src', 'schemes', 'default');
-schemeList = schemeList.concat(readSchemesFromFolder(pathToDefaultSchemesFolder));
+const pathToDefaultSchemesFolder: string = path.join('src', 'schemes', 'default');
+defaultSchemes = readSchemesFromFolder(pathToDefaultSchemesFolder);
 
-// Get all User-made schemes
-const pathToUserSchemesFolder = path.join('src', 'schemes');
-schemeList = schemeList.concat(readSchemesFromFolder(pathToUserSchemesFolder));
-
-// Make sure at least 1 scheme exists in <schemeList>
-if (schemeList.length == 0)
-    schemeList.push({ name: 'No schemes found :(', notes:["#000000", "#000000", "#000000", "#000000",
+// Make sure at least 1 scheme exists in <defaultSchemes>
+if (defaultSchemes.length == 0)
+    defaultSchemes.push({ name: 'No schemes found :(', notes:["#000000", "#000000", "#000000", "#000000",
     "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000"] });
 
-export { schemeList };
+const pathToUserSchemesFolder: string = path.join('src', 'schemes');
+userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
+
+schemes = defaultSchemes.concat(userSchemes);
+
+export class SchemeList {
+	
+	public static getSchemes(): Scheme[] {
+		return schemes;
+	}
+
+	public static isInDefaultSchemes(schemeName: string): boolean {
+		for (let i = 0; i < defaultSchemes.length; i++) {
+			if (defaultSchemes[i].name == schemeName)
+				return true;
+		}
+
+		return false;
+	}
+
+	public static isInUserSchemes(schemeName: string): boolean {
+		for (let i = 0; i < userSchemes.length; i++) {
+			if (userSchemes[i].name == schemeName)
+				return true;
+		}
+
+		return false;
+	}
+
+	public static deleteScheme(schemeName: string): void {
+		// Don't allow user to remove default schemes
+		if (this.isInDefaultSchemes(schemeName)) {
+			console.log('Error: Cannot delete default schemes');
+			return;
+		}
+
+		for (let i = 0; i < userSchemes.length; i++) {
+			if (userSchemes[i].name == schemeName) {
+				schemes.splice(i, 1);
+				fs.unlinkSync(path.join(pathToUserSchemesFolder, schemeName + '.json'));
+				console.log(schemeName + " was successfully deleted");
+				return;
+			}
+		}
+
+		console.log("Error: A scheme by that name was not found");
+	}
+}

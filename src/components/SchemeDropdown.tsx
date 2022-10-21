@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, useEffect } from 'react';
-import { schemeList } from '../Classes/SchemeList';
+import { SchemeList } from '../Classes/SchemeList';
 
 type Scheme = {
 	name: string,
@@ -8,24 +8,37 @@ type Scheme = {
 
 
 export default function SchemeDropdown(props) {
-	let schemes = schemeList;
+	let schemes = SchemeList.getSchemes();
 
 	let ind = 0;
 
 	const _12Tones = { Ab: 0, A: 1, Bb: 2, B: 3, C: 4, Db: 5, D: 6, Eb: 7, E: 8, F: 9, Gb: 10, G: 11 };
 
-    // Initialize <currScheme> for both <SchemeDropdown /> and <MainWindow />
-	let [selectedScheme, setSelectedScheme] = useState(schemeList[0]);
+	let [selectedScheme, setSelectedScheme] = useState(schemes[0]);
+	let [deleteMessage, setDeleteMessage] = useState('');
 
     // Set <currScheme> for both <SchemeDropdown /> and <MainWindow />
-    const handleSchemeChange = (e: ChangeEvent): void => {
+    const handleSchemeChange = (e): void => {
         let index: number = parseInt((e.target as HTMLSelectElement).value);
         setSelectedScheme(schemes[index]);
     }
-
 	useEffect(() => {
 		props.setSchemeInMain(selectedScheme);
 	}, [selectedScheme]);
+
+	const handleDelete = (e): void => {
+		// Don't let user delete default schemes
+		if (SchemeList.isInDefaultSchemes(selectedScheme.name)) {
+			setDeleteMessage('Sorry! Can\'t delete default schemes');
+			return;
+		}
+
+		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
+		if (confirmDelete) {
+			SchemeList.deleteScheme(selectedScheme.name);
+			setDeleteMessage('Scheme was successfully deleted');
+		}
+	}
 
     return(
         <div>
@@ -43,6 +56,9 @@ export default function SchemeDropdown(props) {
 				<div id='F-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.F] }} />
 				<div id='G-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.G] }} />
 			</div>
+
+			<button type="button" onClick={ handleDelete }>Delete Scheme</button>
+			<span>{deleteMessage}</span>
         </div>
     );
 }
