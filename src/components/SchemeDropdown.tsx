@@ -28,14 +28,14 @@ export default function SchemeDropdown(props) {
 
 	const handleDelete = (e): void => {
 		// Don't let user delete default schemes
-		if (SchemeList.isInDefaultSchemes(selectedScheme.name)) {
+		if (SchemeList.isInDefaultSchemes(selectedScheme)) {
 			setDeleteMessage('Sorry! Can\'t delete default schemes');
 			return;
 		}
 
 		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
 		if (confirmDelete) {
-			SchemeList.deleteScheme(selectedScheme.name);
+			SchemeList.deleteScheme(selectedScheme);
 			setDeleteMessage('Scheme was successfully deleted');
 		}
 	}
