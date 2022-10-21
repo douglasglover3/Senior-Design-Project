@@ -1,7 +1,7 @@
 
 import Plot from 'react-plotly.js';
 import { useState } from 'react';
-import {createInputData, applyFourier, XYdata} from "../Math/FourierTransform"
+import {createSampleData, applyFourier, getFrequencies} from "../Math/FourierTransform"
 
 export default function DebugWindow() {
   const [inputX, setInputX] = useState([])
@@ -13,9 +13,9 @@ export default function DebugWindow() {
   //Create random data
   function getData() {
     //create testing data
-    let randomValue: number = Math.round(Math.random() * 500) + 500
+    let randomValue: number = Math.round(Math.random() * 500) + 600
     let frequency: number = Math.round(Math.random() * 300)
-    let inputData = createInputData(randomValue, frequency) 
+    let inputData = createSampleData(randomValue, frequency) 
     setInputX(inputData.x)
     setInputY(inputData.y)
 
@@ -26,6 +26,7 @@ export default function DebugWindow() {
 
     console.log("Size is " + randomValue)
     console.log("Frequency is " + frequency)
+    console.log("Top 5 Measured Frequencies: " +  getFrequencies(outputData, 5))
   }
 
   return (
