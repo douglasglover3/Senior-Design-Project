@@ -1,19 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { SchemeList } from '../Classes/SchemeList';
-
-import Ab3 from "../musical_notes/Piano_Ab3.mp3"
-import A3 from "../musical_notes/Piano_A3.mp3"
-import Bb3 from "../musical_notes/Piano_Bb3.mp3"
-import B3 from "../musical_notes/Piano_B3.mp3"
-import C4 from "../musical_notes/Piano_C4.mp3"
-import Db4 from "../musical_notes/Piano_Db4.mp3"
-import D4 from "../musical_notes/Piano_D4.mp3"
-import Eb4 from "../musical_notes/Piano_Eb4.mp3"
-import E4 from "../musical_notes/Piano_E4.mp3"
-import F4 from "../musical_notes/Piano_F4.mp3"
-import Gb4 from "../musical_notes/Piano_Gb4.mp3"
-import G4 from "../musical_notes/Piano_G4.mp3"
-import { setDefaultResultOrder } from 'dns';
+import { SchemeFunctions } from '../Classes/SchemeFunctions';
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -21,13 +7,13 @@ const path = window.require('path');
 export default function AddSchema() {
 
   function playNote(note: string) {
-    const file = require("../musical_notes/Piano_" + note + ".mp3")
-    const audio = new Audio(file)
+    const file = require("../musical_notes/Piano_" + note + ".mp3");
+    const audio = new Audio(file);
     audio.volume = (volume / 100);    // audio.volume in the range of [0, 1]
-    audio.play()
+    audio.play();
   }
 
-  // Holds variable information from form
+  // Variables used in form
   const [volume, setVolume] = useState(50);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -46,8 +32,7 @@ export default function AddSchema() {
 
   const handleSubmit = (e: FormEvent) => {
 	  e.preventDefault();
-    
-    let schemeList = SchemeList.getSchemes();
+    let schemes = SchemeFunctions.getSchemes();
 
     // Error-handling to prevent special characters
     if (!name.match(/^[0-9a-zA-Z]+$/)) {
@@ -56,8 +41,8 @@ export default function AddSchema() {
     }
 
     // Error-handling to prevent duplicate names
-    for (let i = 0; i < schemeList.length; i++) {
-      if (schemeList[i].name == name) {
+    for (let i = 0; i < schemes.length; i++) {
+      if (schemes[i].name === name) {
         setError('Sorry! A color-scheme with that name already exists');
         return;
       }
@@ -66,7 +51,7 @@ export default function AddSchema() {
     setError('');
 
     // Add hex code colors to <noteArray>
-	  let noteArray = [];
+	  let noteArray: string[] = [];
 	  noteArray.push(Ab);
 	  noteArray.push(A);
 	  noteArray.push(Bb);
@@ -80,11 +65,12 @@ export default function AddSchema() {
 	  noteArray.push(Gb);
 	  noteArray.push(G);
 
-	  // Saves form info into JS object and closes window
+	  // Saves new scheme into file AND into schemes array
 	  let schemeObj = {name: name, notes: noteArray};
 	  let filePath = path.join('src', 'schemes', schemeObj.name + '.json');
 	  fs.writeFileSync(filePath, JSON.stringify(schemeObj));
-	  window.close();
+    SchemeFunctions.addScheme(schemeObj);
+	  window.location.href = '/';
   }
 
   return (

@@ -76,19 +76,18 @@ const mainMenuTemplate = [
 				label: 'Add Color Scheme',
 				accelerator: 'CmdOrCtrl+N',
 				click() {
-					createNewWindow("addSchema", "Add Color Scheme")
 				}
 			},
 			{
 				label: 'Edit Color Scheme',
+				accelerator: 'CmdOrCtrl+E',
 				click() {
-					createNewWindow("editSchema",  "Edit Color Scheme")
 				}
 			},
 			{
 				label: 'Delete Color Scheme',
+				accelerator: 'CmdOrCtrl+D',
 				click() {
-					createNewWindow("deleteSchema", "Delete Color Scheme")
 				}
 			},
 			{
