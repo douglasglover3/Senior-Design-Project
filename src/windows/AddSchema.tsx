@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import ColorSelector from '../components/ColorSelector';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
+import ColorSelector from '../components/ColorSelector';
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -89,21 +89,22 @@ export default function AddSchema() {
         </div>
         <span>{error}</span> <br /> <br />
 
-        <ColorSelector noteName='Ab' noteColor='#000000' setNote={setAb} />
-        <ColorSelector noteName='A' noteColor='#000000' setNote={setA} />
-        <ColorSelector noteName='Bb' noteColor='#000000' setNote={setBb} />
-        <ColorSelector noteName='B' noteColor='#000000' setNote={setB} />
-        <ColorSelector noteName='C' noteColor='#000000' setNote={setC} />
-        <ColorSelector noteName='Db' noteColor='#000000' setNote={setDb} />
-        <ColorSelector noteName='D' noteColor='#000000' setNote={setD} />
-        <ColorSelector noteName='Eb' noteColor='#000000' setNote={setEb} />
-        <ColorSelector noteName='E' noteColor='#000000' setNote={setE} />
-        <ColorSelector noteName='F' noteColor='#000000' setNote={setF} />
-        <ColorSelector noteName='Gb' noteColor='#000000' setNote={setGb} />
-        <ColorSelector noteName='G' noteColor='#000000' setNote={setG} />
+        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
+        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
+        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
+        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
+        <ColorSelector noteName='C' noteColor={C} setNote={setC} />
+        <ColorSelector noteName='Db' noteColor={Db} setNote={setDb} />
+        <ColorSelector noteName='D' noteColor={D} setNote={setD} />
+        <ColorSelector noteName='Eb' noteColor={Eb} setNote={setEb} />
+        <ColorSelector noteName='E' noteColor={E} setNote={setE} />
+        <ColorSelector noteName='F' noteColor={F} setNote={setF} />
+        <ColorSelector noteName='Gb' noteColor={Gb} setNote={setGb} />
+        <ColorSelector noteName='G' noteColor={G} setNote={setG} />
 
         <input type="submit" value="Submit" />
       </form>
+      <button type="button" onClick={() => {window.location.href='/'}}>Cancel</button>
     </div>
   );
 }

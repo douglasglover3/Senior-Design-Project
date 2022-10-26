@@ -1,6 +1,8 @@
 import { FormEvent, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
+import { setVol } from '../Classes/AudioFunctions';
+import ColorSelector from '../components/ColorSelector';
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -9,13 +11,6 @@ export default function EditSchema() {
   const location = useLocation();
   let selectedScheme = location.state.scheme;
   let originalName = selectedScheme.name;
-
-  function playNote(note: string) {
-    const file = require("../musical_notes/Piano_" + note + ".mp3");
-    const audio = new Audio(file);
-    audio.volume = (volume / 100);    // audio.volume in the range of [0, 1]
-    audio.play();
-  }
 
   // Variables used in form
   const [volume, setVolume] = useState(50);
@@ -33,6 +28,12 @@ export default function EditSchema() {
   const [F, setF] = useState(selectedScheme.notes[9]);
   const [Gb, setGb] = useState(selectedScheme.notes[10]);
   const [G, setG] = useState(selectedScheme.notes[11]);
+
+  const handleVolume = (e) => {
+    let volumeVal = parseInt(e.target.value);
+    setVolume(volumeVal);   // In AddSchema.tsx
+    setVol(volumeVal);      // In AudioFunctions.tsx
+  }
 
   const handleSubmit = (e: FormEvent) => {
 	  e.preventDefault();
@@ -91,7 +92,7 @@ export default function EditSchema() {
 
       <span>Volume Slider</span>
       <input type="range" id='volume-slider'
-          value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} /> <br /> <br />
+          value={volume} onChange={handleVolume} /> <br /> <br />
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -102,92 +103,22 @@ export default function EditSchema() {
         </div>
         <span>{error}</span> <br /> <br />
 
-        <div>
-          <label>Ab: </label>
-          <input type="color" id="Ab"
-              value = {Ab} onChange = {(e) => setAb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Ab3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>A: </label>
-          <input type="color" id="A"
-			        value = {A} onChange = {(e) => setA(e.target.value)}/>
-          <button type="button" onClick={() => playNote("A3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Bb: </label>
-          <input type="color" id="Bb"
-              value = {Bb} onChange = {(e) => setBb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Bb3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>B: </label>
-          <input type="color" id="B"
-			        value = {B} onChange = {(e) => setB(e.target.value)}/>
-          <button type="button" onClick={() => playNote("B3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>C: </label>
-          <input type="color" id="C"
-			        value = {C} onChange = {(e) => setC(e.target.value)}/>
-          <button type="button" onClick={() => playNote("C4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Db: </label>
-          <input type="color" id="Db"
-              value = {Db} onChange = {(e) => setDb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Db4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>D: </label>
-          <input type="color" id="D"
-			        value = {D} onChange = {(e) => setD(e.target.value)}/>
-          <button type="button" onClick={() => playNote("D4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Eb: </label>
-          <input type="color" id="Eb"
-              value = {Eb} onChange = {(e) => setEb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Eb4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>E: </label>
-          <input type="color" id="E"
-			        value = {E} onChange = {(e) => setE(e.target.value)}/>
-          <button type="button" onClick={() => playNote("E4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>F: </label>
-          <input type="color" id="F"
-			        value = {F} onChange = {(e) => setF(e.target.value)}/>
-          <button type="button" onClick={() => playNote("F4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Gb: </label>
-          <input type="color" id="Gb"
-              value = {Gb} onChange = {(e) => setGb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Gb4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>G: </label>
-          <input type="color" id="G"
-			        value = {G} onChange = {(e) => setG(e.target.value)}/>
-          <button type="button" onClick={() => playNote("G4")}>Try Me!</button>
-        </div>
+        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
+        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
+        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
+        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
+        <ColorSelector noteName='C' noteColor={C} setNote={setC} />
+        <ColorSelector noteName='Db' noteColor={Db} setNote={setDb} />
+        <ColorSelector noteName='D' noteColor={D} setNote={setD} />
+        <ColorSelector noteName='Eb' noteColor={Eb} setNote={setEb} />
+        <ColorSelector noteName='E' noteColor={E} setNote={setE} />
+        <ColorSelector noteName='F' noteColor={F} setNote={setF} />
+        <ColorSelector noteName='Gb' noteColor={Gb} setNote={setGb} />
+        <ColorSelector noteName='G' noteColor={G} setNote={setG} />
 
         <input type="submit" value="Submit" />
       </form>
+      <button type="button" onClick={() => {window.location.href='/'}}>Cancel</button>
     </div>
   );
 }

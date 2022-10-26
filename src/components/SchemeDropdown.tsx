@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 
 type Scheme = {
@@ -32,7 +32,7 @@ export default function SchemeDropdown(props) {
 	}, [selectedScheme]);
 
 	const addScheme = (e): void => {
-		window.location.href = '/AddSchema';
+		navigate('/AddSchema');
 	}
 
 	const handleDelete = (e): void => {
