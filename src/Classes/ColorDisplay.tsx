@@ -1,6 +1,6 @@
 const animation_speed = 50; // time between animation calls in ms
 
-function to_hsl(color: string) {
+function to_hsl(color: string, ocitve: number) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
 
   var r = parseInt(result[1], 16);
@@ -34,7 +34,7 @@ function to_hsl(color: string) {
 
   s = (s * 100);
   s = Math.round(s);
-  l = (l * 100);
+  l = (l * 100) + (10 * ocitve);
   l = Math.round(l);
   h = Math.round(360 * h);
 
@@ -70,7 +70,7 @@ export class color_canvas {
     this.c.height = window.innerHeight - 95;
     this.c.style.webkitFilter = "blur(3px)";
 
-    this.color = to_hsl("#000000");
+    this.color = to_hsl("#000000", 0);
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
@@ -85,8 +85,8 @@ export class color_canvas {
     }
   }
 
-  draw_new(color: string) {
-    this.color = to_hsl(color);
+  draw_new(color: string, ocitve: number) {
+    this.color = to_hsl(color, ocitve);
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;

@@ -54,36 +54,40 @@ export class SchemeList {
 		return schemes;
 	}
 
-	public static isInDefaultSchemes(schemeName: string): boolean {
+	public static isInDefaultSchemes(scheme: Scheme): boolean {
 		for (let i = 0; i < defaultSchemes.length; i++) {
-			if (defaultSchemes[i].name == schemeName)
+			if (defaultSchemes[i].name == scheme.name)
 				return true;
 		}
 
 		return false;
 	}
 
-	public static isInUserSchemes(schemeName: string): boolean {
+	public static isInUserSchemes(scheme: Scheme): boolean {
 		for (let i = 0; i < userSchemes.length; i++) {
-			if (userSchemes[i].name == schemeName)
+			if (userSchemes[i].name == scheme.name)
 				return true;
 		}
 
 		return false;
 	}
 
-	public static deleteScheme(schemeName: string): void {
+	public static addScheme(scheme: Scheme): void {
+		schemes.push(scheme);
+	}
+
+	public static deleteScheme(scheme: Scheme): void {
 		// Don't allow user to remove default schemes
-		if (this.isInDefaultSchemes(schemeName)) {
+		if (this.isInDefaultSchemes(scheme)) {
 			console.log('Error: Cannot delete default schemes');
 			return;
 		}
 
 		for (let i = 0; i < userSchemes.length; i++) {
-			if (userSchemes[i].name == schemeName) {
-				schemes.splice(i, 1);
-				fs.unlinkSync(path.join(pathToUserSchemesFolder, schemeName + '.json'));
-				console.log(schemeName + " was successfully deleted");
+			if (userSchemes[i].name == scheme.name) {
+				schemes.splice(defaultSchemes.length + i, 1);
+				fs.unlinkSync(path.join(pathToUserSchemesFolder, scheme.name + '.json'));
+				console.log(scheme.name + " was successfully deleted");
 				return;
 			}
 		}
