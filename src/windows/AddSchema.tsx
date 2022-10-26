@@ -1,19 +1,12 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import ColorSelector from '../components/ColorSelector';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
+import { setVol } from '../Classes/AudioFunctions';
 
 const fs = window.require('fs');
 const path = window.require('path');
 
 export default function AddSchema() {
-
-  function playNote(note: string) {
-    const file = require("../musical_notes/Piano_" + note + ".mp3");
-    const audio = new Audio(file);
-    audio.volume = (volume / 100);    // audio.volume in the range of [0, 1]
-    audio.play();
-  }
-
-  // Variables used in form
   const [volume, setVolume] = useState(50);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -30,8 +23,14 @@ export default function AddSchema() {
   const [Gb, setGb] = useState('#000000');
   const [G, setG] = useState('#000000');
 
-  const handleSubmit = (e: FormEvent) => {
-	  e.preventDefault();
+  const handleVolume = (e) => {
+    let volumeVal = parseInt(e.target.value);
+    setVolume(volumeVal);   // In AddSchema.tsx
+    setVol(volumeVal);      // In AudioFunctions.tsx
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let schemes = SchemeFunctions.getSchemes();
 
     // Error-handling to prevent special characters
@@ -51,26 +50,26 @@ export default function AddSchema() {
     setError('');
 
     // Add hex code colors to <noteArray>
-	  let noteArray: string[] = [];
-	  noteArray.push(Ab);
-	  noteArray.push(A);
-	  noteArray.push(Bb);
-	  noteArray.push(B);
-	  noteArray.push(C);
-	  noteArray.push(Db);
-	  noteArray.push(D);
-	  noteArray.push(Eb);
-	  noteArray.push(E);
-	  noteArray.push(F);
-	  noteArray.push(Gb);
-	  noteArray.push(G);
+    let noteArray: string[] = [];
+    noteArray.push(Ab);
+    noteArray.push(A);
+    noteArray.push(Bb);
+    noteArray.push(B);
+    noteArray.push(C);
+    noteArray.push(Db);
+    noteArray.push(D);
+    noteArray.push(Eb);
+    noteArray.push(E);
+    noteArray.push(F);
+    noteArray.push(Gb);
+    noteArray.push(G);
 
-	  // Saves new scheme into file AND into schemes array
-	  let schemeObj = {name: name, notes: noteArray};
-	  let filePath = path.join('src', 'schemes', schemeObj.name + '.json');
-	  fs.writeFileSync(filePath, JSON.stringify(schemeObj));
+    // Saves new scheme into file AND into schemes array
+    let schemeObj = {name: name, notes: noteArray};
+    let filePath = path.join('src', 'schemes', schemeObj.name + '.json');
+    fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.addScheme(schemeObj);
-	  window.location.href = '/';
+    window.location.href = '/';
   }
 
   return (
@@ -79,100 +78,29 @@ export default function AddSchema() {
 
       <span>Volume Slider</span>
       <input type="range" id='volume-slider'
-          value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} /> <br /> <br />
+        value={volume} onChange={handleVolume} /> <br /> <br />
 
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name Your Scheme: </label>
           <input type="text" id="name"
-			        required autoFocus
-			        value = {name} onChange = {(e) => setName(e.target.value.trim())}/>
+            required autoFocus
+            value = {name} onChange = {(e) => setName(e.target.value.trim())}/>
         </div>
         <span>{error}</span> <br /> <br />
 
-        <div>
-          <label>Ab: </label>
-          <input type="color" id="Ab"
-              value = {Ab} onChange = {(e) => setAb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Ab3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>A: </label>
-          <input type="color" id="A"
-			        value = {A} onChange = {(e) => setA(e.target.value)}/>
-          <button type="button" onClick={() => playNote("A3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Bb: </label>
-          <input type="color" id="Bb"
-              value = {Bb} onChange = {(e) => setBb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Bb3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>B: </label>
-          <input type="color" id="B"
-			        value = {B} onChange = {(e) => setB(e.target.value)}/>
-          <button type="button" onClick={() => playNote("B3")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>C: </label>
-          <input type="color" id="C"
-			        value = {C} onChange = {(e) => setC(e.target.value)}/>
-          <button type="button" onClick={() => playNote("C4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Db: </label>
-          <input type="color" id="Db"
-              value = {Db} onChange = {(e) => setDb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Db4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>D: </label>
-          <input type="color" id="D"
-			        value = {D} onChange = {(e) => setD(e.target.value)}/>
-          <button type="button" onClick={() => playNote("D4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Eb: </label>
-          <input type="color" id="Eb"
-              value = {Eb} onChange = {(e) => setEb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Eb4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>E: </label>
-          <input type="color" id="E"
-			        value = {E} onChange = {(e) => setE(e.target.value)}/>
-          <button type="button" onClick={() => playNote("E4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>F: </label>
-          <input type="color" id="F"
-			        value = {F} onChange = {(e) => setF(e.target.value)}/>
-          <button type="button" onClick={() => playNote("F4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>Gb: </label>
-          <input type="color" id="Gb"
-              value = {Gb} onChange = {(e) => setGb(e.target.value)}/>
-          <button type="button" onClick={() => playNote("Gb4")}>Try Me!</button>
-        </div>
-
-        <div>
-          <label>G: </label>
-          <input type="color" id="G"
-			        value = {G} onChange = {(e) => setG(e.target.value)}/>
-          <button type="button" onClick={() => playNote("G4")}>Try Me!</button>
-        </div>
+        <ColorSelector noteName='Ab' noteColor='#000000' setNote={setAb} />
+        <ColorSelector noteName='A' noteColor='#000000' setNote={setA} />
+        <ColorSelector noteName='Bb' noteColor='#000000' setNote={setBb} />
+        <ColorSelector noteName='B' noteColor='#000000' setNote={setB} />
+        <ColorSelector noteName='C' noteColor='#000000' setNote={setC} />
+        <ColorSelector noteName='Db' noteColor='#000000' setNote={setDb} />
+        <ColorSelector noteName='D' noteColor='#000000' setNote={setD} />
+        <ColorSelector noteName='Eb' noteColor='#000000' setNote={setEb} />
+        <ColorSelector noteName='E' noteColor='#000000' setNote={setE} />
+        <ColorSelector noteName='F' noteColor='#000000' setNote={setF} />
+        <ColorSelector noteName='Gb' noteColor='#000000' setNote={setGb} />
+        <ColorSelector noteName='G' noteColor='#000000' setNote={setG} />
 
         <input type="submit" value="Submit" />
       </form>
