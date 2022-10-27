@@ -2,6 +2,8 @@
 import Plot from 'react-plotly.js';
 import { useState } from 'react';
 import {createSampleData, applyFourier, getFrequencies} from "../Math/FourierTransform"
+import { ReactMic } from 'react-mic';
+import MicInput from "../Classes/MicInput";
 
 export default function DebugWindow() {
   const [inputX, setInputX] = useState([])
@@ -28,7 +30,7 @@ export default function DebugWindow() {
     console.log("Frequency is " + frequency)
     console.log("Top 5 Measured Frequencies: " +  getFrequencies(outputData, 5))
   }
-
+  const Mic = new MicInput(true);
   return (
     <div>
       <button onClick={(() => getData())}>Random Data</button>
@@ -58,6 +60,10 @@ export default function DebugWindow() {
         ]}
         layout={{width: 400, height: 300, title: 'Fourier Transform Data'}}
       />
+    <div className='mic_input'>
+      <h2>Mic Recording</h2>
+      <MicInput />
+    </div>
     </div>
   );
 }

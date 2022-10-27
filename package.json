@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^29.1.2",
+    "@types/meyda": "^4.3.2",
     "@types/node": "^18.8.5",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
@@ -18,6 +19,7 @@
     "plotly.js-dist": "^2.14.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-mic": "^12.4.6",
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
@@ -53,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-mic": "^12.4.3",
     "concurrently": "^7.4.0",
     "electron": "^20.2.0",
     "electron-is-dev": "^2.0.0",
