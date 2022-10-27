@@ -50,7 +50,7 @@ export default function SchemeDropdown(props) {
 		}
 	}
 
-	const editScheme = (e): void => {
+	const handleEdit = (e): void => {
 		// Don't let user edit default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
 			setEditMessage('Sorry! Can\'t edit default schemes');
@@ -79,7 +79,7 @@ export default function SchemeDropdown(props) {
 			</div>
 
 			<div>
-				<button type="button" onClick={ editScheme }>Edit Scheme</button>
+				<button type="button" onClick={ handleEdit }>Edit Scheme</button>
 				<span>{editMessage}</span>
 			</div>
 			<div>
