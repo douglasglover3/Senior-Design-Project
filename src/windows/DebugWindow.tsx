@@ -1,8 +1,7 @@
 
 import Plot from 'react-plotly.js';
 import { useState } from 'react';
-import {createSampleData, applyFourier, getFrequencies} from "../Math/FourierTransform"
-import { ReactMic } from 'react-mic';
+import {Fourier} from "../Classes/FourierTransform"
 import MicInput from "../Classes/MicInput";
 
 export default function DebugWindow() {
