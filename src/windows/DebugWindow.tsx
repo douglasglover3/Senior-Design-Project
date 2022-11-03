@@ -34,7 +34,7 @@ export default function DebugWindow() {
     console.log("Size is " + randomValue)
     console.log("Frequency is " + frequency)
     console.log("Top 5 Measured Frequencies: " +  frequencies)
-    console.log("Estimated note: " + estimate.note + estimate.octave)
+    console.log(`Estimated note: Note=${estimate.note} Octave=${estimate.octave}`);
   }
   const Mic = new MicInput(true);
   return (
