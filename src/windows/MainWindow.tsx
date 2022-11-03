@@ -7,17 +7,6 @@ type Scheme = {
 	notes: string[]
 }
 
-// set of colors for testing purposes, can be removed later
-const options =
-	[
-		{ value: '#000000', label: "Black" },
-		{ value: '#808080', label: "Grey" },
-		{ value: '#ff0000', label: "Red" },
-		{ value: '#00ff00', label: "Green" },
-		{ value: '#0000ff', label: "Blue" },
-		{ value: '#55cc77', label: "Teal" },
-		{ value: '#800080', label: "Purple" }
-	]
 // create an array of canvas elements to draw one (1 shape per canvas layer)
 const max_colors = 12
 document.getElementById('canvas_space').replaceChildren()

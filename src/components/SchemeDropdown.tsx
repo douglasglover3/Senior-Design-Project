@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
+import { EDOSystem } from '../Classes/EDOSystem';
 
 type Scheme = {
 	name: string,
@@ -8,8 +9,10 @@ type Scheme = {
 }
 
 export default function SchemeDropdown(props) {
+	let _12tEDO = new EDOSystem(12);
 	let schemes = SchemeFunctions.getSchemes();
-	const _12Tones = { Ab: 0, A: 1, Bb: 2, B: 3, C: 4, Db: 5, D: 6, Eb: 7, E: 8, F: 9, Gb: 10, G: 11 };
+	let toneList = _12tEDO.getToneList();
+	// const _12Tones = { Ab: 0, A: 1, Bb: 2, B: 3, C: 4, Db: 5, D: 6, Eb: 7, E: 8, F: 9, Gb: 10, G: 11 };
 	let ind = 0;
 
 	const navigate = useNavigate();
@@ -69,13 +72,13 @@ export default function SchemeDropdown(props) {
 
 			{/* Displays the main colors used for the selected color-scheme */}
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				<div id='A-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.A] }} />
-				<div id='B-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.B] }} />
-				<div id='C-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.C] }} />
-				<div id='D-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.D] }} />
-				<div id='E-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.E] }} />
-				<div id='F-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.F] }} />
-				<div id='G-color' style={{ width: 20, height: 20, background: selectedScheme.notes[_12Tones.G] }} />
+				<div id='C-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.C] }} />
+				<div id='D-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.D] }} />
+				<div id='E-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.E] }} />
+				<div id='F-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.F] }} />
+				<div id='G-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.G] }} />
+				<div id='A-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.A] }} />
+				<div id='B-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.B] }} />
 			</div>
 
 			<div>
