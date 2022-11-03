@@ -3,6 +3,7 @@ import Plot from 'react-plotly.js';
 import { useState } from 'react';
 import {Fourier} from "../Classes/FourierTransform"
 import MicInput from "../Classes/MicInput";
+import {EDOSystem} from "../Classes/EDOSystem";
 
 export default function DebugWindow() {
   const [inputX, setInputX] = useState([])
@@ -14,6 +15,7 @@ export default function DebugWindow() {
   //Create random data
   function getData() {
     let fourier = new Fourier;
+    let edo = new EDOSystem(12);
     
     //create testing data
     let randomValue: number = Math.round(Math.random() * 500) + 600
@@ -27,9 +29,12 @@ export default function DebugWindow() {
     setOutputX(outputData.x)
     setOutputY(outputData.y)
 
+    let frequencies: number[] = fourier.getFrequencies(outputData, 5)
+    let estimate = edo.frequencyToNote(frequencies[0])
     console.log("Size is " + randomValue)
     console.log("Frequency is " + frequency)
-    console.log("Top 5 Measured Frequencies: " +  fourier.getFrequencies(outputData, 5))
+    console.log("Top 5 Measured Frequencies: " +  frequencies)
+    console.log("Estimated note: " + estimate.note + estimate.octave)
   }
   const Mic = new MicInput(true);
   return (
