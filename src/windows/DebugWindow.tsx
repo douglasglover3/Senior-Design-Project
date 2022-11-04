@@ -2,7 +2,7 @@
 import Plot from 'react-plotly.js';
 import { useState } from 'react';
 import {Fourier} from "../Classes/FourierTransform"
-import MicInput from "../Classes/MicInput";
+import MicInput from "../components/MicInput";
 import {EDOSystem} from "../Classes/EDOSystem";
 
 export default function DebugWindow() {
@@ -36,10 +36,29 @@ export default function DebugWindow() {
     console.log("Top 5 Measured Frequencies: " +  frequencies)
     console.log(`Estimated note: Note=${estimate.note} Octave=${estimate.octave}`);
   }
+
+  function readMicData(data) {
+    let fourier = new Fourier;
+    //makes data into two arrays, x and y
+    let inputData = fourier.normalizeData(data);
+    setInputX(inputData.x)
+    setInputY(inputData.y)
+    //transforms data into frequency domain using fourier transform
+    let outputData = fourier.applyTransform(inputData);
+    setOutputX(outputData.x)
+    setOutputY(outputData.y)
+    //attempts to get top five frequencies from transformed data
+    console.log("Top 5 Measured Frequencies: " +  fourier.getFrequencies(outputData, 5))
+  }
+  
   // const Mic = new MicInput(true);
   return (
     <div>
       <button onClick={(() => getData())}>Random Data</button>
+      <div className='mic_input'>
+        <h2>Mic Recording</h2>
+        <MicInput transformData={readMicData}/>
+      </div>
       <Plot
         data={[
           {
@@ -66,10 +85,6 @@ export default function DebugWindow() {
         ]}
         layout={{width: 400, height: 300, title: 'Fourier Transform Data'}}
       />
-    <div className='mic_input'>
-      <h2>Mic Recording</h2>
-      <MicInput />
-    </div>
     </div>
   );
 }

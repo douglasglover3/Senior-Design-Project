@@ -13,6 +13,8 @@ interface frequencyData {
 export class Fourier {
     //time constant is time between input data in seconds
     timeConstant: number = 0.1;
+    //sampleRate is rate that microphone collects samples in Hz
+    sampleRate: number = 48000;
 
     //Output frequency range goes from 0 to input array size * timeConstant / 2 (nyquist frequency)
     public createSampleData(arraySize: number, frequency: number) {
@@ -27,6 +29,21 @@ export class Fourier {
 
             //creates a complex wave based on above frequency (frequency, frequency / 6, frequency * 0.6)
             //yArray.push(Math.sin(i * Math.PI * 2 * frequency * timeConstant / arraySize) + Math.sin(i * Math.PI / 3 *  frequency * timeConstant / arraySize) + Math.sin(i * Math.PI * 1.2 * frequency * timeConstant / arraySize))
+        }
+        return({
+            x: xArray,
+            y: yArray
+        })
+    }
+
+    public normalizeData(data: Int8Array) {
+        let xArray: number[] = []
+        let yArray: number[] = []
+        for (let i = 0; i < data.length; i++)
+        {
+            //x array is time and y array is amplitude
+            xArray.push(i)
+            yArray.push(data[i])
         }
         return({
             x: xArray,
@@ -64,6 +81,7 @@ export class Fourier {
 
         //adjusts data to appropriate frequency range
         const xRange: number[] = this.adjustXRange(paddedData.x, data.x.length)
+
         return({
             x: xRange,
             y: out
@@ -71,12 +89,15 @@ export class Fourier {
     }
 
     private adjustXRange(arr: number[], originalSize) {
-        //Adjusts array values to account for size before padding and the time span measured
+        
         for (let i in arr) {
-            arr[i] = arr[i] * (originalSize / arr.length) / (2 * this.timeConstant); 
+            //Adjusts array values to account for size before padding
+            arr[i] = arr[i] * (originalSize / arr.length)
+            //Adjusts array values to account for sample rate
+            arr[i] = arr[i] * (this.sampleRate / originalSize) / 2; 
         }
         //cuts down array to highest measurable frequency (Nyquist Frequency)
-        return arr.slice(0, arr.length *  this.timeConstant)
+        return arr.slice(0, arr.length * this.timeConstant)
     }
 
     //gets top frequencies detected within fourier transform

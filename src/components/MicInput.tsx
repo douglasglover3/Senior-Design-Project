@@ -20,7 +20,7 @@ export default function MicInput(props){
 
                 setInterval(() => {
                     analyserNode.getFloatTimeDomainData(audioData);
-                    console.log(audioData)
+                    props.transformData(audioData)
                 });
 
             });
