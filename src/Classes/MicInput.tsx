@@ -3,9 +3,6 @@ export default function MicInput(props){
     let microphoneStream;
     let analyserNode;
     let audioData;
-    let corrolatedSignal;
-    let localMaxima;
-    let frequencyDisplayElement;
 
     function startMicInput()
     {
@@ -13,9 +10,6 @@ export default function MicInput(props){
         microphoneStream = null;
         analyserNode = audioCtx.createAnalyser()
         audioData = new Float32Array(analyserNode.fftSize);;
-        corrolatedSignal = new Float32Array(analyserNode.fftSize);;
-        localMaxima = new Array(10);
-        frequencyDisplayElement = document.querySelector('#frequency');
         navigator.mediaDevices.getUserMedia ({audio: true})
             .then((stream) =>
             {
@@ -23,7 +17,6 @@ export default function MicInput(props){
                 microphoneStream.connect(analyserNode);
 
                 audioData = new Float32Array(analyserNode.fftSize);
-                corrolatedSignal = new Float32Array(analyserNode.fftSize);
 
                 setInterval(() => {
                     analyserNode.getFloatTimeDomainData(audioData);
