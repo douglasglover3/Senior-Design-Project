@@ -1,45 +1,51 @@
-import React from 'react';
-import { ReactMic } from 'react-mic';
+export default function MicInput(props){
+    let audioCtx;
+    let microphoneStream;
+    let analyserNode;
+    let audioData;
+    let corrolatedSignal;
+    let localMaxima;
+    let frequencyDisplayElement;
 
-class MicInput extends React.Component<{}, {record: boolean}> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      record: false,
+    function startMicInput()
+    {
+        audioCtx = new window.AudioContext();
+        microphoneStream = null;
+        analyserNode = audioCtx.createAnalyser()
+        audioData = new Float32Array(analyserNode.fftSize);;
+        corrolatedSignal = new Float32Array(analyserNode.fftSize);;
+        localMaxima = new Array(10);
+        frequencyDisplayElement = document.querySelector('#frequency');
+        navigator.mediaDevices.getUserMedia ({audio: true})
+            .then((stream) =>
+            {
+                microphoneStream = audioCtx.createMediaStreamSource(stream);
+                microphoneStream.connect(analyserNode);
+
+                audioData = new Float32Array(analyserNode.fftSize);
+                corrolatedSignal = new Float32Array(analyserNode.fftSize);
+
+                setInterval(() => {
+                    analyserNode.getFloatTimeDomainData(audioData);
+                    console.log(audioData)
+                });
+
+            });
     }
-  }
- 
-  startRecording = () => {
-    this.setState({ record: true });
-  }
- 
-  stopRecording = () => {
-    this.setState({ record: false });
-  }
- 
-  onData(recordedBlob) {
-    console.log('chunk of real-time data is: ', recordedBlob);
-  }
- 
-  onStop(recordedBlob) {
-    console.log('recordedBlob is: ', recordedBlob);
-  }
 
-  render() {
-    return(
-      <div>
-        <ReactMic
-          record={this.state.record}
-          className="sound-wave"
-          onStop={this.onStop}
-          onData={this.onData}
-          strokeColor="white"
-          backgroundColor="black" />
-        <button onClick={this.startRecording} type="button">Start</button>
-        <button onClick={this.stopRecording} type="button">Stop</button>
-      </div>
-    )
-  }
-}
-
-export default MicInput;
+    // function stopMicInput()
+    // {
+    //     MediaStreamTrack.stop();
+    // }
+        
+        return(
+            <div>
+                <button type="button" onClick={() => startMicInput()}>
+                    Start
+                </button>
+                {/* <button type="button" onClick={() => stopMicInput()}>
+                    Stop
+                </button> */}
+            </div>
+        )
+    }

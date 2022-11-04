@@ -31,7 +31,7 @@ export default function DebugWindow() {
     console.log("Frequency is " + frequency)
     console.log("Top 5 Measured Frequencies: " +  fourier.getFrequencies(outputData, 5))
   }
-  const Mic = new MicInput(true);
+  // const Mic = new MicInput(true);
   return (
     <div>
       <button onClick={(() => getData())}>Random Data</button>
