@@ -12,9 +12,16 @@ interface frequencyData {
 
 export class Fourier {
     //time constant is time between input data in seconds
-    timeConstant: number = 0.1;
+    public timeConstant: number = 0.1;
+
     //sampleRate is rate that microphone collects samples in Hz
-    sampleRate: number = 48000;
+    public sampleRate: number = 48000;
+
+    //How loud input must be to be analyzed
+    public minimumAmplitude: number = 0.04;
+
+    //Highest amplitude detected in current input array
+    topAmplitude: number = 0;
 
     //Output frequency range goes from 0 to input array size * timeConstant / 2 (nyquist frequency)
     public createSampleData(arraySize: number, frequency: number) {
@@ -39,11 +46,14 @@ export class Fourier {
     public normalizeData(data: Int8Array) {
         let xArray: number[] = []
         let yArray: number[] = []
+        this.topAmplitude = 0
         for (let i = 0; i < data.length; i++)
         {
             //x array is time and y array is amplitude
             xArray.push(i)
             yArray.push(data[i])
+            if (data[i] > this.topAmplitude)
+                this.topAmplitude = data[i]
         }
         return({
             x: xArray,
@@ -108,8 +118,14 @@ export class Fourier {
             frequency: new Array(quantity).fill(0),
             slope: new Array(quantity).fill(0),
         }
-        //Idea is to identify peaks by largest slopes in the graph
 
+        //returns nothing if too quiet
+        if(this.topAmplitude < this.minimumAmplitude)
+        {
+            return []
+        }
+
+        //Idea is to identify peaks by largest slopes in the graph
         //Cycles through fourier transform x-values
         for (let i = 1; i < fourierData.x.length; i++) 
         {

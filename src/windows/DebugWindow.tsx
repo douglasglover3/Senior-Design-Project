@@ -14,7 +14,7 @@ export default function DebugWindow() {
 
   //Create random data
   function getData() {
-    let fourier = new Fourier;
+    let fourier = new Fourier();
     let edo = new EDOSystem(12);
     
     //create testing data
@@ -38,7 +38,8 @@ export default function DebugWindow() {
   }
 
   function readMicData(data) {
-    let fourier = new Fourier;
+    let fourier = new Fourier();
+    let edo = new EDOSystem(12);
     //makes data into two arrays, x and y
     let inputData = fourier.normalizeData(data);
     setInputX(inputData.x)
@@ -48,7 +49,10 @@ export default function DebugWindow() {
     setOutputX(outputData.x)
     setOutputY(outputData.y)
     //attempts to get top five frequencies from transformed data
-    console.log("Top 5 Measured Frequencies: " +  fourier.getFrequencies(outputData, 5))
+    let frequencies = fourier.getFrequencies(outputData, 5)
+    let estimate = edo.frequencyToNote(frequencies[0])
+    console.log("Top 5 Measured Frequencies: " +  frequencies)
+    console.log(`Estimated note: Note=${estimate.note} Octave=${estimate.octave}`);
   }
   
   // const Mic = new MicInput(true);
@@ -67,10 +71,9 @@ export default function DebugWindow() {
             type: 'scatter',
             mode: 'lines+markers',
             marker: {color: 'red'},
-
           }
         ]}
-        layout={{width: 400, height: 300, title: 'Input Data'}}
+        layout={{width: 400, height: 300, autoSize: false, title: 'Input Data'}}
       />
       <Plot
         data={[

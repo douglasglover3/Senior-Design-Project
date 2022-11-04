@@ -2,6 +2,10 @@ import { color_canvas } from "../Classes/ColorDisplay"
 import { useState } from 'react';
 import SchemeDropdown from "../components/SchemeDropdown";
 
+import {Fourier} from "../Classes/FourierTransform"
+import MicInput from "../components/MicInput";
+import {EDOSystem} from "../Classes/EDOSystem";
+
 type Scheme = {
 	name: string,
 	notes: string[]
@@ -28,6 +32,19 @@ function clear_colors() {
 	}
 }
 
+function readMicData(data) {
+    let fourier = new Fourier;
+    let edo = new EDOSystem(12);
+    //makes data into two arrays, x and y
+    let inputData = fourier.normalizeData(data);
+    //transforms data into frequency domain using fourier transform
+    let outputData = fourier.applyTransform(inputData);
+    //attempts to get top five frequencies from transformed data
+    let frequencies = fourier.getFrequencies(outputData, 5)
+    let estimate = edo.frequencyToNote(frequencies[0])
+    console.log(`Estimated note: Note=${estimate.note} Octave=${estimate.octave}`);
+  }
+
 export default function MainWindow() {
 	let [scheme, setSchemeInMain] = useState({ name: "", notes: [""] });
 
@@ -45,6 +62,10 @@ export default function MainWindow() {
 				<button
 					onClick={function () { clear_colors() }}
 				>Clear Colors</button>
+			</div>
+			<div className='mic_input'>
+				<h3>Mic Recording</h3>
+				<MicInput transformData={readMicData}/>
 			</div>
 		</div>
 	);
