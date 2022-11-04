@@ -10,10 +10,6 @@ export default function AddSchema() {
   const [volume, setVolume] = useState(50);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
-  const [Ab, setAb] = useState('#000000');
-  const [A, setA] = useState('#000000');
-  const [Bb, setBb] = useState('#000000');
-  const [B, setB] = useState('#000000');
   const [C, setC] = useState('#000000');
   const [Db, setDb] = useState('#000000');
   const [D, setD] = useState('#000000');
@@ -22,6 +18,10 @@ export default function AddSchema() {
   const [F, setF] = useState('#000000');
   const [Gb, setGb] = useState('#000000');
   const [G, setG] = useState('#000000');
+  const [Ab, setAb] = useState('#000000');
+  const [A, setA] = useState('#000000');
+  const [Bb, setBb] = useState('#000000');
+  const [B, setB] = useState('#000000');
 
   const handleVolume = (e) => {
     let volumeVal = parseInt(e.target.value);
@@ -51,10 +51,6 @@ export default function AddSchema() {
 
     // Add hex code colors to <noteArray>
     let noteArray: string[] = [];
-    noteArray.push(Ab);
-    noteArray.push(A);
-    noteArray.push(Bb);
-    noteArray.push(B);
     noteArray.push(C);
     noteArray.push(Db);
     noteArray.push(D);
@@ -63,6 +59,10 @@ export default function AddSchema() {
     noteArray.push(F);
     noteArray.push(Gb);
     noteArray.push(G);
+    noteArray.push(Ab);
+    noteArray.push(A);
+    noteArray.push(Bb);
+    noteArray.push(B);
 
     // Saves new scheme into file AND into schemes array
     let schemeObj = {name: name, notes: noteArray};
@@ -89,10 +89,6 @@ export default function AddSchema() {
         </div>
         <span>{error}</span> <br /> <br />
 
-        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
-        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
-        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
-        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
         <ColorSelector noteName='C' noteColor={C} setNote={setC} />
         <ColorSelector noteName='Db' noteColor={Db} setNote={setDb} />
         <ColorSelector noteName='D' noteColor={D} setNote={setD} />
@@ -101,6 +97,10 @@ export default function AddSchema() {
         <ColorSelector noteName='F' noteColor={F} setNote={setF} />
         <ColorSelector noteName='Gb' noteColor={Gb} setNote={setGb} />
         <ColorSelector noteName='G' noteColor={G} setNote={setG} />
+        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
+        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
+        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
+        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
 
         <input type="submit" value="Submit" />
       </form>

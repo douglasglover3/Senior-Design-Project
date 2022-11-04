@@ -16,18 +16,18 @@ export default function EditSchema() {
   const [volume, setVolume] = useState(50);
   const [name, setName] = useState(selectedScheme.name);
   const [error, setError] = useState('');
-  const [Ab, setAb] = useState(selectedScheme.notes[0]);
-  const [A, setA] = useState(selectedScheme.notes[1]);
-  const [Bb, setBb] = useState(selectedScheme.notes[2]);
-  const [B, setB] = useState(selectedScheme.notes[3]);
-  const [C, setC] = useState(selectedScheme.notes[4]);
-  const [Db, setDb] = useState(selectedScheme.notes[5]);
-  const [D, setD] = useState(selectedScheme.notes[6]);
-  const [Eb, setEb] = useState(selectedScheme.notes[7]);
-  const [E, setE] = useState(selectedScheme.notes[8]);
-  const [F, setF] = useState(selectedScheme.notes[9]);
-  const [Gb, setGb] = useState(selectedScheme.notes[10]);
-  const [G, setG] = useState(selectedScheme.notes[11]);
+  const [C, setC] = useState(selectedScheme.notes[0]);
+  const [Db, setDb] = useState(selectedScheme.notes[1]);
+  const [D, setD] = useState(selectedScheme.notes[2]);
+  const [Eb, setEb] = useState(selectedScheme.notes[3]);
+  const [E, setE] = useState(selectedScheme.notes[4]);
+  const [F, setF] = useState(selectedScheme.notes[5]);
+  const [Gb, setGb] = useState(selectedScheme.notes[6]);
+  const [G, setG] = useState(selectedScheme.notes[7]);
+  const [Ab, setAb] = useState(selectedScheme.notes[8]);
+  const [A, setA] = useState(selectedScheme.notes[9]);
+  const [Bb, setBb] = useState(selectedScheme.notes[10]);
+  const [B, setB] = useState(selectedScheme.notes[11]);
 
   const handleVolume = (e) => {
     let volumeVal = parseInt(e.target.value);
@@ -57,10 +57,6 @@ export default function EditSchema() {
 
     // Add hex code colors to <noteArray>
 	  let noteArray: string[] = [];
-	  noteArray.push(Ab);
-	  noteArray.push(A);
-	  noteArray.push(Bb);
-	  noteArray.push(B);
 	  noteArray.push(C);
 	  noteArray.push(Db);
 	  noteArray.push(D);
@@ -69,6 +65,10 @@ export default function EditSchema() {
 	  noteArray.push(F);
 	  noteArray.push(Gb);
 	  noteArray.push(G);
+    noteArray.push(Ab);
+	  noteArray.push(A);
+	  noteArray.push(Bb);
+	  noteArray.push(B);
 
 	  let schemeObj = {name: name, notes: noteArray};
 
@@ -103,10 +103,6 @@ export default function EditSchema() {
         </div>
         <span>{error}</span> <br /> <br />
 
-        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
-        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
-        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
-        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
         <ColorSelector noteName='C' noteColor={C} setNote={setC} />
         <ColorSelector noteName='Db' noteColor={Db} setNote={setDb} />
         <ColorSelector noteName='D' noteColor={D} setNote={setD} />
@@ -115,6 +111,10 @@ export default function EditSchema() {
         <ColorSelector noteName='F' noteColor={F} setNote={setF} />
         <ColorSelector noteName='Gb' noteColor={Gb} setNote={setGb} />
         <ColorSelector noteName='G' noteColor={G} setNote={setG} />
+        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
+        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
+        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
+        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
 
         <input type="submit" value="Submit" />
       </form>
