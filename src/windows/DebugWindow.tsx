@@ -50,7 +50,7 @@ export default function DebugWindow() {
     let frequencies = fourier.getFrequencies(outputData, 5)
     let estimate = edo.frequencyToNote(frequencies[0])
     console.log("Top 5 Measured Frequencies: " +  frequencies)
-    console.log(`Estimated note: Note=${estimate.note} Octave=${estimate.octave}`);
+    console.log(`Estimated note: Note=${Object.keys(edo.getToneList())[estimate.note]} Octave=${estimate.octave}`);
   }
   
   // const Mic = new MicInput(true);
