@@ -12,11 +12,11 @@ export default function DebugWindow() {
   const [outputX, setOutputX] = useState([])
   const [outputY, setOutputY] = useState([])
 
+  let fourier = new Fourier();
+  let edo = new EDOSystem(12);
+
   //Create random data
   function getData() {
-    let fourier = new Fourier();
-    let edo = new EDOSystem(12);
-    
     //create testing data
     let randomValue: number = Math.round(Math.random() * 500) + 600
     let frequency: number = Math.round(Math.random() * 300)
@@ -38,8 +38,6 @@ export default function DebugWindow() {
   }
 
   function readMicData(data) {
-    let fourier = new Fourier();
-    let edo = new EDOSystem(12);
     //makes data into two arrays, x and y
     let inputData = fourier.normalizeData(data);
     setInputX(inputData.x)

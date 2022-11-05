@@ -11,17 +11,15 @@ interface frequencyData {
 }
 
 export class Fourier {
-    //time constant is time between input data in seconds
-    public timeConstant: number = 0.1;
 
     //sampleRate is rate that microphone collects samples in Hz
-    public sampleRate: number = 48000;
+    public sampleRate: number = 96000;
 
     //How loud input must be to be analyzed
-    public minimumAmplitude: number = 0.04;
+    public minimumAmplitude: number = 0.01;
 
     //Highest amplitude detected in current input array
-    topAmplitude: number = 0;
+    topAmplitude: number = 1;
 
     //Output frequency range goes from 0 to input array size * timeConstant / 2 (nyquist frequency)
     public createSampleData(arraySize: number, frequency: number) {
@@ -32,10 +30,7 @@ export class Fourier {
             //x array is time and y array is amplitude
             xArray.push(i)
             //creates a sin wave of above frequency
-            yArray.push(Math.sin(i * Math.PI * 2 * frequency * this.timeConstant / arraySize))
-
-            //creates a complex wave based on above frequency (frequency, frequency / 6, frequency * 0.6)
-            //yArray.push(Math.sin(i * Math.PI * 2 * frequency * timeConstant / arraySize) + Math.sin(i * Math.PI / 3 *  frequency * timeConstant / arraySize) + Math.sin(i * Math.PI * 1.2 * frequency * timeConstant / arraySize))
+            yArray.push(Math.sin(i * Math.PI * 2 * frequency / this.sampleRate))
         }
         return({
             x: xArray,
@@ -106,8 +101,8 @@ export class Fourier {
             //Adjusts array values to account for sample rate
             arr[i] = arr[i] * (this.sampleRate / originalSize) / 2; 
         }
-        //cuts down array to highest measurable frequency (Nyquist Frequency)
-        return arr.slice(0, arr.length * this.timeConstant)
+        //cuts down array to appropriate time frame
+        return arr.slice(0, arr.length * (originalSize / this.sampleRate))
     }
 
     //gets top frequencies detected within fourier transform
@@ -143,6 +138,6 @@ export class Fourier {
                     break;
                 }
         }
-        return frequencyArray.frequency
+        return frequencyArray.frequency;
     }
 }

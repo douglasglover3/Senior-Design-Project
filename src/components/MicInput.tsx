@@ -9,6 +9,8 @@ export default function MicInput(props){
         audioCtx = new window.AudioContext();
         microphoneStream = null;
         analyserNode = audioCtx.createAnalyser()
+        analyserNode.fftSize = 4096
+        analyserNode.sampleRate = 96000
         audioData = new Float32Array(analyserNode.fftSize);;
         navigator.mediaDevices.getUserMedia ({audio: true})
             .then((stream) =>
