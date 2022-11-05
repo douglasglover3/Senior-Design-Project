@@ -99,10 +99,10 @@ export class Fourier {
             //Adjusts array values to account for size before padding
             arr[i] = arr[i] * (originalSize / arr.length)
             //Adjusts array values to account for sample rate
-            arr[i] = arr[i] * (this.sampleRate / originalSize) / 2; 
+            arr[i] = arr[i] * (this.sampleRate / arr.length) / 4; 
         }
         //cuts down array to appropriate time frame
-        return arr.slice(0, arr.length * (originalSize / this.sampleRate))
+        return arr.slice(0, arr.length)
     }
 
     //gets top frequencies detected within fourier transform
