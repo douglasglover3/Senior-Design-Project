@@ -46,14 +46,16 @@ export class color_canvas {
   ctx: CanvasRenderingContext2D | null;
   name: string;
   color: string;
+  dis_color: string;
   x: number;
   y: number;
   size: number;
   alpha: number;
   fade_sem: number;
   fade_delta: number;
+  status: boolean; //0 : not displaye | 1: displayed
 
-  constructor(name: string) {
+  constructor(name: string, color: string) {
     const style =
       "position: absolute; " +
       "left: 0px; " +
@@ -70,13 +72,14 @@ export class color_canvas {
     this.c.height = window.innerHeight - 95;
     this.c.style.webkitFilter = "blur(3px)";
 
-    this.color = to_hsl("#000000", 0);
+    this.color = color;
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
     this.alpha = 0;
     this.fade_sem = 0; // fade semaphore (0 : idle | 1 : fade in | 2 fade out)
     this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
+    this.status = false
 
     const ele = document.getElementById('canvas_space')
     if (ele != null) {
@@ -85,13 +88,18 @@ export class color_canvas {
     }
   }
 
-  draw_new(color: string, ocitve: number) {
-    this.color = to_hsl(color, ocitve);
+  update_color(color: string) {
+    this.color = color
+  }
+
+  draw_new(ocitve: number) {
+    this.clear()
+    this.dis_color = to_hsl(this.color, ocitve);
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
     this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
-
+    this.status = true
     this.fade_in()
   }
 
@@ -99,7 +107,7 @@ export class color_canvas {
 
     if (this.ctx != null) {
       this.clear()
-      this.ctx.fillStyle = this.color;
+      this.ctx.fillStyle = this.dis_color;
       this.ctx.beginPath()
       this.ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
       this.ctx.closePath()
@@ -137,6 +145,7 @@ export class color_canvas {
     if (this.alpha < 0) {
       this.alpha = 0
       this.fade_sem = 0
+      this.status = false
     }
     this.ctx.globalAlpha = this.alpha;
     this.draw();
