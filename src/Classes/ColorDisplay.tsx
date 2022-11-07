@@ -34,7 +34,7 @@ function to_hsl(color: string, octave: number) {
 
   s = (s * 100);
   s = Math.round(s);
-  l = (l * 100) + (10 * octave);
+  l = (l * 100) + (5 * octave);
   l = Math.round(l);
   h = Math.round(360 * h);
 
@@ -85,7 +85,7 @@ export class color_canvas {
     this.size = Math.random() * (100 - 10) + 10;
     this.alpha = 0;
     this.fade_sem = 0; 
-    this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 
+    this.fade_delta = Math.random() * (0.50 - 0.25) + 0.25 
     this.display_status = false
 
     const ele = document.getElementById('canvas_space')
@@ -102,11 +102,12 @@ export class color_canvas {
   draw_new(octave: number) {
     this.clear()
     this.dis_color = to_hsl(this.color, octave);
-    this.x = Math.random() * this.c.width;
-    this.y = Math.random() * this.c.height;
-    this.size = Math.random() * (100 - 10) + 10;
-    this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
+    this.size = Math.random() * (75 - 25) + 25;
+    this.x = Math.round(Math.random() * ((this.c.width - this.size) - this.size) + this.size);
+    this.y = Math.round(Math.random() * ((this.c.height - this.size) - this.size) + this.size);
+    this.fade_delta = Math.random() * (0.25 - 0.15) + 0.15  // rate of change for the fade
     this.display_status = true
+    console.log(this.x, this.y)
     this.fade_in()
   }
 

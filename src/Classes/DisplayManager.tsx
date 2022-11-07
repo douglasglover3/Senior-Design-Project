@@ -1,7 +1,7 @@
 import { textChangeRangeIsUnchanged } from "typescript";
 import { color_canvas } from "../Classes/ColorDisplay"
 
-const display_threshold = 30
+const display_threshold = 5
 
 export class DisplayManager {
 	layers: color_canvas[];
@@ -42,7 +42,7 @@ export class DisplayManager {
 	}
 
 	display(note:number, octave:number) {
-		if(note == NaN || octave == NaN) {
+		if(isNaN(note) || isNaN(octave)) {
 			return
 		}
 		else {
@@ -63,7 +63,7 @@ export class DisplayManager {
 			if(this.counters[note] >= display_threshold) {
 				this.counters[note] = display_threshold
 				if(this.check_all_inactive()) {
-					console.log("DISPLAYING COLOR - " , note, " ", octave, " ", this.layers[note].dis_color)
+					console.log("DISPLAYING COLOR - " , note, " ", octave, " ", this.layers[note].color)
 					this.layers[note].draw_new(octave)
 				}
 				
