@@ -1,6 +1,6 @@
 const animation_speed = 50; // time between animation calls in ms
 
-function to_hsl(color: string, ocitve: number) {
+function to_hsl(color: string, octave: number) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
 
   var r = parseInt(result[1], 16);
@@ -34,7 +34,7 @@ function to_hsl(color: string, ocitve: number) {
 
   s = (s * 100);
   s = Math.round(s);
-  l = (l * 100) + (10 * ocitve);
+  l = (l * 100) + (10 * octave);
   l = Math.round(l);
   h = Math.round(360 * h);
 
@@ -51,15 +51,22 @@ export class color_canvas {
   y: number;
   size: number;
   alpha: number;
-  fade_sem: number;
-  fade_delta: number;
-  status: boolean; //0 : not displaye | 1: displayed
+  fade_sem: number; // 0 : idle | 1 : fade in | 2 fade out
+  fade_delta: number; // rate of change for the fade
+  display_status: boolean; //false : not displayed | true : displayed
 
   constructor(name: string, color: string) {
-    const style =
+    let style =
       "position: absolute; " +
       "left: 0px; " +
-      "top: 0px; "
+      "top: 0px;"
+
+      if(name == 'c1') {
+        style += 'background : #e0e0e0'
+      }
+      else {
+        style += 'background : transparent'
+      }
 
     this.name = name
 
@@ -69,7 +76,7 @@ export class color_canvas {
     this.c.setAttribute('id', name)
     this.c.setAttribute('style', style)
     this.c.width = window.innerWidth;
-    this.c.height = window.innerHeight - 95;
+    this.c.height = window.innerHeight - 230;
     this.c.style.webkitFilter = "blur(3px)";
 
     this.color = color;
@@ -77,9 +84,9 @@ export class color_canvas {
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
     this.alpha = 0;
-    this.fade_sem = 0; // fade semaphore (0 : idle | 1 : fade in | 2 fade out)
-    this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
-    this.status = false
+    this.fade_sem = 0; 
+    this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 
+    this.display_status = false
 
     const ele = document.getElementById('canvas_space')
     if (ele != null) {
@@ -92,15 +99,27 @@ export class color_canvas {
     this.color = color
   }
 
-  draw_new(ocitve: number) {
+  draw_new(octave: number) {
     this.clear()
-    this.dis_color = to_hsl(this.color, ocitve);
+    this.dis_color = to_hsl(this.color, octave);
     this.x = Math.random() * this.c.width;
     this.y = Math.random() * this.c.height;
     this.size = Math.random() * (100 - 10) + 10;
     this.fade_delta = Math.random() * (0.50 - 0.05) + 0.05 // rate of change for the fade
-    this.status = true
+    this.display_status = true
     this.fade_in()
+  }
+
+  check_active_idle() {
+    if(this.display_status == true && this.fade_sem == 0) {
+      return true
+    }
+    return false
+
+  }
+
+  check_inactive() {
+    return !this.display_status
   }
 
   draw() {
@@ -145,7 +164,7 @@ export class color_canvas {
     if (this.alpha < 0) {
       this.alpha = 0
       this.fade_sem = 0
-      this.status = false
+      this.display_status = false
     }
     this.ctx.globalAlpha = this.alpha;
     this.draw();

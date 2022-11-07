@@ -22,22 +22,25 @@ export class DisplayManager {
 		}
 
 	}
+
 	change_scheme(new_scheme) {
 		for(let i = 0; i < this.tonality; i++) {
 			this.layers[i].update_color(new_scheme.notes[i]) 
 		}
 	}
-	check_status() {
-		let res = false
+
+	check_all_inactive() {
+		let res = true
 		for(let i = 0; i < this.tonality; i++)
 		{
-			if(this.layers[i].status == true || this.layers[i].fade_sem != 0) {
-				res = true
+			if(!this.layers[i].check_inactive()) {
+				res = false
 			}
 			
 		}
 		return res
 	}
+
 	display(note:number, octave:number) {
 		if(note == NaN || octave == NaN) {
 			return
@@ -50,20 +53,18 @@ export class DisplayManager {
 				}
 				if (this.counters[i] <= 0) {
 					this.counters[i] = 0
-					if(this.layers[i].status == true && this.layers[i].fade_sem == 0) {
+					if(this.layers[i].check_active_idle()) {
 						console.log("REMOVING COLOR - ", i)
 						this.layers[i].fade_out()
-						this.display_flag = false
 					}
 					
 				}
 			}
 			if(this.counters[note] >= display_threshold) {
 				this.counters[note] = display_threshold
-				if(this.check_status() == false && this.layers[note].status == false){
-					console.log("DISPLAYING COLOR - " , note, " ", octave)
+				if(this.check_all_inactive()) {
+					console.log("DISPLAYING COLOR - " , note, " ", octave, " ", this.layers[note].dis_color)
 					this.layers[note].draw_new(octave)
-					this.display_flag = true
 				}
 				
 			}
