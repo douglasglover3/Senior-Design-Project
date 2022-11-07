@@ -16,7 +16,7 @@ export class Fourier {
     public sampleRate: number = 96000;
 
     //How loud input must be to be analyzed
-    public minimumAmplitude: number = 0.01;
+    public minimumAmplitude: number = 0.002;
 
     //Highest amplitude detected in current input array
     topAmplitude: number = 1;
