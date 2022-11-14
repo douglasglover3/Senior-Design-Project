@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
 
 const url = 'http://localhost:3000';
@@ -12,7 +12,7 @@ function createWindow() {
     height: 600,
     title: "Synesthize",
     webPreferences: {
-      nodeIntegration: true,
+      	nodeIntegration: true,
 		contextIsolation: false,
     },
   });
@@ -76,12 +76,14 @@ const mainMenuTemplate = [
 				label: 'Add Color Scheme',
 				accelerator: 'CmdOrCtrl+N',
 				click() {
+					mainWindow.webContents.send('ADD_COLOR_SCHEME');
 				}
 			},
 			{
 				label: 'Edit Color Scheme',
 				accelerator: 'CmdOrCtrl+E',
 				click() {
+					mainWindow.webContents.send('EDIT_COLOR_SCHEME');
 				}
 			},
 			{

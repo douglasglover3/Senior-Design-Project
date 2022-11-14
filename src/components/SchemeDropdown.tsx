@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { EDOSystem } from '../Classes/EDOSystem';
 
+const { ipcRenderer } = window.require('electron');
+
 type Scheme = {
 	name: string,
 	notes: string[]
@@ -34,11 +36,11 @@ export default function SchemeDropdown(props) {
 		props.setSchemeInMain(selectedScheme);
 	}, [selectedScheme]);
 
-	const addScheme = (e): void => {
+	const addScheme = (): void => {
 		navigate('/AddSchema');
 	}
 
-	const handleDelete = (e): void => {
+	const handleDelete = (): void => {
 		// Don't let user delete default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
 			setDeleteMessage('Sorry! Can\'t delete default schemes');
@@ -53,7 +55,7 @@ export default function SchemeDropdown(props) {
 		}
 	}
 
-	const handleEdit = (e): void => {
+	const handleEdit = (): void => {
 		// Don't let user edit default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
 			setEditMessage('Sorry! Can\'t edit default schemes');
@@ -62,6 +64,16 @@ export default function SchemeDropdown(props) {
 
 		navigate('/EditSchema', {state:{scheme: selectedScheme}});
 	}
+
+	// Handle file-menu commands for Electron App
+	ipcRenderer.once('ADD_COLOR_SCHEME', function (evt) {
+		if (window.location.pathname === '/')
+			addScheme();
+	});
+	ipcRenderer.once('EDIT_COLOR_SCHEME', function (evt) {
+		if (window.location.pathname === '/')
+			handleEdit();
+	});
 
     return(
         <div>
