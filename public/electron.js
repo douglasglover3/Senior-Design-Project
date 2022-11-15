@@ -57,10 +57,10 @@ function createNewWindow(urlTag, name) {
 function createDevToolsWindow(parentWindow) {
 	let devtools = new BrowserWindow({parent:parentWindow});
 	parentWindow.webContents.setDevToolsWebContents(devtools.webContents);
-	parentWindow.webContents.openDevTools({ mode: 'detach' });
 	//opens dev tools on the side
 	parentWindow.webContents.once('did-finish-load', function () {
 		var windowBounds = parentWindow.getBounds();
+		parentWindow.webContents.openDevTools({ mode: 'detach' });
 		devtools.setPosition(windowBounds.x + windowBounds.width, windowBounds.y);
 		devtools.setSize(400, windowBounds.height);
 	});
