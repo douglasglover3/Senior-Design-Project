@@ -3,6 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { EDOSystem } from '../Classes/EDOSystem';
 
+const scheme_item = {
+	marginRight : '5px',
+	marginTop : '5px',
+	marginBottom: '5px',
+	marginLeft : '5px',
+	borderWidth: '2px',
+	borderRadius: '5px',
+	boarderColor: 'black'
+}
+
+const color_square = {
+	marginRight : '5px',
+	marginTop : '5px',
+	marginBottom: '5px',
+	marginLeft : '5px',
+	width: '20xp',
+	height: '20px',
+	borderWidth: '2px',
+	borderRadius: '5px',
+	boarderColor: 'black',
+	background: 'white'
+}
+
 type Scheme = {
 	name: string,
 	notes: string[]
@@ -65,28 +88,19 @@ export default function SchemeDropdown(props) {
 
     return(
         <div>
-            <select onChange={ handleSchemeChange }>
+            <select style={scheme_item} onChange={ handleSchemeChange }>
 				{schemes.map((scheme: Scheme) => <option key={ ind } value={ ind++ }>{ scheme.name }</option>)}
 			</select>
-			<button type="button" onClick={ addScheme }>+</button>
+			<button style={scheme_item} type="button" onClick={ addScheme }>+</button>
 
-			{/* Displays the main colors used for the selected color-scheme */}
-			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				<div id='C-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.C] }} />
-				<div id='D-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.D] }} />
-				<div id='E-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.E] }} />
-				<div id='F-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.F] }} />
-				<div id='G-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.G] }} />
-				<div id='A-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.A] }} />
-				<div id='B-color' style={{ width: 20, height: 20, background: selectedScheme.notes[toneList.B] }} />
-			</div>
 
 			<div>
-				<button type="button" onClick={ handleEdit }>Edit Scheme</button>
+			<button style={scheme_item} type="button" onClick={ handleEdit }>Edit Scheme</button>
+			<button style={scheme_item} type="button" onClick={ handleDelete }>Delete Scheme</button>
+			</div>
+			<div>
 				<span>{editMessage}</span>
-			</div>
-			<div>
-				<button type="button" onClick={ handleDelete }>Delete Scheme</button>
+				<br/>
 				<span>{deleteMessage}</span>
 			</div>
         </div>

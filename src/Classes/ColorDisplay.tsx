@@ -18,7 +18,7 @@ function to_hsl(color: string, octave: number) {
   var s = (max + min) / 2;
   var l = (max + min) / 2;
 
-  if (max == min) {
+  if (max === min) {
     h = s = 0; // achromatic
   }
   else {
@@ -59,9 +59,9 @@ export class color_canvas {
     let style =
       "position: absolute; " +
       "left: 0px; " +
-      "top: 0px;"
+      "top: 0px; "
 
-      if(name == 'c1') {
+      if(name === 'c1') {
         style += 'background : #e0e0e0'
       }
       else {
@@ -76,7 +76,7 @@ export class color_canvas {
     this.c.setAttribute('id', name)
     this.c.setAttribute('style', style)
     this.c.width = window.innerWidth;
-    this.c.height = window.innerHeight - 230;
+    this.c.height = window.innerHeight - 240;
     this.c.style.webkitFilter = "blur(3px)";
 
     this.color = color;
@@ -107,12 +107,12 @@ export class color_canvas {
     this.y = Math.round(Math.random() * ((this.c.height - this.size) - this.size) + this.size);
     this.fade_delta = Math.random() * (0.25 - 0.15) + 0.15  // rate of change for the fade
     this.display_status = true
-    console.log(this.x, this.y)
+    //console.log(this.x, this.y)
     this.fade_in()
   }
 
   check_active_idle() {
-    if(this.display_status == true && this.fade_sem == 0) {
+    if(this.display_status === true && this.fade_sem === 0) {
       return true
     }
     return false

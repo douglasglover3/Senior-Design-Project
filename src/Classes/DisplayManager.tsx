@@ -54,7 +54,6 @@ export class DisplayManager {
 				if (this.counters[i] <= 0) {
 					this.counters[i] = 0
 					if(this.layers[i].check_active_idle()) {
-						console.log("REMOVING COLOR - ", i)
 						this.layers[i].fade_out()
 					}
 					
@@ -63,13 +62,10 @@ export class DisplayManager {
 			if(this.counters[note] >= display_threshold) {
 				this.counters[note] = display_threshold
 				if(this.check_all_inactive()) {
-					console.log("DISPLAYING COLOR - " , note, " ", octave, " ", this.layers[note].color)
 					this.layers[note].draw_new(octave)
 				}
 				
 			}
-			//console.log(note, this.counters[note], this.display_flag)
-			//console.log(this.display_flag, this.counters)
 		}
 		
 
