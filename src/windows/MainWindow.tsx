@@ -11,6 +11,7 @@ import {DisplayManager} from "../Classes/DisplayManager"
 
 
 export default function MainWindow() {
+	let wave_display_flag = 0
 	let new_div = document.createElement('div')
 
 	new_div.id = 'canvas_space'
@@ -35,12 +36,11 @@ export default function MainWindow() {
     }
 
 	let [scheme, setSchemeInMain] = useState({ name: "", notes: [""] });
-	let [inputX, setInputX] = useState([])
-  	let [inputY, setInputY] = useState([])
 	display_manager.change_scheme(scheme)
 
 	let time = 0
 	let cnt = 0
+
 
 	function OnDraw()
     {
@@ -53,7 +53,7 @@ export default function MainWindow() {
 
         for(cnt = -1; cnt <= canvas.width; cnt++)
         {
-            dataLine.lineTo(cnt, canvas.height * 0.5 - (Math.random() * 2 + Math.cos(time + cnt * 0.05) * ((canvas.height / 2)-10) ));
+            dataLine.lineTo(cnt, canvas.height * 0.5 - (Math.random() * 2 + Math.cos(time + cnt * 0.05) * ((canvas.height / 2)-10) *  Math.cos(time + cnt) * Math.cos(cnt)));
         }
 
         dataLine.lineWidth = 1;
@@ -61,8 +61,15 @@ export default function MainWindow() {
         dataLine.stroke();
     }
 
+	function start_wave_display() {
+		setInterval(OnDraw, 10);
+		wave_display_flag = 1
+	}
+
 	function readMicData(data) {
-		setTimeout(OnDraw, 250);
+		if(wave_display_flag == 0) {
+			start_wave_display()
+		}
 		//makes data into two arrays, x and y
 		let inputData = fourier.normalizeData(data);
 		//transforms data into frequency domain using fourier transform
