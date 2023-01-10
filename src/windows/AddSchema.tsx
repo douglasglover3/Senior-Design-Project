@@ -3,7 +3,7 @@ import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
 
-import '../css/AddScheme.css';
+import '../css/AddEditScheme.css';
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -86,8 +86,8 @@ export default function AddSchema() {
 
     <label className='input-label'>Volume Slider</label>
     <div className='input-field'>
-    <input type="range" id='volume-slider'
-      value={volume} onChange={handleVolume} />
+      <input type="range" id='volume-slider'
+        value={volume} onChange={handleVolume} />
     </div>
 
       <div className='note-grid'>

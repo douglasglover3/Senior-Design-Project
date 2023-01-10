@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { playNote } from '../Classes/AudioFunctions';
 
 import PlayButton from '../images/PlayButton.png';
-import '../css/AddScheme.css';
+import '../css/AddEditScheme.css';
 
 export default function ColorSelector(props) {
     const [note, setNote] = useState(props.noteColor);
