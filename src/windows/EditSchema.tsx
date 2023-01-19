@@ -1,8 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
+
+import '../css/AddEditScheme.css';
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -35,8 +37,7 @@ export default function EditSchema() {
     setVol(volumeVal);      // In AudioFunctions.tsx
   }
 
-  const handleSubmit = (e: FormEvent) => {
-	  e.preventDefault();
+  const handleSubmit = () => {
     let schemes = SchemeFunctions.getSchemes();
 
     // Error-handling to prevent special characters
@@ -87,22 +88,23 @@ export default function EditSchema() {
   }
 
   return (
-    <div>
-      <span>Add New Color Scheme</span> <br /> <br />
+    <div className='background'>
+      <span className='title'>Edit Scheme</span>
+      <span className='subtitle'>Change your color profile</span> <br /> <br />
 
-      <span>Volume Slider</span>
-      <input type="range" id='volume-slider'
-          value={volume} onChange={handleVolume} /> <br /> <br />
+      <label className='input-label'>Rename Your Scheme: </label>
+      <input type="text" className='input-field'
+          required autoFocus
+          value = {name} onChange = {(e) => setName(e.target.value.trim())}/>
+      <span>{error}</span> <br /> <br />
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Rename Your Scheme: </label>
-          <input type="text" id="name"
-			        required autoFocus
-			        value = {name} onChange = {(e) => setName(e.target.value.trim())}/>
-        </div>
-        <span>{error}</span> <br /> <br />
+      <label className='input-label'>Volume Slider</label>
+      <div className='input-field'>
+        <input type="range" id='volume-slider'
+            value={volume} onChange={handleVolume} />
+      </div>
 
+      <div className='note-grid'>
         <ColorSelector noteName='C' noteColor={C} setNote={setC} />
         <ColorSelector noteName='Db' noteColor={Db} setNote={setDb} />
         <ColorSelector noteName='D' noteColor={D} setNote={setD} />
@@ -115,10 +117,10 @@ export default function EditSchema() {
         <ColorSelector noteName='A' noteColor={A} setNote={setA} />
         <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
         <ColorSelector noteName='B' noteColor={B} setNote={setB} />
+      </div>
 
-        <input type="submit" value="Submit" />
-      </form>
-      <button type="button" onClick={() => {window.location.href='/'}}>Cancel</button>
+      <button type='button' className='button' onClick={handleSubmit}>Edit Scheme</button>
+      <button type="button" className='button' onClick={() => {window.location.href='/'}}>Cancel</button>
     </div>
   );
 }
