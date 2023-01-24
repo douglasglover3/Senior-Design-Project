@@ -8,8 +8,6 @@ import {DisplayManager} from "../Classes/DisplayManager"
 
 
 
-
-
 export default function MainWindow() {
 	let wave_display_flag = 0
 	let new_div = document.createElement('div')
