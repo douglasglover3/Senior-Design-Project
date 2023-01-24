@@ -98,4 +98,24 @@ export class EDOSystem {
 
         return {note: notePosition, octave: octave};
     }
+
+    // Return interval (in semitones) between <prevNote> and <newNote>
+    public getInterval(prevNote: number, newNote: number): string {
+        // Base-case (<prevNote> does not exist)
+        if (prevNote === -1) return "#000000";
+
+        let interval = (newNote - prevNote + this.tonality) % this.tonality;
+        switch(interval) {
+            case this.perfectFifth:
+                return "#ff5100";
+            case this.perfectFourth:
+                return "#ffd000";
+            case this.majorThird:
+                return "#00ffb7";
+            case this.minorThird:
+                return "#8400ff";
+            default:
+                return "#000000";
+        }
+    }
 }

@@ -1,13 +1,18 @@
 import { textChangeRangeIsUnchanged } from "typescript";
-import { color_canvas } from "../Classes/ColorDisplay"
+import { color_canvas } from "../Classes/ColorDisplay";
+import { EDOSystem } from "../Classes/EDOSystem";
 
 const display_threshold = 5
+
+// TODO: Replace with extensible EDO system
+let edo = new EDOSystem(12);
 
 export class DisplayManager {
 	layers: color_canvas[];
 	counters: number[];
-	tonality: number
-	display_flag = false
+	tonality: number;
+	display_flag = false;
+	currNote: number;
 
 	constructor(tonality:number) {
 		document.getElementById('canvas_space').replaceChildren()
@@ -15,6 +20,7 @@ export class DisplayManager {
 		this.layers = new Array()
 		this.counters = new Array()
 		this.tonality = tonality
+		this.currNote = -1;		// No note played before it
 
 		for (let i = 0; i < tonality; i++) {
 			this.layers[i] = new color_canvas('c' + i, '#000000')
@@ -62,13 +68,12 @@ export class DisplayManager {
 			if(this.counters[note] >= display_threshold) {
 				this.counters[note] = display_threshold
 				if(this.check_all_inactive()) {
-					this.layers[note].draw_new(octave)
+					let intervalColor = edo.getInterval(this.currNote, note);
+					this.layers[note].draw_new(octave, intervalColor);
+					this.currNote = note;
 				}
 				
 			}
 		}
-		
-
-		
 	}
 }
