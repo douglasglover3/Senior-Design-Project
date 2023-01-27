@@ -34,13 +34,15 @@ export default function MicInput(props){
     // }
         
         return(
-            <div>
+            <div style={{width:"45px"}}>
+                
                 <button type="button" onClick={() => startMicInput()}>
                     Start
                 </button>
                 {/* <button type="button" onClick={() => stopMicInput()}>
                     Stop
                 </button> */}
+                <div id="wave_display"/>
             </div>
         )
     }
