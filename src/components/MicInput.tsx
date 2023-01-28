@@ -3,8 +3,32 @@ export default function MicInput(props){
     const audioCtx = useRef(null);
     const interval = useRef(null);
     const gainNode = useRef(null);
+    const [chosenId, changeId] = useState("default");
     const [recording, setRecording] = useState(false);
     const [volume, setVolume] = useState(0.5)
+    const devicesList = useRef([]);
+    useEffect(() => {
+        devicesList.current = []
+		//get microphone devices
+        navigator.mediaDevices.enumerateDevices()
+            .then((devices) => {
+            devices.forEach((device) => {
+                if(device.kind == "audioinput")
+                {
+                    let present = false;
+                    devicesList.current.forEach((listedDevice) => {
+                        if(device.groupId == listedDevice.groupId)
+                            present = true;
+                    })
+                    if(!present)
+                        devicesList.current.push(device);
+                }
+            });
+            })
+        
+	}, [chosenId]);
+    
+    
 
     function startMicInput()
     {
@@ -16,7 +40,7 @@ export default function MicInput(props){
         analyserNode.fftSize = 8192
         analyserNode.sampleRate = 96000
         let audioData = new Float32Array(analyserNode.fftSize);
-        navigator.mediaDevices.getUserMedia ({audio: true})
+        navigator.mediaDevices.getUserMedia ({audio: { deviceId: chosenId}})
             .then((stream) =>
             {
                 microphoneStream = audioCtx.current.createMediaStreamSource(stream);
@@ -25,7 +49,7 @@ export default function MicInput(props){
 
                 audioData = new Float32Array(analyserNode.fftSize);
 
-                interval.current = setInterval(() => {       
+                interval.current = setInterval(() => {      
                     analyserNode.getFloatTimeDomainData(audioData);
                     props.transformData(audioData)
                 });
@@ -48,10 +72,22 @@ export default function MicInput(props){
             gainNode.current.gain.setValueAtTime(newVolume, audioCtx.current.currentTime);
         setVolume(newVolume)
     }
+
     
+
+    function setDevice (e) {
+        let id = (e.target as HTMLSelectElement).value;
+        changeId(id);
+        if(audioCtx.current.state == "running")
+        {
+            stopMicInput();
+            startMicInput();
+        }
+    }
+    let index = 0;
     return(
-        <div style={{width:"100%"}}>
-            <div style={{width:"80%"}}>
+        <div style={{width:"80%"}}>
+            <div style={{width:"100%", display: "flex", flexDirection:'row'}}>
                 {!recording ?
                 <button type="button" onClick={() => startMicInput()}>
                     Start
@@ -61,12 +97,15 @@ export default function MicInput(props){
                     Stop
                 </button>
                 }
-                
-                <div>
-                    <input type="range"
-                        value={Math.round(volume * 100)} onChange={changeVolume} />
-                </div>
+                <select onChange={ setDevice }>
+				{devicesList.current.map((device) => <option key = {index++} value = {device.Id}> { device.label } </option>)}
+			    </select>
             </div>
+            <div>
+                <input type="range"
+                    value={Math.round(volume * 100)} onChange={changeVolume} />
+            </div>
+            
         </div>
     )
 }
