@@ -84,7 +84,7 @@ export default function MainWindow() {
 	return (
 		<div>
 			<div id='header'>
-				<h1 style={{textAlign:'center', margin:'20px'}}>Synethize</h1>
+				<h1 style={{textAlign:'center', margin:'20px'}}>Synesthize</h1>
 				<h2 style={{textAlign:'center'}}>A Sound to Color Application</h2>
 			</div>
 			<div id = 'controls' style={{ display: 'flex', flexDirection: 'row', gap:'1rem'}}>
