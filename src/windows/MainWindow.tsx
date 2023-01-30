@@ -5,17 +5,12 @@ import {Fourier} from "../Classes/FourierTransform"
 import MicInput from "../components/MicInput";
 import {EDOSystem} from "../Classes/EDOSystem";
 import {DisplayManager} from "../Classes/DisplayManager"
+import { ColorCanvas } from '../Classes/ColorDisplay';
 
 
 
 export default function MainWindow() {
 	let wave_display_flag = 0
-	let new_div = document.createElement('div')
-
-	new_div.id = 'canvas_space'
-	new_div.setAttribute('style', "position: relative")
-	let root = document.getElementById('root')
-	root.appendChild(new_div)
 
 	let fourier = new Fourier();
     let edo = new EDOSystem(12);
@@ -99,10 +94,12 @@ export default function MainWindow() {
 						</div>
 						<div id = 'mic_plot'>
 						</div>
-				</div>
 			</div>
 			</div>
+			</div>
+			<div><ColorCanvas/></div>
 			
 		</div>
+		
 	);
 }
