@@ -36,7 +36,6 @@ export default function SchemeDropdown(props) {
 	let _12tEDO = new EDOSystem(12);
 	let schemes = SchemeFunctions.getSchemes();
 	let toneList = _12tEDO.getToneList();
-	// const _12Tones = { Ab: 0, A: 1, Bb: 2, B: 3, C: 4, Db: 5, D: 6, Eb: 7, E: 8, F: 9, Gb: 10, G: 11 };
 	let ind = 0;
 
 	const navigate = useNavigate();

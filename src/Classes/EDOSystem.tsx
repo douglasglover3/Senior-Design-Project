@@ -21,6 +21,17 @@ export class EDOSystem {
     private majorThird: number;
     private minorThird: number;
 
+    // Store index for each interval in an enum
+    static Intervals = Object.freeze({
+        Octave: 0,
+        PerfectFifth: 1,
+        PerfectFourth: 2,
+        MajorThird: 3,
+        MinorThird: 4
+    });
+    // Store number of tracked intervals
+    static numIntervals: number = Object.keys(EDOSystem.Intervals).length;
+
     // Store EDO's circle-of-fifths for major/minor scales (used in Level 1 color-mapping)
     private circleOf5thsMaj: number[];
     private circleOf5thsMin: number[];
@@ -99,13 +110,15 @@ export class EDOSystem {
         return {note: notePosition, octave: octave};
     }
 
-    // Return interval (in semitones) between <prevNote> and <newNote>
+    // Return a hue based on the passed-in interval
     public getInterval(prevNote: number, newNote: number): string {
         // Base-case (<prevNote> does not exist)
         if (prevNote === -1) return "#000000";
 
         let interval = (newNote - prevNote + this.tonality) % this.tonality;
         switch(interval) {
+            case this.octave:
+                return "#000000";
             case this.perfectFifth:
                 return "#ff5100";
             case this.perfectFourth:
