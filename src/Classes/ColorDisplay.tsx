@@ -94,11 +94,12 @@ export class ColorCanvas extends React.Component{
     super(props)
 
     this.style =
-      {left: "0px" ,
-      bottom: "0" ,
+      {dislpay:'block',
+      left: "0px" ,
+      bottom: "0px" ,
       background : "#e0e0e0",
-      width: "100%",
-      height: "100%",
+      width: '100%',
+      height: '100%',
       WebkitFilter: "blur(3px)"}
 
     this.alpha = 0;
@@ -143,6 +144,9 @@ export class ColorCanvas extends React.Component{
   draw() {
 
     if (this.ctx != null) {
+      this.c.width = window.innerWidth;
+      this.c.height = window.innerHeight-240;
+
       this.clear()
       this.ctx.fillStyle = this.dis_color;
       this.ctx.beginPath()
