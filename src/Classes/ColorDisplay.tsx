@@ -94,12 +94,11 @@ export class ColorCanvas extends React.Component{
     super(props)
 
     this.style =
-      {position: "absolute" ,
-      left: "0px" ,
-      top: "220px" ,
+      {left: "0px" ,
+      bottom: "0" ,
       background : "#e0e0e0",
-      width: window.innerWidth,
-      height: (window.innerHeight - 240),
+      width: "100%",
+      height: "100%",
       WebkitFilter: "blur(3px)"}
 
     this.alpha = 0;

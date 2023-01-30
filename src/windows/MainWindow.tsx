@@ -96,10 +96,8 @@ export default function MainWindow() {
 						</div>
 			</div>
 			</div>
-			</div>
-			<div><ColorCanvas/></div>
-			
-		</div>
-		
+			</div>		
+			<ColorCanvas/>	
+		</div>		
 	);
 }
