@@ -33,10 +33,6 @@ export default function MainWindow() {
       ele.append(canvas)
 
     }
-
-	// Represents which intervals are being tracked
-	let [selectedIntervals, setSelectedIntervalsInMain] = useState(Array(EDOSystem.numIntervals).fill(true));
-
 	// Represents the currently selected color-scheme
 	let [scheme, setSchemeInMain] = useState({ name: "", notes: [""] });
 	display_manager.change_scheme(scheme)
@@ -94,7 +90,7 @@ export default function MainWindow() {
 				<div id='scheme_control' style={{flex:'1'}}>
 					<h3 style={{textAlign:'center', marginTop:'0px', marginBottom:'10px'}}>Color Scheme</h3>
 					<SchemeDropdown setSchemeInMain={setSchemeInMain} />
-					<IntervalSelector setSelectedIntervalsInMain={setSelectedIntervalsInMain} />
+					<IntervalSelector />
 				</div>
 				<div id = 'separator' style = {{border: '1px solid black'}}></div>
 				<div id='mic_controls' style={{flex:'1'}}>

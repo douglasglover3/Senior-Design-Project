@@ -68,7 +68,7 @@ export class DisplayManager {
 			if(this.counters[note] >= display_threshold) {
 				this.counters[note] = display_threshold
 				if(this.check_all_inactive()) {
-					let intervalColor = edo.getInterval(this.currNote, note);
+					let intervalColor = edo.getIntervalColor(this.currNote, note);
 					this.layers[note].draw_new(octave, intervalColor);
 					this.currNote = note;
 				}

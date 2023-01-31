@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import { EDOSystem } from '../Classes/EDOSystem';
 
-export default function IntervalSelector({setSelectedIntervalsInMain}) {
+export default function IntervalSelector() {
     // Represents which intervals are being tracked
 	let [selectedIntervals, setSelectedIntervals] = useState(Array(EDOSystem.numIntervals).fill(true));
-    useEffect(() => {
-
-    }, [selectedIntervals]);
 
     // Flip element at index of <selectedIntervals>
     const handleSelect = (e): void => {
@@ -18,8 +15,8 @@ export default function IntervalSelector({setSelectedIntervalsInMain}) {
                 return curr;
         });
 
+        EDOSystem.changeTrackedInterval(selectedInd);
         setSelectedIntervals(newIntervals);
-        setSelectedIntervalsInMain(newIntervals);
     };
 
     let ind: number = 0;
