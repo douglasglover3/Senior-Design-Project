@@ -56,7 +56,7 @@ export class DisplayManager{
 		if(this.counter >= display_threshold) {
 			this.counter = display_threshold
 			if(this.canvas.check_inactive()) {
-				let intervalColor = edo.getInterval(this.currNote, this.prevNote)
+				let intervalColor = edo.getIntervalColor(this.currNote, this.prevNote)
 				this.canvas.draw_new(this.currentScheme[note], octave, intervalColor)
 			}
 		}
