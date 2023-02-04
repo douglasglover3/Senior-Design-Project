@@ -79,8 +79,7 @@ export default function MainWindow() {
 		<div>
 			<div className='background'>
 				<span className='title'>Synesthize</span>
-				<span className='subtitle'>A Sound to Color Application</span>
-				<br />
+				<span className='subtitle'>A Sound to Color Application</span> <br />
 
 				<div className='subsection-2'>
 					<div className='color-options'>
@@ -92,7 +91,7 @@ export default function MainWindow() {
 						<IntervalSelector />
 					</div>
 					<div className='mic-options'>
-						<label className='subtitle'>Mic Controls</label> <br /> <br />
+						<label className='subtitle'>Microphone Controls</label> <br /> <br />
 						<MicInput transformData={readMicData} />
 					</div>
 				</div>

@@ -13,11 +13,11 @@ export default function MicInput(props){
         navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
             devices.forEach((device) => {
-                if(device.kind == "audioinput")
+                if(device.kind === "audioinput")
                 {
                     let present = false;
                     devicesList.current.forEach((listedDevice) => {
-                        if(device.groupId == listedDevice.groupId)
+                        if(device.groupId === listedDevice.groupId)
                             present = true;
                     })
                     if(!present)
@@ -68,7 +68,7 @@ export default function MicInput(props){
     function changeVolume(inputVolume)
     {
         let newVolume = parseFloat(inputVolume.target.value) / 100;
-        if(audioCtx.current != null && audioCtx.current.state == "running")
+        if(audioCtx.current != null && audioCtx.current.state === "running")
             gainNode.current.gain.setValueAtTime(newVolume, audioCtx.current.currentTime);
         setVolume(newVolume)
     }
@@ -78,7 +78,7 @@ export default function MicInput(props){
     function setDevice (e) {
         let id = (e.target as HTMLSelectElement).value;
         changeId(id);
-        if(audioCtx.current.state == "running")
+        if(audioCtx.current.state === "running")
         {
             stopMicInput();
             startMicInput();
@@ -87,7 +87,10 @@ export default function MicInput(props){
     let index = 0;
     return(
         <div>
-            <div className='subsection'>
+            <div className='subsection-3'>
+                <select className='select-box' onChange={ setDevice }>
+				{devicesList.current.map((device) => <option key = {index++} value = {device.Id}> { device.label } </option>)}
+			    </select>
                 {!recording ?
                 <button type="button" className='button' onClick={() => startMicInput()}>
                     Start
@@ -97,9 +100,6 @@ export default function MicInput(props){
                     Stop
                 </button>
                 }
-                <select className='select-box' onChange={ setDevice }>
-				{devicesList.current.map((device) => <option key = {index++} value = {device.Id}> { device.label } </option>)}
-			    </select>
             </div>
             <div className='input-field-volume-main'>
                 <input type="range" id='volume-main'
