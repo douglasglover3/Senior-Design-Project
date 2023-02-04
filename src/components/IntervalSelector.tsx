@@ -24,8 +24,8 @@ export default function IntervalSelector() {
     let intervalNames: string[] = Object.keys(intervals);
 
     return(
-        <div>
-            {intervalNames.map((name) => <div key={name}>
+        <div className='interval-grid'>
+            {intervalNames.map((name) => <div className='interval' key={name}>
                 <input value={ind} type='checkbox' onChange={handleSelect} checked={selectedIntervals[ind++]} />
                 <span>{name}</span>
                 </div>)}

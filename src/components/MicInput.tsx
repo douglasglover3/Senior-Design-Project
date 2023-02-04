@@ -86,26 +86,25 @@ export default function MicInput(props){
     }
     let index = 0;
     return(
-        <div style={{width:"80%"}}>
-            <div style={{width:"100%", display: "flex", flexDirection:'row'}}>
+        <div>
+            <div className='subsection'>
                 {!recording ?
-                <button type="button" onClick={() => startMicInput()}>
+                <button type="button" className='button' onClick={() => startMicInput()}>
                     Start
                 </button>
                 :
-                <button type="button" onClick={() => stopMicInput()}>
+                <button type="button" className='button' onClick={() => stopMicInput()}>
                     Stop
                 </button>
                 }
-                <select onChange={ setDevice }>
+                <select className='select-box' onChange={ setDevice }>
 				{devicesList.current.map((device) => <option key = {index++} value = {device.Id}> { device.label } </option>)}
 			    </select>
             </div>
-            <div>
-                <input type="range"
+            <div className='input-field-volume-main'>
+                <input type="range" id='volume-main'
                     value={Math.round(volume * 100)} onChange={changeVolume} />
             </div>
-            
         </div>
     )
 }

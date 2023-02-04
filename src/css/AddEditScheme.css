@@ -1,4 +1,8 @@
-/* Styles main HTML in AddScheme */
+html {
+    background-color: #150050;
+}
+
+/* General Stylings */
 .background {
     background-color: #150050;
     color: white;
@@ -41,10 +45,6 @@
     justify-content: center;
 }
 
-#volume-slider {
-    width: 90%;
-}
-
 .button {
     border: solid;
     border-color: black;
@@ -59,6 +59,14 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
+}
+
+.button:hover {
+    background-color: #73338a;
+}
+
+#volume-slider {
+    width: 90%;
 }
 
 /* Styles the notes in ColorSelector */

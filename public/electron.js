@@ -87,12 +87,6 @@ const mainMenuTemplate = [
 				}
 			},
 			{
-				label: 'Delete Color Scheme',
-				accelerator: 'CmdOrCtrl+D',
-				click() {
-				}
-			},
-			{
 				label: 'Quit',
 				accelerator: 'CmdOrCtrl+Q',
 				click() {

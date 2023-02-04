@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import SchemeDropdown from "../components/SchemeDropdown";
 import IntervalSelector from '../components/IntervalSelector';
-import Plot from 'react-plotly.js';
 import {Fourier} from "../Classes/FourierTransform"
 import MicInput from "../components/MicInput";
 import {EDOSystem} from "../Classes/EDOSystem";
 import {DisplayManager} from "../Classes/DisplayManager"
 import { ColorCanvas } from '../Classes/ColorDisplay';
 
-
+import '../css/MainWindow.css';
 
 export default function MainWindow() {
 	let wave_display_flag = 0
 
+	let TONES: number = 12;
 	let fourier = new Fourier();
-    let edo = new EDOSystem(12);
-	let display_manager = new DisplayManager(12);
+    let edo = new EDOSystem(TONES);
+	let display_manager = new DisplayManager(TONES);
 
 	let canvas = document.createElement("canvas")
 	canvas.width = 370
@@ -26,8 +26,8 @@ export default function MainWindow() {
 			ele.removeChild(ele.firstChild);
 		}
       ele.append(canvas)
-
     }
+
 	// Represents the currently selected color-scheme
 	let [scheme, setSchemeInMain] = useState({ name: "", notes: [""] });
 	display_manager.change_scheme(scheme)
@@ -77,29 +77,28 @@ export default function MainWindow() {
 
 	return (
 		<div>
-			<div id='header'>
-				<h1 style={{textAlign:'center', margin:'20px'}}>Synesthize</h1>
-				<h2 style={{textAlign:'center'}}>A Sound to Color Application</h2>
-			</div>
-			<div id = 'controls' style={{ display: 'flex', flexDirection: 'row', gap:'1rem'}}>
-				<div id='scheme_control' style={{flex:'1'}}>
-					<h3 style={{textAlign:'center', marginTop:'0px', marginBottom:'10px'}}>Color Scheme</h3>
-					<SchemeDropdown setSchemeInMain={setSchemeInMain} />
-					<IntervalSelector />
+			<div className='background'>
+				<span className='title'>Synesthize</span>
+				<span className='subtitle'>A Sound to Color Application</span>
+				<br />
+
+				<div className='subsection-2'>
+					<div className='color-options'>
+						<label className='subtitle'>Color Schemes</label> <br /> <br />
+						<SchemeDropdown setSchemeInMain={setSchemeInMain} />
+					</div>
+					<div className='interval-options'>
+						<label className='subtitle'>Tracked Intervals</label> <br /> <br />
+						<IntervalSelector />
+					</div>
+					<div className='mic-options'>
+						<label className='subtitle'>Mic Controls</label> <br /> <br />
+						<MicInput transformData={readMicData} />
+					</div>
 				</div>
-				<div id = 'separator' style = {{border: '1px solid black'}}></div>
-				<div id='mic_controls' style={{flex:'1'}}>
-				<h3 style={{textAlign:'center', marginTop:'0px', marginBottom:'10px'}}>Mic Controls</h3>
-					<div id = 'mic_control' style = {{width: "45px"}}>
-						<div className='mic_input'>
-							<MicInput transformData={readMicData}/>
-						</div>
-						<div id = 'mic_plot'>
-						</div>
 			</div>
-			</div>
-			</div>		
-			<ColorCanvas/>	
-		</div>		
+
+			<ColorCanvas />
+		</div>
 	);
 }

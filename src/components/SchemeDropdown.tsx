@@ -3,28 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { EDOSystem } from '../Classes/EDOSystem';
 
-const scheme_item = {
-	marginRight : '5px',
-	marginTop : '5px',
-	marginBottom: '5px',
-	marginLeft : '5px',
-	borderWidth: '2px',
-	borderRadius: '5px',
-	boarderColor: 'black'
-}
-
-const color_square = {
-	marginRight : '5px',
-	marginTop : '5px',
-	marginBottom: '5px',
-	marginLeft : '5px',
-	width: '20xp',
-	height: '20px',
-	borderWidth: '2px',
-	borderRadius: '5px',
-	boarderColor: 'black',
-	background: 'white'
-}
 const { ipcRenderer } = window.require('electron');
 
 type Scheme = {
@@ -32,7 +10,7 @@ type Scheme = {
 	notes: string[]
 }
 
-export default function SchemeDropdown(props) {
+export default function SchemeDropdown({ setSchemeInMain }) {
 	let _12tEDO = new EDOSystem(12);
 	let schemes = SchemeFunctions.getSchemes();
 	let toneList = _12tEDO.getToneList();
@@ -41,8 +19,7 @@ export default function SchemeDropdown(props) {
 	const navigate = useNavigate();
 
 	let [selectedScheme, setSelectedScheme] = useState(schemes[0]);
-	let [deleteMessage, setDeleteMessage] = useState('');
-	let [editMessage, setEditMessage] = useState('');
+	let [message, setMessage] = useState('');
 
     // Set <currScheme> for both <SchemeDropdown /> and <MainWindow />
     const handleSchemeChange = (e): void => {
@@ -50,11 +27,10 @@ export default function SchemeDropdown(props) {
         setSelectedScheme(schemes[index]);
 
 		// Reset any error messages
-		setDeleteMessage('');
-		setEditMessage('');
+		setMessage('');
     }
 	useEffect(() => {
-		props.setSchemeInMain(selectedScheme);
+		setSchemeInMain(selectedScheme);
 	}, [selectedScheme]);
 
 	const addScheme = (): void => {
@@ -64,14 +40,14 @@ export default function SchemeDropdown(props) {
 	const handleDelete = (): void => {
 		// Don't let user delete default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
-			setDeleteMessage('Sorry! Can\'t delete default schemes');
+			setMessage('Sorry! Can\'t delete default schemes');
 			return;
 		}
 
 		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
 		if (confirmDelete) {
 			SchemeFunctions.deleteScheme(selectedScheme);
-			setDeleteMessage('Scheme was successfully deleted');
+			setMessage('Scheme was successfully deleted');
 			setSelectedScheme(schemes[0]);
 		}
 	}
@@ -79,7 +55,7 @@ export default function SchemeDropdown(props) {
 	const handleEdit = (): void => {
 		// Don't let user edit default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
-			setEditMessage('Sorry! Can\'t edit default schemes');
+			setMessage('Sorry! Can\'t edit default schemes');
 			return;
 		}
 
@@ -98,20 +74,27 @@ export default function SchemeDropdown(props) {
 
     return(
         <div>
-            <select style={scheme_item} onChange={ handleSchemeChange }>
-				{schemes.map((scheme: Scheme) => <option key={ ind } value={ ind++ }>{ scheme.name }</option>)}
-			</select>
-			<button style={scheme_item} type="button" onClick={ addScheme }>+</button>
-
-
-			<div>
-			<button style={scheme_item} type="button" onClick={ handleEdit }>Edit Scheme</button>
-			<button style={scheme_item} type="button" onClick={ handleDelete }>Delete Scheme</button>
+			<div className='subsection'>
+				<select className='select-box' onChange={ handleSchemeChange }>
+					{schemes.map((scheme: Scheme) => <option key={ ind } value={ ind++ }>{ scheme.name }</option>)}
+				</select>
+				<button type="button" className='button' onClick={ addScheme }>+</button>
 			</div>
-			<div>
-				<span>{editMessage}</span>
-				<br/>
-				<span>{deleteMessage}</span>
+			<div className='subsection'>
+				<button type="button" className='button' onClick={ handleEdit }>Edit Scheme</button>
+				<button type="button" className='button' onClick={ handleDelete }>Delete Scheme</button>
+			</div>
+			<div className='subsection'>
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.C]}} />
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.D]}} />
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.E]}} />
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.F]}} />
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.G]}} />
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.A]}} />
+				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.B]}} />
+			</div>
+			<div className='subsection'>
+				<span className='scheme-message'>{message}</span>
 			</div>
         </div>
     );
