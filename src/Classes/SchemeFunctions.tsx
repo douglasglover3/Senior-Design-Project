@@ -41,7 +41,7 @@ if (defaultSchemes.length === 0)
 
 const pathToUserSchemesFolder: string = path.join('src', 'schemes');
 userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
-let schemes = defaultSchemes.concat(userSchemes);
+let schemes: Scheme[] = defaultSchemes.concat(userSchemes);
 
 export class SchemeFunctions {
 	public static getSchemes(): Scheme[] {

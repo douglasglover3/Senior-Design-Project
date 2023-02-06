@@ -105,7 +105,7 @@ export class EDOSystem {
     public frequencyToNote(freq: number): {note: number, octave: number} {
         let notesAwayFromA4 = Math.round((this.tonality * Math.log2(freq / A4_FREQ)));
         let notePosition = this.mapNoteInTonelist(this.toneList.A + notesAwayFromA4);
-        let octave = Math.floor((this.toneList.A + notesAwayFromA4) / this.tonality) + 4;
+        let octave = Math.floor((this.toneList.A + notesAwayFromA4) / this.tonality) + 4;   // Tuning done at A4
 
         return {note: notePosition, octave: octave};
     }
