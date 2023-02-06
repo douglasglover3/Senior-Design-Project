@@ -85,15 +85,6 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 				<button type="button" className='button' onClick={ handleDelete }>Delete Scheme</button>
 			</div>
 			<div className='subsection'>
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.C]}} />
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.D]}} />
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.E]}} />
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.F]}} />
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.G]}} />
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.A]}} />
-				<div className='color-block' style={{backgroundColor:selectedScheme.notes[toneList.B]}} />
-			</div>
-			<div className='subsection'>
 				<span className='scheme-message'>{message}</span>
 			</div>
         </div>

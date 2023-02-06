@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SchemeDropdown from "../components/SchemeDropdown";
+import SchemePreview from '../components/SchemePreview';
 import IntervalSelector from '../components/IntervalSelector';
 import {Fourier} from "../Classes/FourierTransform"
 import MicInput from "../components/MicInput";
@@ -85,6 +86,7 @@ export default function MainWindow() {
 					<div className='color-options'>
 						<label className='subtitle'>Color Schemes</label> <br /> <br />
 						<SchemeDropdown setSchemeInMain={setSchemeInMain} />
+						<SchemePreview scheme={scheme} />
 					</div>
 					<div className='interval-options'>
 						<label className='subtitle'>Tracked Intervals</label> <br /> <br />
