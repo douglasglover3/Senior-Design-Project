@@ -78,7 +78,7 @@ export default function MainWindow() {
 
 	return (
 		<div>
-			<div className='background'>
+			<div id='background' className='background'>
 				<span className='title'>Synesthize</span>
 				<span className='subtitle'>A Sound to Color Application</span> <br />
 
