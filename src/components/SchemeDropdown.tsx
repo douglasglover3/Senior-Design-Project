@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { EDOSystem } from '../Classes/EDOSystem';
+import SchemePreview from '../components/SchemePreview';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -84,6 +85,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 				<button type="button" className='button' onClick={ handleEdit }>Edit Scheme</button>
 				<button type="button" className='button' onClick={ handleDelete }>Delete Scheme</button>
 			</div>
+			<SchemePreview scheme={selectedScheme} />
 			<div className='subsection'>
 				<span className='scheme-message'>{message}</span>
 			</div>
