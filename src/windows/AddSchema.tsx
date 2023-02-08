@@ -94,18 +94,18 @@ export default function AddSchema() {
     </div>
 
       <div className='note-grid'>
-        <ColorSelector noteName='C' noteColor={C} setNote={setC} />
-        <ColorSelector noteName='Db' noteColor={Db} setNote={setDb} />
-        <ColorSelector noteName='D' noteColor={D} setNote={setD} />
-        <ColorSelector noteName='Eb' noteColor={Eb} setNote={setEb} />
-        <ColorSelector noteName='E' noteColor={E} setNote={setE} />
-        <ColorSelector noteName='F' noteColor={F} setNote={setF} />
-        <ColorSelector noteName='Gb' noteColor={Gb} setNote={setGb} />
-        <ColorSelector noteName='G' noteColor={G} setNote={setG} />
-        <ColorSelector noteName='Ab' noteColor={Ab} setNote={setAb} />
-        <ColorSelector noteName='A' noteColor={A} setNote={setA} />
-        <ColorSelector noteName='Bb' noteColor={Bb} setNote={setBb} />
-        <ColorSelector noteName='B' noteColor={B} setNote={setB} />
+        <ColorSelector noteName='C' noteColor={C} setNoteInWindow={setC} />
+        <ColorSelector noteName='Db' noteColor={Db} setNoteInWindow={setDb} />
+        <ColorSelector noteName='D' noteColor={D} setNoteInWindow={setD} />
+        <ColorSelector noteName='Eb' noteColor={Eb} setNoteInWindow={setEb} />
+        <ColorSelector noteName='E' noteColor={E} setNoteInWindow={setE} />
+        <ColorSelector noteName='F' noteColor={F} setNoteInWindow={setF} />
+        <ColorSelector noteName='Gb' noteColor={Gb} setNoteInWindow={setGb} />
+        <ColorSelector noteName='G' noteColor={G} setNoteInWindow={setG} />
+        <ColorSelector noteName='Ab' noteColor={Ab} setNoteInWindow={setAb} />
+        <ColorSelector noteName='A' noteColor={A} setNoteInWindow={setA} />
+        <ColorSelector noteName='Bb' noteColor={Bb} setNoteInWindow={setBb} />
+        <ColorSelector noteName='B' noteColor={B} setNoteInWindow={setB} />
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Add Scheme</button>
