@@ -102,7 +102,7 @@ export default function MicInput(props){
                 }
             </div>
             <div className='input-field-volume-main'>
-                <input type="range" id='volume-main'
+                <input type="range" id='volume-slider'
                     value={Math.round(volume * 100)} onChange={changeVolume} />
             </div>
         </div>

@@ -1,12 +1,15 @@
+// Library and Component imports
 import { useState } from 'react';
-import SchemeDropdown from "../components/SchemeDropdown";
+import SchemeDropdown from '../components/SchemeDropdown';
 import IntervalSelector from '../components/IntervalSelector';
-import {Fourier} from "../Classes/FourierTransform"
-import MicInput from "../components/MicInput";
-import {EDOSystem} from "../Classes/EDOSystem";
-import {DisplayManager} from "../Classes/DisplayManager"
+import MicInput from '../components/MicInput';
+import { Fourier } from '../Classes/FourierTransform';
+import { EDOSystem } from '../Classes/EDOSystem';
+import { DisplayManager } from '../Classes/DisplayManager';
 import { ColorCanvas } from '../Classes/ColorDisplay';
 
+// CSS imports
+import '../css/GeneralStylings.css';
 import '../css/MainWindow.css';
 
 export default function MainWindow() {

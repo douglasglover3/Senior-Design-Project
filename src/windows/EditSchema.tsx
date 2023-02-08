@@ -1,9 +1,12 @@
+// Library and Component imports
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
 
+// CSS imports
+import '../css/GeneralStylings.css';
 import '../css/AddEditScheme.css';
 
 const fs = window.require('fs');

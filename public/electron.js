@@ -6,24 +6,24 @@ const url = 'http://localhost:3000';
 let mainWindow;
 
 function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 800,
-    title: "Synesthize",
-    webPreferences: {
-      	nodeIntegration: true,
-		contextIsolation: false,
-    },
-  });
-  mainWindow.loadURL(url);
+	// Create the browser window.
+	mainWindow = new BrowserWindow({
+		width: 800,
+		height: 800,
+		title: "Synesthize",
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+		},
+	});
+	mainWindow.loadURL(url);
 
-  // Open the DevTools.
-  if (isDev) {
-    createDevToolsWindow(mainWindow)
-  }
+	// Open the DevTools.
+	if (isDev) {
+		createDevToolsWindow(mainWindow)
+	}
 
-  // Build and insert <mainMenu> from <mainMenuTemplate>
+  	// Build and insert <mainMenu> from <mainMenuTemplate>
 	const menu = Menu.buildFromTemplate(mainMenuTemplate);
 	Menu.setApplicationMenu(menu);
 }
@@ -41,7 +41,7 @@ function createNewWindow(urlTag, name) {
     	autoHideMenuBar: true,
 		webPreferences: {
 			nodeIntegration: true,
-      	contextIsolation: false
+      		contextIsolation: false
 		}
 	});
 	newWindow.loadURL(url + '/' + urlTag);
