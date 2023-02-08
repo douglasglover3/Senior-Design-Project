@@ -1,9 +1,10 @@
+// Library and Component imports
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
-import { EDOSystem } from '../Classes/EDOSystem';
 import SchemePreview from '../components/SchemePreview';
 
+// Electron import (for app use only)
 const { ipcRenderer } = window.require('electron');
 
 type Scheme = {
@@ -11,20 +12,20 @@ type Scheme = {
 	notes: string[]
 }
 
+// Represents the list of color-schemes available to the user (both default and user-created)
 export default function SchemeDropdown({ setSchemeInMain }) {
-	let _12tEDO = new EDOSystem(12);
-	let schemes = SchemeFunctions.getSchemes();
-	let toneList = _12tEDO.getToneList();
-	let ind = 0;
-
 	const navigate = useNavigate();
+
+	// Get the list of available schemes from the 'schemes/' folder
+	let schemes: Scheme[] = SchemeFunctions.getSchemes();
+	let ind: number = 0;
 
 	let [selectedScheme, setSelectedScheme] = useState(schemes[0]);
 	let [message, setMessage] = useState('');
 
     // Set <currScheme> for both <SchemeDropdown /> and <MainWindow />
     const handleSchemeChange = (e): void => {
-        let index: number = parseInt((e.target as HTMLSelectElement).value);
+        let index: number = parseInt(e.target.value);
         setSelectedScheme(schemes[index]);
 
 		// Reset any error messages
@@ -32,12 +33,14 @@ export default function SchemeDropdown({ setSchemeInMain }) {
     }
 	useEffect(() => {
 		setSchemeInMain(selectedScheme);
-	}, [selectedScheme]);
+	}, [selectedScheme, setSchemeInMain]);
 
+	// Switch over to <AddSchema /> Window
 	const addScheme = (): void => {
 		navigate('/AddSchema');
 	}
 
+	// Try and delete the selected color-scheme
 	const handleDelete = (): void => {
 		// Don't let user delete default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
@@ -45,6 +48,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return;
 		}
 
+		// Allow user to confirm their decision
 		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
 		if (confirmDelete) {
 			SchemeFunctions.deleteScheme(selectedScheme);
@@ -53,6 +57,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 		}
 	}
 
+	// Try and edit the selected color-scheme
 	const handleEdit = (): void => {
 		// Don't let user edit default schemes
 		if (SchemeFunctions.isInDefaultSchemes(selectedScheme)) {
@@ -60,6 +65,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return;
 		}
 
+		// Go to <EditSchema /> Window with information about selected scheme
 		navigate('/EditSchema', {state:{scheme: selectedScheme}});
 	}
 

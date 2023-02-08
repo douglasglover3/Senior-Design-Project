@@ -13,7 +13,7 @@ export default function ColorSelector({ noteName, noteColor, setNoteInWindow }) 
     const [note, setNote] = useState(noteColor);
     useEffect(() => {
         setNoteInWindow(note);
-    }, [note]);
+    }, [note, setNoteInWindow]);
 
     return(
         <div className='note'>

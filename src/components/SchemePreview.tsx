@@ -1,5 +1,7 @@
+// Library and Component imports
 import { EDOSystem } from '../Classes/EDOSystem';
- 
+
+// Shows the colors of the major tones for the selected scheme
 export default function SchemePreview({ scheme }) {
     let toneList = EDOSystem.getNoteArrayByTonality(12);
 

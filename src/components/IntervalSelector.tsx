@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+// Library and Component imports
+import { useState } from 'react';
 import { EDOSystem } from '../Classes/EDOSystem';
 
+// Displays the list of trackable intervals for Level 1 Note Relationships
 export default function IntervalSelector() {
     // Represents which intervals are being tracked
 	let [selectedIntervals, setSelectedIntervals] = useState(Array(EDOSystem.numIntervals).fill(true));
