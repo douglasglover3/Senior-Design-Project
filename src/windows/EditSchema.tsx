@@ -9,18 +9,30 @@ import ColorSelector from '../components/ColorSelector';
 import '../css/GeneralStylings.css';
 import '../css/AddEditScheme.css';
 
+// For file I/O (Electron app only)
 const fs = window.require('fs');
 const path = window.require('path');
 
+type Scheme = {
+	name: string,
+	notes: string[]
+}
+
 export default function EditSchema() {
   const location = useLocation();
-  let selectedScheme = location.state.scheme;
-  let originalName = selectedScheme.name;
 
-  // Variables used in form
+  // Store info on the scheme being edited
+  let selectedScheme: Scheme = location.state.scheme;
+  let originalName: string = selectedScheme.name;
+
+  // Volume set on a 0-100 scale
   const [volume, setVolume] = useState(50);
+
+  // Store name and any associated error messages
   const [name, setName] = useState(selectedScheme.name);
   const [error, setError] = useState('');
+
+  // Store hex-color values for all 12 notes
   const [C, setC] = useState(selectedScheme.notes[0]);
   const [Db, setDb] = useState(selectedScheme.notes[1]);
   const [D, setD] = useState(selectedScheme.notes[2]);
@@ -34,14 +46,16 @@ export default function EditSchema() {
   const [Bb, setBb] = useState(selectedScheme.notes[10]);
   const [B, setB] = useState(selectedScheme.notes[11]);
 
-  const handleVolume = (e) => {
-    let volumeVal = parseInt(e.target.value);
-    setVolume(volumeVal);   // In AddSchema.tsx
+  // Changes the volume
+  const handleVolume = (e): void => {
+    let volumeVal: number = parseInt(e.target.value);
+    setVolume(volumeVal);   // In EditSchema.tsx
     setVol(volumeVal);      // In AudioFunctions.tsx
   }
 
-  const handleSubmit = () => {
-    let schemes = SchemeFunctions.getSchemes();
+  // Edit this color scheme if no errors exist
+  const handleSubmit = (): void => {
+    let schemes: Scheme[] = SchemeFunctions.getSchemes();
 
     // Error-handling to prevent special characters
     if (!name.match(/^[0-9a-zA-Z]+$/)) {
@@ -57,6 +71,7 @@ export default function EditSchema() {
       }
     }
 
+    // Reset any error messages
     setError('');
 
     // Add hex code colors to <noteArray>
@@ -84,6 +99,7 @@ export default function EditSchema() {
       fs.renameSync(oldFilePath, newFilePath);
     }
 
+    // Saves new scheme into file AND into schemes array
     let filePath = path.join('src', 'schemes', name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.editScheme(originalName, schemeObj);
@@ -104,7 +120,7 @@ export default function EditSchema() {
       <label className='input-label'>Volume Slider</label>
       <div className='input-field'>
         <input type="range" id='volume-slider'
-            value={volume} onChange={handleVolume} />
+          value={volume} onChange={handleVolume} />
       </div>
 
       <div className='note-grid'>

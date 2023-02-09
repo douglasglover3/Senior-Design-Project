@@ -8,13 +8,24 @@ import ColorSelector from '../components/ColorSelector';
 import '../css/GeneralStylings.css';
 import '../css/AddEditScheme.css';
 
+// For file I/O (Electron app only)
 const fs = window.require('fs');
 const path = window.require('path');
 
+type Scheme = {
+	name: string,
+	notes: string[]
+}
+
 export default function AddSchema() {
+  // Volume set on a 0-100 scale
   const [volume, setVolume] = useState(50);
+
+  // Store name and any associated error messages
   const [name, setName] = useState('');
   const [error, setError] = useState('');
+
+  // Store hex-color values for all 12 notes
   const [C, setC] = useState('#000000');
   const [Db, setDb] = useState('#000000');
   const [D, setD] = useState('#000000');
@@ -28,14 +39,16 @@ export default function AddSchema() {
   const [Bb, setBb] = useState('#000000');
   const [B, setB] = useState('#000000');
 
-  const handleVolume = (e) => {
-    let volumeVal = parseInt(e.target.value);
+  // Changes the volume
+  const handleVolume = (e): void => {
+    let volumeVal: number = parseInt(e.target.value);
     setVolume(volumeVal);   // In AddSchema.tsx
     setVol(volumeVal);      // In AudioFunctions.tsx
   }
 
-  const handleSubmit = () => {
-    let schemes = SchemeFunctions.getSchemes();
+  // Add this color scheme if no errors exist
+  const handleSubmit = (): void => {
+    let schemes: Scheme[] = SchemeFunctions.getSchemes();
 
     // Error-handling to prevent special characters
     if (!name.match(/^[0-9a-zA-Z]+$/)) {
@@ -51,6 +64,7 @@ export default function AddSchema() {
       }
     }
 
+    // Reset any error messages
     setError('');
 
     // Add hex code colors to <noteArray>
@@ -81,17 +95,17 @@ export default function AddSchema() {
       <span className='title'>Add Scheme</span>
       <span className='subtitle'>Create your color profile</span> <br /> <br />
 
-    <label className='input-label'>Scheme Name</label>
-    <input type="text" className='input-field'
-      required autoFocus
-      value = {name} onChange = {(e) => setName(e.target.value.trim())} />
-    <span>{error}</span> <br />
+      <label className='input-label'>Scheme Name</label>
+      <input type="text" className='input-field'
+        required autoFocus
+        value = {name} onChange = {(e) => setName(e.target.value.trim())} />
+      <span>{error}</span> <br />
 
-    <label className='input-label'>Volume Slider</label>
-    <div className='input-field'>
-      <input type="range" id='volume-slider'
-        value={volume} onChange={handleVolume} />
-    </div>
+      <label className='input-label'>Volume Slider</label>
+      <div className='input-field'>
+        <input type="range" id='volume-slider'
+          value={volume} onChange={handleVolume} />
+      </div>
 
       <div className='note-grid'>
         <ColorSelector noteName='C' noteColor={C} setNoteInWindow={setC} />
