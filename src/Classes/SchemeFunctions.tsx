@@ -1,3 +1,4 @@
+// For file I/O (Electron app only)
 const fs = window.require('fs');
 const path = window.require('path');
 
@@ -10,11 +11,11 @@ type Scheme = {
 function readSchemesFromFolder(folderPath: string) {
 	let schemes: Scheme[] = [];
 
-	let files = fs.readdirSync(folderPath);
+	let files: string[] = fs.readdirSync(folderPath);
 	files.forEach((file: string) => {
 		if (file.slice(-5) === '.json') {
-			let filePath = path.join(folderPath, file);
-			let data = fs.readFileSync(filePath,
+			let filePath: string = path.join(folderPath, file);
+			let data: string = fs.readFileSync(filePath,
 				{
 					encoding: 'utf8',
 					flag: 'r'
@@ -31,6 +32,7 @@ function readSchemesFromFolder(folderPath: string) {
 let defaultSchemes: Scheme[] = [];
 let userSchemes: Scheme[] = [];
 
+// Read all default schemes
 const pathToDefaultSchemesFolder: string = path.join('src', 'schemes', 'default');
 defaultSchemes = readSchemesFromFolder(pathToDefaultSchemesFolder);
 
@@ -39,8 +41,11 @@ if (defaultSchemes.length === 0)
     defaultSchemes.push({ name: 'No schemes found :(', notes:["#000000", "#000000", "#000000", "#000000",
     "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000"] });
 
+// Read all user schemes
 const pathToUserSchemesFolder: string = path.join('src', 'schemes');
 userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
+
+// Store list of available schemes (default-schemes followed by user-schemes)
 let schemes: Scheme[] = defaultSchemes.concat(userSchemes);
 
 export class SchemeFunctions {
@@ -48,6 +53,7 @@ export class SchemeFunctions {
 		return schemes;
 	}
 
+	// Checks if <scheme> is a name in <defaultSchemes> (Returns T/F)
 	public static isInDefaultSchemes(scheme: Scheme): boolean {
 		for (let i = 0; i < defaultSchemes.length; i++) {
 			if (defaultSchemes[i].name === scheme.name)
@@ -57,6 +63,7 @@ export class SchemeFunctions {
 		return false;
 	}
 
+	// Checks if <scheme> is a name in <userSchemes> (Returns T/F)
 	public static isInUserSchemes(scheme: Scheme): boolean {
 		for (let i = 0; i < userSchemes.length; i++) {
 			if (userSchemes[i].name === scheme.name)
@@ -66,10 +73,12 @@ export class SchemeFunctions {
 		return false;
 	}
 
+	// Adds <scheme> to list of available schemes
 	public static addScheme(scheme: Scheme): void {
 		schemes.push(scheme);
 	}
 
+	// Replaces the scheme with former name <originalName> with new <scheme>
 	public static editScheme(originalName: string, scheme: Scheme): void {
 		for (let i = defaultSchemes.length; i < schemes.length; i++) {
 			if (originalName === schemes[i].name) {
@@ -79,6 +88,7 @@ export class SchemeFunctions {
 		}
 	}
 
+	// Deletes <scheme> from the list of available schemes
 	public static deleteScheme(scheme: Scheme): void {
 		// Don't allow user to remove default schemes
 		if (this.isInDefaultSchemes(scheme)) {
