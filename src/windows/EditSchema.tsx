@@ -1,5 +1,5 @@
 // Library and Component imports
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
@@ -27,6 +27,9 @@ export default function EditSchema() {
 
   // Volume set on a 0-100 scale
   const [volume, setVolume] = useState(50);
+  useEffect(() => {
+    setVol(volume);
+  }, [volume]);
 
   // Store name and any associated error messages
   const [name, setName] = useState(selectedScheme.name);
@@ -45,13 +48,6 @@ export default function EditSchema() {
   const [A, setA] = useState(selectedScheme.notes[9]);
   const [Bb, setBb] = useState(selectedScheme.notes[10]);
   const [B, setB] = useState(selectedScheme.notes[11]);
-
-  // Changes the volume
-  const handleVolume = (e): void => {
-    let volumeVal: number = parseInt(e.target.value);
-    setVolume(volumeVal);   // In EditSchema.tsx
-    setVol(volumeVal);      // In AudioFunctions.tsx
-  }
 
   // Edit this color scheme if no errors exist
   const handleSubmit = (): void => {
@@ -120,7 +116,7 @@ export default function EditSchema() {
       <label className='input-label'>Volume Slider</label>
       <div className='input-field'>
         <input type="range" id='volume-slider'
-          value={volume} onChange={handleVolume} />
+          value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} />
       </div>
 
       <div className='note-grid'>

@@ -1,5 +1,5 @@
 // Library and Component imports
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
@@ -20,6 +20,9 @@ type Scheme = {
 export default function AddSchema() {
   // Volume set on a 0-100 scale
   const [volume, setVolume] = useState(50);
+  useEffect(() => {
+    setVol(volume);
+  }, [volume]);
 
   // Store name and any associated error messages
   const [name, setName] = useState('');
@@ -39,12 +42,12 @@ export default function AddSchema() {
   const [Bb, setBb] = useState('#000000');
   const [B, setB] = useState('#000000');
 
-  // Changes the volume
-  const handleVolume = (e): void => {
-    let volumeVal: number = parseInt(e.target.value);
-    setVolume(volumeVal);   // In AddSchema.tsx
-    setVol(volumeVal);      // In AudioFunctions.tsx
-  }
+  // // Changes the volume
+  // const handleVolume = (e): void => {
+  //   let volumeVal: number = parseInt(e.target.value);
+  //   setVolume(volumeVal);   // In AddSchema.tsx
+  //   setVol(volumeVal);      // In AudioFunctions.tsx
+  // }
 
   // Add this color scheme if no errors exist
   const handleSubmit = (): void => {
@@ -104,7 +107,7 @@ export default function AddSchema() {
       <label className='input-label'>Volume Slider</label>
       <div className='input-field'>
         <input type="range" id='volume-slider'
-          value={volume} onChange={handleVolume} />
+          value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} />
       </div>
 
       <div className='note-grid'>
