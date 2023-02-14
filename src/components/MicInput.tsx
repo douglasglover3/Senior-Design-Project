@@ -88,7 +88,8 @@ export default function MicInput(props){
     return(
         <div>
             <div className='subsection-3'>
-                <select className='select-box' onChange={ setDevice }>
+                <select className='select-box' onChange={ setDevice } onFocus={() => {changeId(devicesList.current[0])}}>
+                    <option selected disabled>Choose a device...</option>
 				{devicesList.current.map((device) => <option key = {index++} value = {device.Id}> { device.label } </option>)}
 			    </select>
                 {!recording ?
