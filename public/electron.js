@@ -1,7 +1,6 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
-const isDev = require('electron-is-dev');
-
-const url = 'http://localhost:3000';
+const isDev = false; //require("electron-is-dev");
+const path = require("path");
 
 let mainWindow;
 
@@ -16,13 +15,17 @@ function createWindow() {
 		contextIsolation: false,
     },
   });
-  mainWindow.loadURL(url);
+  mainWindow.loadURL(
+    isDev
+      ? "http://localhost:3000"
+      : `file://${path.join(__dirname, "/../build/index.html")}`
+  );
 
   // Open the DevTools.
   if (isDev) {
     createDevToolsWindow(mainWindow)
   }
-
+  createDevToolsWindow(mainWindow)
   // Build and insert <mainMenu> from <mainMenuTemplate>
 	const menu = Menu.buildFromTemplate(mainMenuTemplate);
 	Menu.setApplicationMenu(menu);
@@ -44,7 +47,11 @@ function createNewWindow(urlTag, name) {
       	contextIsolation: false
 		}
 	});
-	newWindow.loadURL(url + '/' + urlTag);
+	newWindow.loadURL(
+		isDev
+		  ? "http://localhost:3000"
+		  : `file://${path.join(__dirname, "/../build/index.html")}`
+	   + '/' + urlTag);
 	newWindow.once('ready-to-show', () => {
 		newWindow.show()
 		// Open the DevTools.
