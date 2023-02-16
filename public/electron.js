@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const isDev = require("electron-is-dev");
 const path = require("path");
 
@@ -79,20 +79,6 @@ const mainMenuTemplate = [
 	{
 		label: 'File',
 		submenu: [
-			{
-				label: 'Add Color Scheme',
-				accelerator: 'CmdOrCtrl+N',
-				click() {
-					mainWindow.webContents.send('ADD_COLOR_SCHEME');
-				}
-			},
-			{
-				label: 'Edit Color Scheme',
-				accelerator: 'CmdOrCtrl+E',
-				click() {
-					mainWindow.webContents.send('EDIT_COLOR_SCHEME');
-				}
-			},
 			{
 				label: 'Quit',
 				accelerator: 'CmdOrCtrl+Q',

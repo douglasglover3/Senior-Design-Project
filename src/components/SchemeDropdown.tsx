@@ -4,7 +4,12 @@ import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { EDOSystem } from '../Classes/EDOSystem';
 import SchemePreview from '../components/SchemePreview';
 
-const { ipcRenderer } = window.require('electron');
+// For handling delete-confirmation
+const { dialog } = window.require('electron').remote;
+let options = {
+	buttons: ["Yes", "No"],
+	message: "Do you really want to delete this scheme?"
+};
 
 type Scheme = {
 	name: string,
@@ -35,7 +40,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 	}, [selectedScheme]);
 
 	const addScheme = (): void => {
-		navigate('/AddSchema');
+		navigate('/addSchema');
 	}
 
 	const handleDelete = (): void => {
@@ -45,8 +50,9 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return;
 		}
 
-		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
-		if (confirmDelete) {
+		// let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
+		let confirmDelete = dialog.showMessageBoxSync(options);
+		if (confirmDelete === 0) {
 			SchemeFunctions.deleteScheme(selectedScheme);
 			setMessage('Scheme was successfully deleted');
 			setSelectedScheme(schemes[0]);
@@ -60,18 +66,8 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return;
 		}
 
-		navigate('/EditSchema', {state:{scheme: selectedScheme}});
+		navigate('/editSchema', {state:{scheme: selectedScheme}});
 	}
-
-	// Handle file-menu commands for Electron App
-	ipcRenderer.once('ADD_COLOR_SCHEME', function (evt) {
-		if (window.location.pathname === '/')
-			addScheme();
-	});
-	ipcRenderer.once('EDIT_COLOR_SCHEME', function (evt) {
-		if (window.location.pathname === '/')
-			handleEdit();
-	});
 
     return(
         <div>

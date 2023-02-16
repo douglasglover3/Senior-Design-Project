@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
@@ -10,6 +10,7 @@ const fs = window.require('fs');
 const path = window.require('path');
 
 export default function EditSchema() {
+  const navigate = useNavigate();
   const location = useLocation();
   let selectedScheme = location.state.scheme;
   let originalName = selectedScheme.name;
@@ -84,7 +85,7 @@ export default function EditSchema() {
     let filePath = path.join('src', 'schemes', name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.editScheme(originalName, schemeObj);
-	  window.location.href ='/';
+	  navigate('/');
   }
 
   return (
@@ -120,7 +121,7 @@ export default function EditSchema() {
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Edit Scheme</button>
-      <button type="button" className='button' onClick={() => {window.location.href='/'}}>Cancel</button>
+      <button type="button" className='button' onClick={() => {navigate('/')}}>Cancel</button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
+import { useNavigate } from 'react-router-dom';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
 
@@ -9,6 +10,8 @@ const fs = window.require('fs');
 const path = window.require('path');
 
 export default function AddSchema() {
+  const navigate = useNavigate();
+
   const [volume, setVolume] = useState(50);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -70,7 +73,7 @@ export default function AddSchema() {
     let filePath = path.join('src', 'schemes', schemeObj.name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.addScheme(schemeObj);
-    window.location.href = '/';
+    navigate('/');
   }
 
   return (
@@ -106,7 +109,7 @@ export default function AddSchema() {
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Add Scheme</button>
-      <button type="button" className='button' onClick={() => {window.location.href='/'}}>Cancel</button>
+      <button type="button" className='button' onClick={() => {navigate('/')}}>Cancel</button>
     </div>
   );
 }
