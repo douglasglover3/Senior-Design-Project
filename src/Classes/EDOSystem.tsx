@@ -1,5 +1,3 @@
-// Constants representing interval length (in cents)
-
 // Tuning frequency used by program (in Hertz)
 const A4_FREQ = 440;
 
@@ -42,7 +40,7 @@ export class EDOSystem {
         this.toneList = EDOSystem.getNoteArrayByTonality(tones);
         this.semitone = intervals.Octave / tones;
 
-        this.octave = tones;    // Octave already defined by <tones>
+        this.octave = tones;
         this.perfectFifth = Math.round(intervals.PerfectFifth / this.semitone);
         this.perfectFourth = Math.round(intervals.PerfectFourth / this.semitone);
         this.majorThird = Math.round(intervals.MajorThird / this.semitone);
@@ -52,15 +50,15 @@ export class EDOSystem {
         this.circleOf5thsMin = this.calcCircleOf5thsMin();
     }
 
-    // Returns <num> mod <mod> in the range of [0, mod) (only positive values)
+    // Returns <num> % <mod> in the range of [0, mod) (only positive values)
     private mapNoteInTonelist(num: number): number {
-        let res = num % this.tonality;
+        let res: number = num % this.tonality;
         res = (res + this.tonality) % this.tonality;
 
         return res;
     }
 
-    public getToneList(): any {
+    public getToneList() {
         return this.toneList;
     }
 
@@ -77,11 +75,11 @@ export class EDOSystem {
 
     // Start at C and stack <perfectFifth>'s until looping back to C
     private calcCircleOf5thsMaj(): number[] {
-        let circleOf5thsMaj = [this.toneList.C];
+        let circleOf5thsMaj: number[] = [this.toneList.C];
 
         for (let i = 1; i < this.tonality; i++) {
-            let prevNote = circleOf5thsMaj[i-1];
-            let nextNote = this.mapNoteInTonelist(prevNote + this.perfectFifth);
+            let prevNote: number = circleOf5thsMaj[i-1];
+            let nextNote: number = this.mapNoteInTonelist(prevNote + this.perfectFifth);
             circleOf5thsMaj.push(nextNote);
         }
 
@@ -90,11 +88,11 @@ export class EDOSystem {
 
     // Subtract <minorThird> from <circleOf5thsMaj>
     private calcCircleOf5thsMin(): number[] {
-        let circleOf5thsMin = [];
+        let circleOf5thsMin: number[] = [];
 
         for (let i = 0; i < this.tonality; i++) {
-            let noteInMaj = this.circleOf5thsMaj[i];
-            let relativeMinor = this.mapNoteInTonelist(noteInMaj - this.minorThird);
+            let noteInMaj: number = this.circleOf5thsMaj[i];
+            let relativeMinor: number = this.mapNoteInTonelist(noteInMaj - this.minorThird);
             circleOf5thsMin.push(relativeMinor);
         }
 
@@ -103,9 +101,9 @@ export class EDOSystem {
 
     // Takes frequency (in Hertz) and outputs the corresponding note/octave pair
     public frequencyToNote(freq: number): {note: number, octave: number} {
-        let notesAwayFromA4 = Math.round((this.tonality * Math.log2(freq / A4_FREQ)));
-        let notePosition = this.mapNoteInTonelist(this.toneList.A + notesAwayFromA4);
-        let octave = Math.floor((this.toneList.A + notesAwayFromA4) / this.tonality) + 4;   // Tuning done at A4
+        let notesAwayFromA4: number = Math.round((this.tonality * Math.log2(freq / A4_FREQ)));
+        let notePosition: number = this.mapNoteInTonelist(this.toneList.A + notesAwayFromA4);
+        let octave: number = Math.floor((this.toneList.A + notesAwayFromA4) / this.tonality) + 4;   // Tuning done at A4
 
         return {note: notePosition, octave: octave};
     }

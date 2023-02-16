@@ -3,6 +3,8 @@ const isDev = require("electron-is-dev");
 const url = require('url');
 const path = require("path");
 
+// Set the URL to localhost in development (for hot-reloading)
+// Otherwise, set the URL to 'index.html' to access the React-app
 const appURL = isDev
 	? "http://localhost:3000"
 	: url.format({
@@ -11,28 +13,29 @@ const appURL = isDev
 		slashes: true
 	});
 
+// Main window for displaying the app
 let mainWindow;
 
-function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 800,
-    title: "Synesthize",
-    webPreferences: {
-      	nodeIntegration: true,
-		contextIsolation: false,
-		enableRemoteModule: true
-    },
-  });
-  mainWindow.loadURL(appURL);
+function createMainWindow() {
+	// Create the browser window and load in the URL
+	mainWindow = new BrowserWindow({
+		width: 800,
+		height: 800,
+		title: "Synesthize",
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true
+		},
+	});
+	mainWindow.loadURL(appURL);
 
-  // Open the DevTools.
-  if (isDev) {
-    createDevToolsWindow(mainWindow)
-  }
-  
-  // Build and insert <mainMenu> from <mainMenuTemplate>
+	// Open the DevTools if in development-mode
+	if (isDev) {
+		createDevToolsWindow(mainWindow)
+	}
+
+	// Build and insert <mainMenu> from <mainMenuTemplate>
 	const menu = Menu.buildFromTemplate(mainMenuTemplate);
 	Menu.setApplicationMenu(menu);
 }
@@ -50,25 +53,30 @@ function createNewWindow(urlTag, name) {
     	autoHideMenuBar: true,
 		webPreferences: {
 			nodeIntegration: true,
-      	contextIsolation: false
+      		contextIsolation: false
 		}
 	});
 	newWindow.loadURL(appURL + '/' + urlTag);
+
+	// Display <newWindow>
 	newWindow.once('ready-to-show', () => {
-		newWindow.show()
-		// Open the DevTools.
+		newWindow.show();
+
+		// Open the DevTools if in development
 		if (isDev) {
 			createDevToolsWindow(newWindow)
 		}
-	})
+	});
 }
 
+// Opens up the DevTools window
 function createDevToolsWindow(parentWindow) {
 	let devtools = new BrowserWindow({parent:parentWindow});
 	parentWindow.webContents.setDevToolsWebContents(devtools.webContents);
-	//opens dev tools on the side
+
+	// Opens dev tools on the side of <parentWindow>
 	parentWindow.webContents.once('did-finish-load', function () {
-		var windowBounds = parentWindow.getBounds();
+		let windowBounds = parentWindow.getBounds();
 		parentWindow.webContents.openDevTools({ mode: 'detach' });
 		devtools.setPosition(windowBounds.x + windowBounds.width, windowBounds.y);
 		devtools.setSize(400, windowBounds.height);
@@ -97,13 +105,14 @@ if (process.platform === 'darwin')
 	mainMenuTemplate.unshift({});
 
 // Add 'Debug' menu if in development
-if (isDev)
+if (isDev) {
 	mainMenuTemplate.push({
 		label: 'Debug',
 		click() {
 			createNewWindow("debug", "Debug")
 		}
 	});
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

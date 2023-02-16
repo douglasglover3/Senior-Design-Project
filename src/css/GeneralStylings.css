@@ -1,0 +1,108 @@
+html {
+    background-color: #150050;
+}
+
+/* General Stylings */
+.background {
+    background-color: #150050;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 6rem;
+}
+
+.title {
+    font-size: 38px;
+    color: #fb2576;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 28px;
+    color: #fb2576;
+    font-weight: 500;
+}
+
+.input-label {
+    font-size: 20px;
+    color: white;
+    font-weight: 500;
+    padding-bottom: 0.7vh;
+}
+
+.input-field {
+    border: solid;
+    border-color: black;
+    border-width: 4px;
+    background-color: #3f0071;
+    width: 25%;
+    height: 4vh;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    border: solid;
+    border-color: black;
+    border-width: 4px;
+    background-color: #3f0071;
+    width: auto;
+    margin: 1vh;
+    height: auto;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #430a72;
+}
+
+.select-box {
+    border: solid;
+    border-color: black;
+    border-width: 4px;
+    background-color: #3f0071;
+    width: 52%;
+    margin: 1vh;
+    height: auto;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select-box:hover {
+    background-color: #430a72;
+}
+
+#volume-slider {
+    width: 90%;
+}
+
+/* Dividers */
+.subsection {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.subsection-2 {
+    display: flex;
+    width: 96%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.subsection-3 {
+    display: flex;
+    flex-direction: row-reverse;
+}
