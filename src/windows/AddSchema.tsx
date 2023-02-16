@@ -45,13 +45,6 @@ export default function AddSchema() {
   const [Bb, setBb] = useState('#000000');
   const [B, setB] = useState('#000000');
 
-  // // Changes the volume
-  // const handleVolume = (e): void => {
-  //   let volumeVal: number = parseInt(e.target.value);
-  //   setVolume(volumeVal);   // In AddSchema.tsx
-  //   setVol(volumeVal);      // In AudioFunctions.tsx
-  // }
-
   // Add this color scheme if no errors exist
   const handleSubmit = (): void => {
     let schemes: Scheme[] = SchemeFunctions.getSchemes();
