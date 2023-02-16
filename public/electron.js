@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
-const isDev = false; //require("electron-is-dev");
+const isDev = require("electron-is-dev");
 const path = require("path");
 
 let mainWindow;
