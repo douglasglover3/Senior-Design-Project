@@ -1,5 +1,6 @@
 const fs = window.require('fs');
 const path = window.require('path');
+const isDev = process.env.NODE_ENV === 'production' ? false : true;
 
 type Scheme = {
 	name: string,
@@ -31,21 +32,31 @@ function readSchemesFromFolder(folderPath: string) {
 let defaultSchemes: Scheme[] = [];
 let userSchemes: Scheme[] = [];
 
-const pathToDefaultSchemesFolder: string = path.join('src', 'schemes', 'default');
+const schemeDir: string = isDev ? '.' : 'resources';
+const pathToDefaultSchemesFolder: string = path.join(schemeDir, 'schemes', 'default');
+const pathToUserSchemesFolder: string = path.join(schemeDir, 'schemes');
+
 defaultSchemes = readSchemesFromFolder(pathToDefaultSchemesFolder);
+userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
 
 // Make sure at least 1 scheme exists in <defaultSchemes>
 if (defaultSchemes.length === 0)
     defaultSchemes.push({ name: 'No schemes found :(', notes:["#000000", "#000000", "#000000", "#000000",
     "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000"] });
 
-const pathToUserSchemesFolder: string = path.join('src', 'schemes');
-userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
 let schemes: Scheme[] = defaultSchemes.concat(userSchemes);
 
 export class SchemeFunctions {
 	public static getSchemes(): Scheme[] {
 		return schemes;
+	}
+
+	public static getPathToDefaultSchemes(): string {
+		return pathToDefaultSchemesFolder;
+	}
+
+	public static getPathToUserSchemes(): string {
+		return pathToUserSchemesFolder;
 	}
 
 	public static isInDefaultSchemes(scheme: Scheme): boolean {

@@ -77,12 +77,12 @@ export default function EditSchema() {
     // See whether or not filename for scheme needs to be changed
     if (name !== originalName) {
       // Need to change filename
-      let newFilePath = path.join('src', 'schemes', name + '.json');
-      let oldFilePath = path.join('src', 'schemes', originalName + '.json');
+      let newFilePath = path.join(SchemeFunctions.getPathToUserSchemes(), name + '.json');
+      let oldFilePath = path.join(SchemeFunctions.getPathToUserSchemes(), originalName + '.json');
       fs.renameSync(oldFilePath, newFilePath);
     }
 
-    let filePath = path.join('src', 'schemes', name + '.json');
+    let filePath = path.join(SchemeFunctions.getPathToUserSchemes(), name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.editScheme(originalName, schemeObj);
 	  navigate('/');

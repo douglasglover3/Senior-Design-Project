@@ -1,44 +1,57 @@
 {
   "name": "synesthize",
+  "description": "A Sound-to-Color application",
   "version": "0.1.0",
-  "main": "public/electron.js",
+  "main": "./public/electron.js",
+  "author": "Senior Design Team (Fall 2022 - Spring 2023)",
   "homepage": "./",
   "private": true,
+  "build": {
+    "appId": "com.electron.synesthize",
+    "productName": "Synesthize",
+    "files": ["build/**/*", "node_modules/**/*"],
+    "directories": {
+      "buildResources": "public"
+    },
+    "extraResources": ["schemes/**/*"],
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "deb"
+    }
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^29.1.2",
     "@types/meyda": "^4.3.2",
     "@types/node": "^18.8.5",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/react-transition-group": "^4.4.5",
-    "electron-squirrel-startup": "^1.0.0",
     "electron-is-dev": "^2.0.0",
     "fft.js": "^4.0.4",
-    "fourier": "^0.3.0",
-    "fourier-transform": "^1.1.2",
-    "plotly.js": "^2.14.0",
-    "plotly.js-dist": "^2.14.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
-    "react-select": "^5.4.0",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"npm start\" \"npm:electron\"",
-    "electron": "wait-on tcp:3000 && electron-forge start",
-    "package": "react-scripts build && electron-forge package",
-    "make": "react-scripts build && electron-forge make"
+    "electron": "wait-on tcp:3000 && electron .",
+    "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
+    "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
+    "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js"
   },
   "eslintConfig": {
     "extends": [
@@ -48,51 +61,18 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.52",
-    "@electron-forge/maker-deb": "^6.0.0-beta.52",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.52",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.52",
-    "@electron-forge/maker-zip": "^6.0.0-beta.52",
     "concurrently": "^5.2.0",
     "electron": "^9.1.1",
+    "electron-builder": "^23.6.0",
     "electron-devtools-installer": "^3.1.1",
+    "source-map-explorer": "^2.5.3",
     "wait-on": "^5.1.0"
-  },
-  "config": {
-    "forge": {
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "cra_electron_forge_demo"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }
