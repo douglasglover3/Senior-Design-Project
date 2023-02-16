@@ -1,6 +1,6 @@
 // Library and Component imports
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
@@ -19,6 +19,7 @@ type Scheme = {
 }
 
 export default function EditSchema() {
+  const navigate = useNavigate();
   const location = useLocation();
 
   // Store info on the scheme being edited
@@ -90,16 +91,15 @@ export default function EditSchema() {
     // See whether or not filename for scheme needs to be changed
     if (name !== originalName) {
       // Need to change filename
-      let newFilePath = path.join('src', 'schemes', name + '.json');
-      let oldFilePath = path.join('src', 'schemes', originalName + '.json');
+      let newFilePath = path.join(SchemeFunctions.getPathToUserSchemes(), name + '.json');
+      let oldFilePath = path.join(SchemeFunctions.getPathToUserSchemes(), originalName + '.json');
       fs.renameSync(oldFilePath, newFilePath);
     }
 
-    // Saves new scheme into file AND into schemes array
-    let filePath = path.join('src', 'schemes', name + '.json');
+    let filePath = path.join(SchemeFunctions.getPathToUserSchemes(), name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.editScheme(originalName, schemeObj);
-	  window.location.href ='/';
+	  navigate('/');
   }
 
   return (
@@ -135,7 +135,7 @@ export default function EditSchema() {
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Edit Scheme</button>
-      <button type="button" className='button' onClick={() => {window.location.href='/'}}>Cancel</button>
+      <button type="button" className='button' onClick={() => {navigate('/')}}>Cancel</button>
     </div>
   );
 }

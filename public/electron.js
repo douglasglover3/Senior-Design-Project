@@ -1,29 +1,38 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
-const isDev = require('electron-is-dev');
+const { app, BrowserWindow, Menu } = require('electron');
+const isDev = require("electron-is-dev");
+const url = require('url');
+const path = require("path");
 
-const url = 'http://localhost:3000';
+const appURL = isDev
+	? "http://localhost:3000"
+	: url.format({
+		pathname: path.join(__dirname, 'index.html'),
+		protocol: 'file:',
+		slashes: true
+	});
 
 let mainWindow;
 
 function createWindow() {
-	// Create the browser window.
-	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 800,
-		title: "Synesthize",
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-		},
-	});
-	mainWindow.loadURL(url);
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 800,
+    title: "Synesthize",
+    webPreferences: {
+      	nodeIntegration: true,
+		contextIsolation: false,
+		enableRemoteModule: true
+    },
+  });
+  mainWindow.loadURL(appURL);
 
-	// Open the DevTools.
-	if (isDev) {
-		createDevToolsWindow(mainWindow)
-	}
-
-  	// Build and insert <mainMenu> from <mainMenuTemplate>
+  // Open the DevTools.
+  if (isDev) {
+    createDevToolsWindow(mainWindow)
+  }
+  
+  // Build and insert <mainMenu> from <mainMenuTemplate>
 	const menu = Menu.buildFromTemplate(mainMenuTemplate);
 	Menu.setApplicationMenu(menu);
 }
@@ -44,7 +53,7 @@ function createNewWindow(urlTag, name) {
       		contextIsolation: false
 		}
 	});
-	newWindow.loadURL(url + '/' + urlTag);
+	newWindow.loadURL(appURL + '/' + urlTag);
 	newWindow.once('ready-to-show', () => {
 		newWindow.show()
 		// Open the DevTools.
@@ -73,35 +82,28 @@ const mainMenuTemplate = [
 		label: 'File',
 		submenu: [
 			{
-				label: 'Add Color Scheme',
-				accelerator: 'CmdOrCtrl+N',
-				click() {
-					mainWindow.webContents.send('ADD_COLOR_SCHEME');
-				}
-			},
-			{
-				label: 'Edit Color Scheme',
-				accelerator: 'CmdOrCtrl+E',
-				click() {
-					mainWindow.webContents.send('EDIT_COLOR_SCHEME');
-				}
-			},
-			{
 				label: 'Quit',
 				accelerator: 'CmdOrCtrl+Q',
 				click() {
 					app.quit();
 				}
 			}
-		],
-	},
-	{
+		]
+	}
+];
+
+// Without an empty {} label, MacOS doesn't show 'File'
+if (process.platform === 'darwin')
+	mainMenuTemplate.unshift({});
+
+// Add 'Debug' menu if in development
+if (isDev)
+	mainMenuTemplate.push({
 		label: 'Debug',
 		click() {
 			createNewWindow("debug", "Debug")
 		}
-	}
-];
+	});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

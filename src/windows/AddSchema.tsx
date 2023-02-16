@@ -1,6 +1,7 @@
 // Library and Component imports
 import { useState, useEffect } from 'react';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
+import { useNavigate } from 'react-router-dom';
 import { setVol } from '../Classes/AudioFunctions';
 import ColorSelector from '../components/ColorSelector';
 
@@ -18,6 +19,8 @@ type Scheme = {
 }
 
 export default function AddSchema() {
+  const navigate = useNavigate();
+
   // Volume set on a 0-100 scale
   const [volume, setVolume] = useState(50);
   useEffect(() => {
@@ -87,10 +90,10 @@ export default function AddSchema() {
 
     // Saves new scheme into file AND into schemes array
     let schemeObj = {name: name, notes: noteArray};
-    let filePath = path.join('src', 'schemes', schemeObj.name + '.json');
+    let filePath = path.join(SchemeFunctions.getPathToUserSchemes(), schemeObj.name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.addScheme(schemeObj);
-    window.location.href = '/';
+    navigate('/');
   }
 
   return (
@@ -126,7 +129,7 @@ export default function AddSchema() {
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Add Scheme</button>
-      <button type="button" className='button' onClick={() => {window.location.href='/'}}>Cancel</button>
+      <button type="button" className='button' onClick={() => {navigate('/')}}>Cancel</button>
     </div>
   );
 }

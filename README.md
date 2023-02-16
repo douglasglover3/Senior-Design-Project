@@ -16,3 +16,8 @@ The web browser is only useful for making a website, so we don't need it to open
 To prevent the browser from opening, make a file called '.env' in the main folder and put this line in it:
 
     BROWSER=none
+
+
+To package the app as an executable use:
+
+    npm run package

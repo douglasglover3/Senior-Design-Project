@@ -1,6 +1,7 @@
 // For file I/O (Electron app only)
 const fs = window.require('fs');
 const path = window.require('path');
+const isDev: boolean = process.env.NODE_ENV === 'production' ? false : true;
 
 type Scheme = {
 	name: string,
@@ -29,31 +30,41 @@ function readSchemesFromFolder(folderPath: string) {
 	return schemes;
 }
 
+// Stores a Scheme-array of default & user color-schemes
 let defaultSchemes: Scheme[] = [];
 let userSchemes: Scheme[] = [];
 
-// Read all default schemes
-const pathToDefaultSchemesFolder: string = path.join('src', 'schemes', 'default');
+// Finds the path to the 'schemes/' folder based
+// 'schemes/' folder is in root dir in development and in 'resources/' dir in production
+const schemeDir: string = isDev ? '.' : 'resources';
+const pathToDefaultSchemesFolder: string = path.join(schemeDir, 'schemes', 'default');
+const pathToUserSchemesFolder: string = path.join(schemeDir, 'schemes');
+
 defaultSchemes = readSchemesFromFolder(pathToDefaultSchemesFolder);
+userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
 
 // Make sure at least 1 scheme exists in <defaultSchemes>
 if (defaultSchemes.length === 0)
     defaultSchemes.push({ name: 'No schemes found :(', notes:["#000000", "#000000", "#000000", "#000000",
     "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000"] });
 
-// Read all user schemes
-const pathToUserSchemesFolder: string = path.join('src', 'schemes');
-userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
-
-// Store list of available schemes (default-schemes followed by user-schemes)
 let schemes: Scheme[] = defaultSchemes.concat(userSchemes);
 
 export class SchemeFunctions {
+	// Getter functions for variables
 	public static getSchemes(): Scheme[] {
 		return schemes;
 	}
 
-	// Checks if <scheme> is a name in <defaultSchemes> (Returns T/F)
+	public static getPathToDefaultSchemes(): string {
+		return pathToDefaultSchemesFolder;
+	}
+	
+	public static getPathToUserSchemes(): string {
+		return pathToUserSchemesFolder;
+	}
+
+	// Checks if <scheme> is in <defaultSchemes> (Returns T/F)
 	public static isInDefaultSchemes(scheme: Scheme): boolean {
 		for (let i = 0; i < defaultSchemes.length; i++) {
 			if (defaultSchemes[i].name === scheme.name)
@@ -63,7 +74,7 @@ export class SchemeFunctions {
 		return false;
 	}
 
-	// Checks if <scheme> is a name in <userSchemes> (Returns T/F)
+	// Checks if <scheme> is in <userSchemes> (Returns T/F)
 	public static isInUserSchemes(scheme: Scheme): boolean {
 		for (let i = 0; i < userSchemes.length; i++) {
 			if (userSchemes[i].name === scheme.name)

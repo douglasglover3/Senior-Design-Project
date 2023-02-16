@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import SchemePreview from '../components/SchemePreview';
 
-// Electron import (for app use only)
-const { ipcRenderer } = window.require('electron');
+// For handling delete-confirmation
+const { dialog } = window.require('electron').remote;
+let options = {
+	buttons: ["Yes", "No"],
+	message: "Do you really want to delete this scheme?"
+};
 
 type Scheme = {
 	name: string,
@@ -37,7 +41,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 
 	// Switch over to <AddSchema /> Window
 	const addScheme = (): void => {
-		navigate('/AddSchema');
+		navigate('/addSchema');
 	}
 
 	// Try and delete the selected color-scheme
@@ -48,9 +52,9 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return;
 		}
 
-		// Allow user to confirm their decision
-		let confirmDelete = window.confirm('Are you sure you want to delete this scheme?');
-		if (confirmDelete) {
+		// Get user's option (0 for YES, 1 for NO)
+		let confirmDelete = dialog.showMessageBoxSync(options);
+		if (confirmDelete === 0) {
 			SchemeFunctions.deleteScheme(selectedScheme);
 			setMessage('Scheme was successfully deleted');
 			setSelectedScheme(schemes[0]);
@@ -65,19 +69,8 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return;
 		}
 
-		// Go to <EditSchema /> Window with information about selected scheme
-		navigate('/EditSchema', {state:{scheme: selectedScheme}});
+		navigate('/editSchema', {state:{scheme: selectedScheme}});
 	}
-
-	// Handle file-menu commands for Electron App
-	ipcRenderer.once('ADD_COLOR_SCHEME', function (evt) {
-		if (window.location.pathname === '/')
-			addScheme();
-	});
-	ipcRenderer.once('EDIT_COLOR_SCHEME', function (evt) {
-		if (window.location.pathname === '/')
-			handleEdit();
-	});
 
     return(
         <div>
