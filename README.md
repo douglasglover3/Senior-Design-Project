@@ -20,4 +20,6 @@ To prevent the browser from opening, make a file called '.env' in the main folde
 
 To package the app as an executable use:
 
-    npm run package
+    npm run electron:package:win
+
+Replace win with mac or linux if for other OS.
