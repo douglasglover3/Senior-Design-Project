@@ -1,4 +1,8 @@
 
+//This window uses libraries that were causing the app package to 
+//be much larger than necessary, but it was useful for development purposes.
+
+
 // import Plot from 'react-plotly.js';
 // import { useState } from 'react';
 // import {Fourier} from "../Classes/FourierTransform"

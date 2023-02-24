@@ -15,13 +15,16 @@
     },
     "extraResources": ["schemes/**/*"],
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "build/SynesthizeIcon.png"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "build/SynesthizeIcon.png"
     },
     "linux": {
-      "target": "deb"
+      "target": "deb",
+      "icon": "build/SynesthizeIcon.png"
     }
   },
   "dependencies": {

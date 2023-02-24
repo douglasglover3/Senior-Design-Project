@@ -22,6 +22,7 @@ function createMainWindow() {
 		width: 800,
 		height: 800,
 		title: "Synesthize",
+		icon: path.join(__dirname, 'SynesthizeIcon.png'),
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
@@ -49,6 +50,7 @@ function createNewWindow(urlTag, name) {
     	parent: mainWindow,
     	modal: true,
     	title: name,
+		icon: path.join(__dirname, 'SynesthizeIcon.png'),
     	show: false,
     	autoHideMenuBar: true,
 		webPreferences: {
@@ -71,7 +73,7 @@ function createNewWindow(urlTag, name) {
 
 // Opens up the DevTools window
 function createDevToolsWindow(parentWindow) {
-	let devtools = new BrowserWindow({parent:parentWindow});
+	let devtools = new BrowserWindow({parent:parentWindow, title: "Dev tools"});
 	parentWindow.webContents.setDevToolsWebContents(devtools.webContents);
 
 	// Opens dev tools on the side of <parentWindow>
