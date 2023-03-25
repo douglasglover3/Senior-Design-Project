@@ -1,11 +1,21 @@
 // Library and Component imports
 import { useState } from 'react';
-import { EDOSystem } from '../Classes/EDOSystem';
+import { SchemeFunctions } from '../Classes/SchemeFunctions';
+
+type Interval = {
+    name: string,
+    intervalLength: number,
+    color: string,
+    percentage: number
+}
 
 // Displays the list of trackable intervals for Level 1 Note Relationships
 export default function IntervalSelector() {
+    // Get list of intervals from 'intervals.json'
+    let intervals: Interval[] = SchemeFunctions.getIntervals();
+
     // Represents which intervals are being tracked
-	let [selectedIntervals, setSelectedIntervals] = useState(Array(EDOSystem.numIntervals).fill(true));
+	let [selectedIntervals, setSelectedIntervals] = useState(Array(intervals.length).fill(true));
 
     // Flip element at index of <selectedIntervals>
     const handleSelect = (e): void => {
@@ -17,19 +27,16 @@ export default function IntervalSelector() {
                 return curr;
         });
 
-        EDOSystem.changeTrackedInterval(selectedInd);
         setSelectedIntervals(newIntervals);
     };
 
     let ind: number = 0;
-    let intervals = EDOSystem.Intervals;
-    let intervalNames: string[] = Object.keys(intervals);
 
     return(
         <div className='interval-grid'>
-            {intervalNames.map((name) => <div className='interval' key={name}>
+            {intervals.map((interval) => <div className='interval' key={interval.name}>
                 <input value={ind} type='checkbox' onChange={handleSelect} checked={selectedIntervals[ind++]} />
-                <span>{name}</span>
+                <span>{interval.name}</span>
                 </div>)}
         </div>
     );

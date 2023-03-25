@@ -8,6 +8,13 @@ type Scheme = {
 	notes: string[]
 }
 
+type Interval = {
+    name: string,
+    intervalLength: number,
+    color: string,
+    percentage: number
+}
+
 // Reads all color-schemes in 'folderPath/'
 function readSchemesFromFolder(folderPath: string) {
 	let schemes: Scheme[] = [];
@@ -30,18 +37,37 @@ function readSchemesFromFolder(folderPath: string) {
 	return schemes;
 }
 
+// Reads all intervals in 'intervalFile'
+function readIntervalsFromFile(intervalFilePath: string) {
+	let intervals: Interval[] = [];
+
+	let data: string = fs.readFileSync(intervalFilePath,
+		{
+			encoding: 'utf8',
+			flag: 'r'
+		});
+	
+	intervals = JSON.parse(data).intervals;
+	return intervals;
+}
+
 // Stores a Scheme-array of default & user color-schemes
 let defaultSchemes: Scheme[] = [];
 let userSchemes: Scheme[] = [];
 
+// Store Interval-array of user-created intervals
+let intervals: Interval[] = [];
+
 // Finds the path to the 'schemes/' folder based
 // 'schemes/' folder is in root dir in development and in 'resources/' dir in production
-const schemeDir: string = isDev ? '.' : 'resources';
-const pathToDefaultSchemesFolder: string = path.join(schemeDir, 'schemes', 'default');
-const pathToUserSchemesFolder: string = path.join(schemeDir, 'schemes');
+const resourceDir: string = isDev ? '.' : 'resources';
+const pathToDefaultSchemesFolder: string = path.join(resourceDir, 'schemes', 'default');
+const pathToUserSchemesFolder: string = path.join(resourceDir, 'schemes');
+const pathToIntervalFile: string = path.join(resourceDir, 'intervals.json');
 
 defaultSchemes = readSchemesFromFolder(pathToDefaultSchemesFolder);
 userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
+intervals = readIntervalsFromFile(pathToIntervalFile);
 
 // Make sure at least 1 scheme exists in <defaultSchemes>
 if (defaultSchemes.length === 0)
@@ -54,6 +80,10 @@ export class SchemeFunctions {
 	// Getter functions for variables
 	public static getSchemes(): Scheme[] {
 		return schemes;
+	}
+
+	public static getIntervals(): Interval[] {
+		return intervals;
 	}
 
 	public static getPathToDefaultSchemes(): string {

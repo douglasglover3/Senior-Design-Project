@@ -2,7 +2,7 @@ import React from "react";
 import { convertCompilerOptionsFromJson } from "typescript";
 const animation_speed = 50; // time between animation calls in ms
 
-function to_hsl(color: string, intervalColor: string, octave: number) {
+function to_hsl(color: string, octave: number) {
   // Parse result for <color>
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
 
@@ -35,43 +35,10 @@ function to_hsl(color: string, intervalColor: string, octave: number) {
     h /= 6;
   }
 
-  // Parse result for <intervalColor>
-  var resultInt = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(intervalColor);
-
-  var rInt = parseInt(resultInt[1], 16);
-  var gInt = parseInt(resultInt[2], 16);
-  var bInt = parseInt(resultInt[3], 16);
-
-  rInt /= 255;
-  gInt /= 255;
-  bInt /= 255;
-
-  var maxInt = Math.max(rInt, gInt, bInt);
-  var minInt = Math.min(rInt, gInt, bInt);
-
-  var hInt = (maxInt + minInt) / 2;
-  var sInt = (maxInt + minInt) / 2;
-  var lInt = (maxInt + minInt) / 2;
-
-  if (maxInt === minInt) {
-    hInt = sInt = 0; // achromatic
-  }
-  else {
-    var dInt = maxInt - minInt;
-    sInt = lInt > 0.5 ? dInt / (2 - maxInt - minInt) : dInt / (maxInt + minInt);
-    switch (maxInt) {
-      case rInt: hInt = (gInt - bInt) / dInt + (gInt < bInt ? 6 : 0); break;
-      case gInt: hInt = (bInt - rInt) / dInt + 2; break;
-      case bInt: hInt = (rInt - gInt) / dInt + 4; break;
-    }
-    hInt /= 6;
-  }
-
   s = (s * 100);
   s = Math.round(s);
   l = (l * 100) + (5 * octave);
   l = Math.round(l);
-  h = Math.round(360 * (h+hInt));
 
   return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
 }
@@ -114,13 +81,13 @@ export class ColorCanvas extends React.Component{
     this.ctx = this.c.getContext('2d');
   }
 
-  draw_new(color: string, octave: number, intervalColor: string) {
+  draw_new(color: string, octave: number) {
     if(this.c == undefined) {
       this.set_ctx()
     }
     
     this.clear()
-    this.dis_color = to_hsl(color, intervalColor, octave);
+    this.dis_color = to_hsl(color, octave);
 
     this.size = Math.random() * (75 - 25) + 25;
     this.x = Math.round(Math.random() * ((this.c.width - this.size) - this.size) + this.size);
