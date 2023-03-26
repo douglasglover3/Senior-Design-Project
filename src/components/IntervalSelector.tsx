@@ -1,41 +1,39 @@
 // Library and Component imports
 import { useState } from 'react';
-import { SchemeFunctions } from '../Classes/SchemeFunctions';
+import { IntervalFunctions } from '../Classes/IntervalFunctions';
 
 type Interval = {
     name: string,
     intervalLength: number,
     color: string,
-    percentage: number
+    percentage: number,
+    isTracked: boolean
 }
 
 // Displays the list of trackable intervals for Level 1 Note Relationships
 export default function IntervalSelector() {
     // Get list of intervals from 'intervals.json'
-    let intervals: Interval[] = SchemeFunctions.getIntervals();
+    const [intervals, setIntervals]: [Interval[], any] = useState(IntervalFunctions.getIntervals());
 
-    // Represents which intervals are being tracked
-	let [selectedIntervals, setSelectedIntervals] = useState(Array(intervals.length).fill(true));
-
-    // Flip element at index of <selectedIntervals>
+    // Change whether this interval is being tracked
     const handleSelect = (e): void => {
-        const selectedInd: number = parseInt(e.target.value);
-        const newIntervals: boolean[] = selectedIntervals.map((curr, i) => {
-            if (i === selectedInd)
-                return !curr;
-            else
-                return curr;
-        });
+        const intervalName: string = e.target.value;
 
-        setSelectedIntervals(newIntervals);
+        setIntervals(intervals.map((interval) => {
+            // This is the interval we want to change
+            if (interval.name === intervalName) {
+                return {...interval, isTracked: !interval.isTracked};
+            }
+            else {
+                return interval;
+            }
+        }));
     };
-
-    let ind: number = 0;
 
     return(
         <div className='interval-grid'>
             {intervals.map((interval) => <div className='interval' key={interval.name}>
-                <input value={ind} type='checkbox' onChange={handleSelect} checked={selectedIntervals[ind++]} />
+                <input value={interval.name} type='checkbox' onChange={handleSelect} checked={interval.isTracked} />
                 <span>{interval.name}</span>
                 </div>)}
         </div>
