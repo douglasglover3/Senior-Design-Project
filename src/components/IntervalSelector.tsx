@@ -1,5 +1,5 @@
 // Library and Component imports
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IntervalFunctions } from '../Classes/IntervalFunctions';
 
 type Interval = {
@@ -14,6 +14,9 @@ type Interval = {
 export default function IntervalSelector() {
     // Get list of intervals from 'intervals.json'
     const [intervals, setIntervals]: [Interval[], any] = useState(IntervalFunctions.getIntervals());
+    useEffect(() => {
+        IntervalFunctions.setIntervals(intervals);
+    }, [intervals]);
 
     // Change whether this interval is being tracked
     const handleSelect = (e): void => {

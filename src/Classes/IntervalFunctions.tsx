@@ -36,8 +36,13 @@ const pathToIntervalFile: string = path.join(resourceDir, 'intervals.json');
 intervals = readIntervalsFromFile(pathToIntervalFile);
 
 export class IntervalFunctions {
-    // Getter functions for variables
+    // Getter function
     public static getIntervals(): Interval[] {
 		return intervals;
+	}
+
+	// Setter function
+	public static setIntervals(ints): void {
+		intervals = ints;
 	}
 }

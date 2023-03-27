@@ -2,6 +2,7 @@ import React from "react";
 import { textChangeRangeIsUnchanged } from "typescript";
 import { ColorCanvas } from "../Classes/ColorDisplay";
 import { EDOSystem } from "../Classes/EDOSystem";
+import { IntervalFunctions } from '../Classes/IntervalFunctions';
 
 const display_threshold = 5
 
@@ -57,6 +58,11 @@ export class DisplayManager{
 			this.counter = display_threshold
 			if(this.canvas.check_inactive()) {
 				this.canvas.draw_new(this.currentScheme[note], octave)
+
+				// Can access interval information this way
+				// NOTE: Need to do it within the loop so that intervals stay up-to-date
+				const intervals = IntervalFunctions.getIntervals();
+				console.log(intervals[0].isTracked);
 			}
 		}
 		else if(this.counter <= 0) {
