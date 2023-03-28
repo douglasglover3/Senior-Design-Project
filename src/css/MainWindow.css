@@ -41,6 +41,13 @@
     padding: 0.3rem;
 }
 
+.delete-interval {
+    cursor: pointer;
+    font-size: 1.7rem;
+    color: red;
+    padding-left: 0.4rem;
+}
+
 /* Microphone Settings */
 .mic-options {
     width: 33%;

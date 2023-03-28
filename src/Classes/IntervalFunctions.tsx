@@ -21,7 +21,7 @@ function readIntervalsFromFile(intervalFilePath: string) {
 			flag: 'r'
 		});
 	
-	intervals = JSON.parse(data).intervals;
+	intervals = JSON.parse(data);
 	return intervals;
 }
 
@@ -36,7 +36,7 @@ const pathToIntervalFile: string = path.join(resourceDir, 'intervals.json');
 intervals = readIntervalsFromFile(pathToIntervalFile);
 
 export class IntervalFunctions {
-    // Getter function
+    // Getter functions
     public static getIntervals(): Interval[] {
 		return intervals;
 	}
@@ -44,5 +44,16 @@ export class IntervalFunctions {
 	// Setter function
 	public static setIntervals(ints): void {
 		intervals = ints;
+	}
+
+	// Save <intervals> array into 'intervals.json'
+	// Default 'isTracked' to true for all intervals
+	public static saveIntervalsToFile(ints: Interval[]): void {
+		// Set 'isTracked' to true for every interval
+		for (let i = 0; i < ints.length; i++)
+			ints[i].isTracked = true;
+
+		// Save these intervals to 'intervals.json'
+		fs.writeFileSync(pathToIntervalFile, JSON.stringify(ints));
 	}
 }

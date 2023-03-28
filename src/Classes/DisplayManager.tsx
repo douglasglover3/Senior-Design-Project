@@ -62,7 +62,7 @@ export class DisplayManager{
 				// Can access interval information this way
 				// NOTE: Need to do it within the loop so that intervals stay up-to-date
 				const intervals = IntervalFunctions.getIntervals();
-				console.log(intervals[0].isTracked);
+				console.log(intervals.length);
 			}
 		}
 		else if(this.counter <= 0) {

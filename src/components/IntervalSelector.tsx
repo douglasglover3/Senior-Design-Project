@@ -33,11 +33,23 @@ export default function IntervalSelector() {
         }));
     };
 
+    // Remove this interval from the list entirely
+    const handleDelete = (intervalName: string): void => {
+        let newIntervals: Interval[] = intervals.filter(interval => interval.name !== intervalName);
+
+        // Remove interval from <intervals>
+        setIntervals(newIntervals);
+
+        // Overwrite 'intervals.json' file with new intervals
+        IntervalFunctions.saveIntervalsToFile(newIntervals);
+    }
+
     return(
         <div className='interval-grid'>
             {intervals.map((interval) => <div className='interval' key={interval.name}>
                 <input value={interval.name} type='checkbox' onChange={handleSelect} checked={interval.isTracked} />
                 <span>{interval.name}</span>
+                <span className='delete-interval' onClick={() => handleDelete(interval.name)}>&times;</span>
                 </div>)}
         </div>
     );
