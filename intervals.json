@@ -3,14 +3,12 @@
       "name": "Fifth",
       "intervalLength": 5,
       "color": "#ABCCBA",
-      "percentage": 58,
-      "isTracked": true
+      "percentage": 58
     },
     {
       "name": "Fourth",
       "intervalLength": 4,
       "color": "#000000",
-      "percentage": 20,
-      "isTracked": true
+      "percentage": 20
     }
   ]

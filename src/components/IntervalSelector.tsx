@@ -6,8 +6,7 @@ type Interval = {
     name: string,
     intervalLength: number,
     color: string,
-    percentage: number,
-    isTracked: boolean
+    percentage: number
 }
 
 // Displays the list of trackable intervals for Level 1 Note Relationships
@@ -17,21 +16,6 @@ export default function IntervalSelector() {
     useEffect(() => {
         IntervalFunctions.setIntervals(intervals);
     }, [intervals]);
-
-    // Change whether this interval is being tracked
-    const handleSelect = (e): void => {
-        const intervalName: string = e.target.value;
-
-        setIntervals(intervals.map((interval) => {
-            // This is the interval we want to change
-            if (interval.name === intervalName) {
-                return {...interval, isTracked: !interval.isTracked};
-            }
-            else {
-                return interval;
-            }
-        }));
-    };
 
     // Remove this interval from the list entirely
     const handleDelete = (intervalName: string): void => {
@@ -88,7 +72,6 @@ export default function IntervalSelector() {
                 <div className='interval' key={interval.name}>
                     <div className='interval-container'>
                         <span className='delete-interval' onClick={() => handleDelete(interval.name)}>&times;</span>
-                        <input value={interval.name} type='checkbox' onChange={handleSelect} checked={interval.isTracked} />
                         <input type="color" id={interval.name} className='interval-color'
                             value={interval.color} onChange={handleColor} />
                         <span>{interval.name}</span>

@@ -7,8 +7,7 @@ type Interval = {
     name: string,
     intervalLength: number,
     color: string,
-    percentage: number,
-    isTracked: boolean
+    percentage: number
 }
 
 // Reads all intervals in 'intervalFile'
@@ -47,12 +46,7 @@ export class IntervalFunctions {
 	}
 
 	// Save <intervals> array into 'intervals.json'
-	// Default 'isTracked' to true for all intervals
 	public static saveIntervalsToFile(ints: Interval[]): void {
-		// Set 'isTracked' to true for every interval
-		for (let i = 0; i < ints.length; i++)
-			ints[i].isTracked = true;
-
 		// Save these intervals to 'intervals.json'
 		fs.writeFileSync(pathToIntervalFile, JSON.stringify(ints));
 	}
