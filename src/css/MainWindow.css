@@ -34,11 +34,11 @@
 .interval-grid {
     display: flex;
     flex-direction: column;
-    height: 100%;
     padding: 2%;
     margin: 0px;
     overflow-y: auto;
-    height: 80%;
+    overflow-x: hidden;
+    height: 70%;
 }
 
 .interval-grid .interval {
@@ -63,7 +63,8 @@
 }
 
 .interval-container {
-    width: 50%;
+    width: 60%;
+    max-width: 60%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -71,7 +72,7 @@
 }
 
 .percentage-slider-container {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
