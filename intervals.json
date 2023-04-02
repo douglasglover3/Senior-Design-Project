@@ -1,14 +1,1 @@
-[
-    {
-      "name": "Fifth",
-      "intervalLength": 5,
-      "color": "#ABCCBA",
-      "percentage": 58
-    },
-    {
-      "name": "Fourth",
-      "intervalLength": 4,
-      "color": "#000000",
-      "percentage": 20
-    }
-  ]
+[{"name":"Fifth","intervalLength":5,"color":"#ABCCBA","percentage":58},{"name":"Fourth","intervalLength":4,"color":"#000000","percentage":20}]

@@ -32,26 +32,28 @@ export default function IntervalSelector() {
         IntervalFunctions.saveIntervalsToFile(newIntervals);
     }
 
-    // Remove this interval from the list entirely
+    // Add a new interval to <intervals>
     const handleAdd = (): void => {
-        let search: Interval[] = intervals.filter(interval => interval.name == newIntervalName); 
-        if(newIntervalName.length == 0)
-            setErrorMessage("Needs Interval Name.")
-        else if(newIntervalLength == null || newIntervalLength == 0)
-            setErrorMessage("Needs Interval Length.")
-        else if(search.length != 0)
-            setErrorMessage("Interval Name is taken.")
-        else
-        {
-            intervals.push(
-                {
-                    name: newIntervalName,
-                    intervalLength: newIntervalLength,
-                    color: "#FF0000",
-                    percentage: 0
-                }
-            )
+        let search: Interval[] = intervals.filter(interval =>
+            (interval.name === newIntervalName || interval.intervalLength === newIntervalLength));
+
+        if (newIntervalName.length === 0)
+            setErrorMessage("Needs Interval Name");
+        else if (newIntervalLength === null)
+            setErrorMessage("Needs Interval Length");
+        else if (newIntervalLength <= 0 || newIntervalLength > 12)
+            setErrorMessage("Invalid Interval Length");
+        else if (search.length !== 0)
+            setErrorMessage("Interval Name/Length is taken");
+        else {
+            intervals.push({
+                name: newIntervalName,
+                intervalLength: newIntervalLength,
+                color: "#FF0000",
+                percentage: 0
+            });
             resetUI();
+            
             // Overwrite 'intervals.json' file with new intervals
             IntervalFunctions.saveIntervalsToFile(intervals);
         }
@@ -130,7 +132,7 @@ export default function IntervalSelector() {
                     onChange = {(e) => setNewIntervalName(e.target.value.trim())} />
                 <input style={{width: "80%", marginBottom: "2%"}} placeholder="Interval Length" type="number" className='input-field'
                     required
-                    onChange = {(e) => setNewIntervalLength(e.target.value)} />
+                    onChange = {(e) => setNewIntervalLength(parseInt(e.target.value))} />
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "center", width: "80%"}}>
                     <button type="button" className='button' onClick={() => resetUI()}>
                         Back
