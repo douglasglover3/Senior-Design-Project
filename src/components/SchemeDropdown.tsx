@@ -22,15 +22,14 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 
 	// Get the list of available schemes from the 'schemes/' folder
 	let schemes: Scheme[] = SchemeFunctions.getSchemes();
-	let ind: number = 0;
 
-	let [selectedScheme, setSelectedScheme] = useState(schemes[0]);
-	let [message, setMessage] = useState('');
+	const [selectedScheme, setSelectedScheme] = useState(schemes[0]);
+	const [message, setMessage] = useState('');
 
     // Set <currScheme> for both <SchemeDropdown /> and <MainWindow />
     const handleSchemeChange = (e): void => {
-        let index: number = parseInt(e.target.value);
-        setSelectedScheme(schemes[index]);
+		let schemeName: string = e.target.value;
+        setSelectedScheme(schemes.find(scheme => scheme.name === schemeName));
 
 		// Reset any error messages
 		setMessage('');
@@ -76,7 +75,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
         <div>
 			<div className='subsection'>
 				<select className='select-box' onChange={ handleSchemeChange }>
-					{schemes.map((scheme: Scheme) => <option key={ ind } value={ ind++ }>{ scheme.name }</option>)}
+					{schemes.map((scheme: Scheme) => <option key={ scheme.name }>{ scheme.name }</option>)}
 				</select>
 				<button type="button" className='button' onClick={ addScheme }>+</button>
 			</div>
