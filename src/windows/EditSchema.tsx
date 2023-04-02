@@ -99,7 +99,7 @@ export default function EditSchema() {
     let filePath = path.join(SchemeFunctions.getPathToUserSchemes(), name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.editScheme(originalName, schemeObj);
-	  navigate('/');
+	  navigate('/', {state:{scheme: schemeObj}});
   }
 
   return (
@@ -135,7 +135,7 @@ export default function EditSchema() {
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Edit Scheme</button>
-      <button type="button" className='button' onClick={() => {navigate('/')}}>Cancel</button>
+      <button type="button" className='button' onClick={() => {navigate('/', {state:{scheme: selectedScheme}});}}>Cancel</button>
     </div>
   );
 }
