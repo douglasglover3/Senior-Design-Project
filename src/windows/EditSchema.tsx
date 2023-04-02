@@ -135,7 +135,7 @@ export default function EditSchema() {
       </div>
 
       <button type='button' className='button' onClick={handleSubmit}>Edit Scheme</button>
-      <button type="button" className='button' onClick={() => {navigate('/')}}>Cancel</button>
+      <button type="button" className='button' onClick={() => {navigate('/', {state:{scheme: selectedScheme}});}}>Cancel</button>
     </div>
   );
 }

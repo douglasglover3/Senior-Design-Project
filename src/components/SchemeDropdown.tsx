@@ -30,9 +30,10 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 			return schemes[0];
 		// Default to scheme that was just added/edited
 		else {
-			let schemeName = location.state.scheme.name;
+			let schemeName: string = location.state.scheme.name;
+			let modifiedScheme: Scheme = schemes.find(scheme => scheme.name === schemeName);
 			window.history.replaceState({}, document.title);
-			return schemes.find(scheme => scheme.name === schemeName);
+			return modifiedScheme;
 		}
 	});
 	const [message, setMessage] = useState('');
@@ -87,7 +88,10 @@ export default function SchemeDropdown({ setSchemeInMain }) {
         <div>
 			<div className='subsection'>
 				<select className='select-box' onChange={ handleSchemeChange }>
-					{schemes.map((scheme: Scheme) => <option key={ scheme.name }>{ scheme.name }</option>)}
+					{schemes.map((scheme: Scheme) => 
+						<option key={scheme.name} selected={scheme.name === selectedScheme.name}>
+							{scheme.name}
+						</option>)}
 				</select>
 				<button type="button" className='button' onClick={ addScheme }>+</button>
 			</div>
