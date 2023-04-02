@@ -1,6 +1,6 @@
 // Library and Component imports
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SchemeFunctions } from '../Classes/SchemeFunctions';
 import SchemePreview from '../components/SchemePreview';
 
@@ -19,11 +19,22 @@ type Scheme = {
 // Represents the list of color-schemes available to the user (both default and user-created)
 export default function SchemeDropdown({ setSchemeInMain }) {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	// Get the list of available schemes from the 'schemes/' folder
 	let schemes: Scheme[] = SchemeFunctions.getSchemes();
 
-	const [selectedScheme, setSelectedScheme] = useState(schemes[0]);
+	const [selectedScheme, setSelectedScheme] = useState(() => {
+		// If just opening up/reloading app, default to first scheme
+		if (location.state === null)
+			return schemes[0];
+		// Default to scheme that was just added/edited
+		else {
+			let schemeName = location.state.scheme.name;
+			window.history.replaceState({}, document.title);
+			return schemes.find(scheme => scheme.name === schemeName);
+		}
+	});
 	const [message, setMessage] = useState('');
 
     // Set <currScheme> for both <SchemeDropdown /> and <MainWindow />
@@ -54,6 +65,7 @@ export default function SchemeDropdown({ setSchemeInMain }) {
 		// Get user's option (0 for YES, 1 for NO)
 		let confirmDelete = dialog.showMessageBoxSync(options);
 		if (confirmDelete === 0) {
+			// Deletes <selectedScheme> from <schemes> and 'schemes/' folder
 			SchemeFunctions.deleteScheme(selectedScheme);
 			setMessage('Scheme was successfully deleted');
 			setSelectedScheme(schemes[0]);

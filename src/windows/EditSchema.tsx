@@ -99,7 +99,7 @@ export default function EditSchema() {
     let filePath = path.join(SchemeFunctions.getPathToUserSchemes(), name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.editScheme(originalName, schemeObj);
-	  navigate('/');
+	  navigate('/', {state:{scheme: schemeObj}});
   }
 
   return (
