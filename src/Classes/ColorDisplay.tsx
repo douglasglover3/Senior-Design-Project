@@ -1,19 +1,7 @@
 import React from "react";
-import { convertCompilerOptionsFromJson } from "typescript";
 const animation_speed = 50; // time between animation calls in ms
 
-function to_hsl(color: string, octave: number) {
-  // Parse result for <color>
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-
-  var r = parseInt(result[1], 16);
-  var g = parseInt(result[2], 16);
-  var b = parseInt(result[3], 16);
-
-  r /= 255;
-  g /= 255;
-  b /= 255;
-
+function hsl_math(r,g,b){
   var max = Math.max(r, g, b);
   var min = Math.min(r, g, b);
 
@@ -34,13 +22,38 @@ function to_hsl(color: string, octave: number) {
     }
     h /= 6;
   }
+  return [h,s,l]
+}
 
-  s = (s * 100);
-  s = Math.round(s);
-  l = (l * 100) + (5 * octave);
-  l = Math.round(l);
+function to_hsl(color: string, octave: number, interval_color:string, interval_percentage:number) {
+  // Parse result for <color>
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+  var r = parseInt(result[1], 16)/255;
+  var g = parseInt(result[2], 16)/255;
+  var b = parseInt(result[3], 16)/255;
 
-  return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+  // Parse result for <interval_color>
+  var iresult = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(interval_color);
+  var ir = parseInt(result[1], 16)/255;
+  var ig = parseInt(result[2], 16)/255;
+  var ib = parseInt(result[3], 16)/255;
+
+  let ivalues = hsl_math(ir,ig,ib)
+  let values = hsl_math(r,g,b)
+
+  let range = Math.abs(values[0] - ivalues[0])
+  if(range > 180) {
+    range -= 360 // flip range to go other direction around circle
+  }
+  let offset = range * interval_percentage
+  values[0] = (values[0] - offset) % 360
+
+  values[1] = (values[1] * 100);
+  values[1] = Math.round(values[1]);
+  values[2] = (values[2] * 100) + (5 * octave);
+  values[2] = Math.round(values[2]);
+
+  return 'hsl(' + values[0] + ', ' + values[1] + '%, ' + values[2] + '%)';
 }
 
 export class ColorCanvas extends React.Component{
@@ -81,13 +94,13 @@ export class ColorCanvas extends React.Component{
     this.ctx = this.c.getContext('2d');
   }
 
-  draw_new(color: string, octave: number) {
+  draw_new(color: string, octave: number, interval_color:string, interval_percentage:number ) {
     if(this.c == undefined) {
       this.set_ctx()
     }
     
     this.clear()
-    this.dis_color = to_hsl(color, octave);
+    this.dis_color = to_hsl(color, octave, interval_color, interval_percentage);
 
     this.size = Math.random() * (75 - 25) + 25;
     this.x = Math.round(Math.random() * ((this.c.width - this.size) - this.size) + this.size);
