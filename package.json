@@ -13,7 +13,7 @@
     "directories": {
       "buildResources": "public"
     },
-    "extraResources": ["schemes/**/*"],
+    "extraResources": ["schemes/**/*", "intervals.json"],
     "mac": {
       "target": "dmg",
       "icon": "build/SynesthizeIcon.png"
