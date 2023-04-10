@@ -86,7 +86,7 @@ export default function AddSchema() {
     let filePath = path.join(SchemeFunctions.getPathToUserSchemes(), schemeObj.name + '.json');
     fs.writeFileSync(filePath, JSON.stringify(schemeObj));
     SchemeFunctions.addScheme(schemeObj);
-    navigate('/');
+    navigate('/', {state:{scheme: schemeObj}});
   }
 
   return (
