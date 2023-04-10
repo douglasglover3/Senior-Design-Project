@@ -36,9 +36,9 @@ let userSchemes: Scheme[] = [];
 
 // Finds the path to the 'schemes/' folder based
 // 'schemes/' folder is in root dir in development and in 'resources/' dir in production
-const schemeDir: string = isDev ? '.' : 'resources';
-const pathToDefaultSchemesFolder: string = path.join(schemeDir, 'schemes', 'default');
-const pathToUserSchemesFolder: string = path.join(schemeDir, 'schemes');
+const resourceDir: string = isDev ? '.' : 'resources';
+const pathToDefaultSchemesFolder: string = path.join(resourceDir, 'schemes', 'default');
+const pathToUserSchemesFolder: string = path.join(resourceDir, 'schemes');
 
 defaultSchemes = readSchemesFromFolder(pathToDefaultSchemesFolder);
 userSchemes = readSchemesFromFolder(pathToUserSchemesFolder);
